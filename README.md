@@ -1,5 +1,5 @@
 # student-club-manager
-<p> This is the repository of CS319 term project.<p/>
+<p> This is the repository of CS319 term project.</p>
 ### Developers:
 * Emre Erdal 21901597
 * Kerem Erdal 21901596
