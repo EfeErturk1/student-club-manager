@@ -20,4 +20,12 @@ There will be two main actors in the system: Clubs and Students.
 * Club will have a page in which they will hold club records and folders. For example, when board members have a meeting document they will be able to upload there. 
 
 #### Student System:
-* 
+* Can list existing clubs
+* Can register or unregister to an existing club
+* Can view all upcoming club events as a calendar. Also they can filter which clubs to see. 
+* Can register to an upcoming event or unregister
+* Activiy calendar for students to follow their activities. If they are a member already, that club's activities will be placed on calendar.
+* Can discuss and comment on the upcoming club events on a forum
+* Can report comments on a forum
+* Students will be notified by clubs forum posts and system will automatically notify them when a registered event is upcoming.
+* They can edit their profiles, add interests, pictures etc.
