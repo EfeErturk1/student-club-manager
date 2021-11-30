@@ -29,4 +29,9 @@ public class UserServiceImpl implements UserService {
         Objects.requireNonNull(user, "user cannot be null");
         return repository.save(user);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
 }

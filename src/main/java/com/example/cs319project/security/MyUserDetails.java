@@ -25,7 +25,6 @@ public class MyUserDetails implements UserDetails {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority(role.getName()));
-
         return authorities;
     }
 
