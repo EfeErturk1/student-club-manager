@@ -56,14 +56,14 @@ public class AuthController {
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest){
         System.out.println('X');
         if(!userService.existsByEmail(loginRequest.getEmail())){
-            return ResponseEntity.ok(new MessageResponse("Please sign up first"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Please sign up first"));
         }
 
         User loggedInUser = userService.findByEmail(loginRequest.getEmail());
         System.out.println(loggedInUser.getPassword());
         System.out.println(encoder.encode(loginRequest.getPassword()));
         if(!encoder.matches(loginRequest.getPassword(), loggedInUser.getPassword())){
-            return ResponseEntity.ok(new MessageResponse("Wrong password"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Wrong password"));
         }
 
         /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
