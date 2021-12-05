@@ -66,10 +66,21 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageResponse("Wrong password"));
         }
 
-        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(loggedInUser.getEmail(), loggedInUser.getPassword());
-        Authentication auth = authManager.authenticate(authReq);
+
+        /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        if (principal instanceof UserDetails) {
+             username = ((UserDetails)principal).getUsername();
+        } else {
+             username = principal.toString();
+        }
+        System.out.println(username);*/
+        /*UsernamePasswordAuthenticationToken authReq
+                = new UsernamePasswordAuthenticationToken(loggedInUser.getEmail(), loggedInUser.getPassword());
+        Authentication auth = authenticationManager.authenticate(authReq);
         SecurityContext sc = SecurityContextHolder.getContext();
-        sc.setAuthentication(auth);
+        sc.setAuthentication(auth);*/
+        
         return ResponseEntity.ok(new MessageResponse("Logged in"));
     }
 
