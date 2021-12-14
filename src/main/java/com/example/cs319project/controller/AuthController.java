@@ -2,6 +2,7 @@ package com.example.cs319project.controller;
 
 import com.example.cs319project.model.Role;
 import com.example.cs319project.model.RoleType;
+import com.example.cs319project.model.Student;
 import com.example.cs319project.model.User;
 import com.example.cs319project.model.request.JwtResponse;
 import com.example.cs319project.model.request.LoginRequest;
@@ -10,6 +11,7 @@ import com.example.cs319project.model.request.SignupRequest;
 import com.example.cs319project.security.JwtUtils;
 import com.example.cs319project.security.MyUserDetails;
 import com.example.cs319project.service.RoleService;
+import com.example.cs319project.service.StudentService;
 import com.example.cs319project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,8 @@ public class AuthController {
     private final UserService userService;
 
     private final RoleService roleService;
+
+    private final StudentService studentService;
 
     private final PasswordEncoder encoder;
 
@@ -91,7 +95,10 @@ public class AuthController {
         Role role = roleService.findByName(RoleType.ROLE_STUDENT);
         user.setRole(role);
         userService.createNewUser(user);
-
+        Student student = new Student();
+        student.setId(user.getId());
+        student.setName(user.getName());
+        studentService.createNewStudent(student);
 
         return ResponseEntity.ok(new MessageResponse("Student registered successfully!"));
     }
