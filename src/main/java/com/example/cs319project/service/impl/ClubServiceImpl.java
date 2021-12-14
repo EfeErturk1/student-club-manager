@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +25,13 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Override
-    public Club findByMembers(List<Student> students) {
-        return repository.findClubByClubsMembers(students);
+    public Club findByMembers(Set<Student> students) {
+        return repository.findClubByClubsMembersIn(students);
+    }
+
+    @Override
+    public Club createNewClub(Club club) {
+        Objects.requireNonNull(club, "club cannot be null");
+        return repository.save(club);
     }
 }

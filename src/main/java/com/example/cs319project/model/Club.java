@@ -23,5 +23,13 @@ public class Club {
     @OneToMany(mappedBy = "club")
     Set<ClubsMembers> clubsMembers;
 
+    @Column(nullable = true, length = 64)
+    private String photos;
+
+    private String name;
+
+    private String description;
+
+
 
 }
