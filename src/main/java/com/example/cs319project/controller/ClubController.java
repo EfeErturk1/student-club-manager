@@ -5,6 +5,7 @@ import com.example.cs319project.model.Student;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.clubstrategy.ClubRoleName;
 import com.example.cs319project.model.request.ClubCreateRequest;
+import com.example.cs319project.model.request.ClubDeleteRequest;
 import com.example.cs319project.model.request.JoinClubRequest;
 import com.example.cs319project.model.request.MessageResponse;
 import com.example.cs319project.service.ClubRoleService;
@@ -67,5 +68,10 @@ public class ClubController {
         }
     }
 
+    @PostMapping(value = "/deleteClub")
+    public ResponseEntity<?> deleteClub(@Valid @RequestBody ClubDeleteRequest clubRequest){
+        clubService.deleteClub(clubService.findById(clubRequest.getClubId()));
+        return ResponseEntity.ok(new MessageResponse("Club has deleted successfully!"));
+    }
 
 }

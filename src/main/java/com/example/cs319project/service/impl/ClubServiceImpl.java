@@ -30,4 +30,8 @@ public class ClubServiceImpl implements ClubService {
         Objects.requireNonNull(club, "club cannot be null");
         return repository.save(club);
     }
+
+    public void deleteClub(Club club) {
+        repository.delete(club);
+    }
 }
