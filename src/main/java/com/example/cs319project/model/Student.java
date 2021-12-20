@@ -1,5 +1,6 @@
 package com.example.cs319project.model;
 
+import com.example.cs319project.model.clubstrategy.ClubRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +17,12 @@ import java.util.Set;
 @SuperBuilder
 @Entity
 public class Student {
-
     @Id
-    protected int id;
+    public int id;
 
     public String name;
 
-    @OneToMany(mappedBy = "student")
-    Set<ClubsMembers> memberedClubs;
+    @OneToMany(mappedBy="student")
+    private Set<ClubRole> rolesOfStudent;
+
 }

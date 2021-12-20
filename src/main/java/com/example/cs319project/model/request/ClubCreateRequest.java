@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClubRequest {
+public class ClubCreateRequest {
     private String name;
     private String description;
 }

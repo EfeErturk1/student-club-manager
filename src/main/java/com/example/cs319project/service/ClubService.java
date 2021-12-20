@@ -8,6 +8,5 @@ import java.util.Set;
 
 public interface ClubService {
     Club findById(Integer id);
-    Club findByMembers(Set<Student> students);
     Club createNewClub(Club club);
 }

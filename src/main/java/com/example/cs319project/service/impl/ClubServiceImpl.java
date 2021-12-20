@@ -24,10 +24,6 @@ public class ClubServiceImpl implements ClubService {
        return repository.findClubById(id);
     }
 
-    @Override
-    public Club findByMembers(Set<Student> students) {
-        return repository.findClubByClubsMembersIn(students);
-    }
 
     @Override
     public Club createNewClub(Club club) {
