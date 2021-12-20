@@ -1,5 +1,6 @@
 package com.example.cs319project.model;
 
+import com.example.cs319project.model.clubstrategy.ClubRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +21,6 @@ public class Club {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
-    @OneToMany(mappedBy = "club")
-    Set<ClubsMembers> clubsMembers;
-
     @Column(nullable = true, length = 64)
     private String photos;
 
@@ -30,6 +28,7 @@ public class Club {
 
     private String description;
 
-
+    @OneToMany(mappedBy="club")
+    private Set<ClubRole> roles;
 
 }

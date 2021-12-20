@@ -18,6 +18,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findById(Integer id) {
+        System.out.println(id);
+        if(repository.findStudentById(id) == null)
+            System.out.println('s');
         return repository.findStudentById(id);
     }
 
