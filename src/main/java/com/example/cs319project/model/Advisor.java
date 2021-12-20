@@ -1,7 +1,6 @@
 package com.example.cs319project.model;
 
 import com.example.cs319project.model.clubstrategy.ClubRole;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,20 +16,14 @@ import java.util.Set;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-public class Club {
+public class Advisor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected int id;
+    public int id;
 
-    @Column(nullable = true, length = 64)
-    private String photos;
+    public String name;
 
-    private String name;
-
-    private String description;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy="club")
-    private Set<ClubRole> roles;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "club_id")
+    private Club club;
 
 }

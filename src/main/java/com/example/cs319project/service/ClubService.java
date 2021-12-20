@@ -10,4 +10,5 @@ public interface ClubService {
     Club findById(Integer id);
     Club createNewClub(Club club);
     void deleteClub(Club club);
+    List<Club> findAll();
 }

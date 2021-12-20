@@ -9,4 +9,5 @@ import java.util.Set;
 
 public interface ClubRepository extends JpaRepository<Club, Integer> {
     Club findClubById(Integer id);
+    List<Club> findAll();
 }

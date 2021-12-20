@@ -34,4 +34,9 @@ public class ClubServiceImpl implements ClubService {
     public void deleteClub(Club club) {
         repository.delete(club);
     }
+
+    @Override
+    public List<Club> findAll() {
+        return repository.findAll();
+    }
 }

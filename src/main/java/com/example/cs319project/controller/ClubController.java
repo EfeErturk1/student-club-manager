@@ -1,5 +1,6 @@
 package com.example.cs319project.controller;
 
+import com.example.cs319project.model.Advisor;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Student;
 import com.example.cs319project.model.clubstrategy.ClubRole;
@@ -8,11 +9,14 @@ import com.example.cs319project.model.request.ClubCreateRequest;
 import com.example.cs319project.model.request.ClubDeleteRequest;
 import com.example.cs319project.model.request.JoinClubRequest;
 import com.example.cs319project.model.request.MessageResponse;
+import com.example.cs319project.service.AdvisorService;
 import com.example.cs319project.service.ClubRoleService;
 import com.example.cs319project.service.ClubService;
 import com.example.cs319project.service.StudentService;
+import com.oracle.javafx.jmx.json.JSONException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +33,17 @@ public class ClubController {
     private final ClubService clubService;
     private final ClubRoleService clubRoleService;
     private final StudentService studentService;
+    private final AdvisorService advisorService;
 
     @PostMapping(value = "/addClub")
     public ResponseEntity<?> addClub(@Valid @RequestBody ClubCreateRequest clubRequest){
         Club club = Club.builder().name(clubRequest.getName()).description(clubRequest.getDescription()).build();
+        if(clubRequest.getClubAdvisorId() != 0){
+            Advisor advisor = advisorService.findById(clubRequest.getClubAdvisorId());
+            advisor.setClub(club);
+            advisorService.createNewAdvisor(advisor);
+        }
+
         clubService.createNewClub(club);
         return ResponseEntity.ok(new MessageResponse("Club added successfully!"));
     }
@@ -70,8 +81,19 @@ public class ClubController {
 
     @PostMapping(value = "/deleteClub")
     public ResponseEntity<?> deleteClub(@Valid @RequestBody ClubDeleteRequest clubRequest){
+        Club club = clubService.findById(clubRequest.getClubId());
+        Advisor advisor = advisorService.findByClub(club);
+        if(advisor != null){
+            advisor.setClub(null);
+        }
         clubService.deleteClub(clubService.findById(clubRequest.getClubId()));
         return ResponseEntity.ok(new MessageResponse("Club has deleted successfully!"));
+    }
+
+
+    @GetMapping(value = "/allClubs", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<List<Club>> allClubs() throws JSONException {
+        return ResponseEntity.ok(clubService.findAll());
     }
 
 }

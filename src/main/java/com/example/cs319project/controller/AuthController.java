@@ -1,18 +1,10 @@
 package com.example.cs319project.controller;
 
-import com.example.cs319project.model.Role;
-import com.example.cs319project.model.RoleType;
-import com.example.cs319project.model.Student;
-import com.example.cs319project.model.User;
-import com.example.cs319project.model.request.JwtResponse;
-import com.example.cs319project.model.request.LoginRequest;
-import com.example.cs319project.model.request.MessageResponse;
-import com.example.cs319project.model.request.SignupRequest;
+import com.example.cs319project.model.*;
+import com.example.cs319project.model.request.*;
 import com.example.cs319project.security.JwtUtils;
 import com.example.cs319project.security.MyUserDetails;
-import com.example.cs319project.service.RoleService;
-import com.example.cs319project.service.StudentService;
-import com.example.cs319project.service.UserService;
+import com.example.cs319project.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -48,6 +40,10 @@ public class AuthController {
     private final PasswordEncoder encoder;
 
     private final JwtUtils jwtUtils;
+
+    private final AdvisorService advisorService;
+
+    private final ClubService clubService;
 
     @PostMapping("/login")
     public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -100,4 +96,36 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("Student registered successfully!"));
     }
 
-}
+    @PostMapping("/createAdvisor")
+    public ResponseEntity<?> registerAdvisor(@Valid @RequestBody AdvisorCreateRequest request) {
+        if (userService.existsByName(request.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (userService.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        User user = User
+                .builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(encoder.encode(request.getPassword()))
+                .build();
+
+        Role role = roleService.findByName(RoleType.ROLE_ADVISOR);
+        user.setRole(role);
+        userService.createNewUser(user);
+        Advisor advisor = new Advisor();
+        advisor.setName(user.getName());
+        advisor.setId(user.getId());
+        Club club = clubService.findById(request.getClubId());
+        advisor.setClub(club);
+        advisorService.createNewAdvisor(advisor);
+        return ResponseEntity.ok(new MessageResponse("Advisor created successfully!"));
+
+    }
+
+
+
+    }
