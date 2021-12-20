@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClubDeleteRequest {
-    private int clubId;
+public class IdHolder {
+    private int id;
 }

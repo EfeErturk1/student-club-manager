@@ -5,10 +5,7 @@ import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Student;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.clubstrategy.ClubRoleName;
-import com.example.cs319project.model.request.ClubCreateRequest;
-import com.example.cs319project.model.request.ClubDeleteRequest;
-import com.example.cs319project.model.request.JoinClubRequest;
-import com.example.cs319project.model.request.MessageResponse;
+import com.example.cs319project.model.request.*;
 import com.example.cs319project.service.AdvisorService;
 import com.example.cs319project.service.ClubRoleService;
 import com.example.cs319project.service.ClubService;
@@ -80,13 +77,13 @@ public class ClubController {
     }
 
     @PostMapping(value = "/deleteClub")
-    public ResponseEntity<?> deleteClub(@Valid @RequestBody ClubDeleteRequest clubRequest){
-        Club club = clubService.findById(clubRequest.getClubId());
+    public ResponseEntity<?> deleteClub(@Valid @RequestBody IdHolder idHolder){
+        Club club = clubService.findById(idHolder.getId());
         Advisor advisor = advisorService.findByClub(club);
         if(advisor != null){
             advisor.setClub(null);
         }
-        clubService.deleteClub(clubService.findById(clubRequest.getClubId()));
+        clubService.deleteClub(clubService.findById(idHolder.getId()));
         return ResponseEntity.ok(new MessageResponse("Club has deleted successfully!"));
     }
 
@@ -96,4 +93,9 @@ public class ClubController {
         return ResponseEntity.ok(clubService.findAll());
     }
 
+    @GetMapping(value= "/clubView", produces =  MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Club> getSpecificClub(@Valid @RequestBody IdHolder idHolder) throws JSONException {
+        Club club = clubService.findById(idHolder.getId());
+        return ResponseEntity.ok(club);
+    }
 }
