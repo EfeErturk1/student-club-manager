@@ -9,4 +9,5 @@ import java.util.Set;
 public interface ClubService {
     Club findById(Integer id);
     Club createNewClub(Club club);
+    void deleteClub(Club club);
 }
