@@ -105,10 +105,14 @@ public class ClubController {
         else{
             Club registeredClub = clubService.findById(clubId);
             Student registeringStudent = studentService.findById(studentId);
-            Set<ClubRole> alreadyRegisteredStudents = registeringStudent.getRolesOfStudent();
-
-            //clubRoleService.deleteRole(registeringStudent.getRolesOfStudent(registeredClub));
-            return ResponseEntity.ok(new MessageResponse("You left the club"));
+            List<ClubRole> studentRoles = clubRoleService.findByStudentId(registeringStudent.getId());
+            for(ClubRole role: studentRoles){
+                if(role.getClub().getId() == registeredClub.getId()){
+                    clubRoleService.deleteRole(role);
+                    return ResponseEntity.ok(new MessageResponse("You left the club"));
+                }
+            }
+            return ResponseEntity.ok(new MessageResponse("You are not in the club"));
         }
     }
 
