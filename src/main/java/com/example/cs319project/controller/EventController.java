@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/event")
 public class EventController {
+
     private final ClubService clubService;
     private final ClubRoleService clubRoleService;
     private final StudentService studentService;
@@ -31,62 +33,66 @@ public class EventController {
 
 
     @PostMapping(value = "/addEvent")
-    public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest){
-        Event event = Event.builder().name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).build();
+    public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
+        Event event = Event.builder().name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).build();
         eventService.addEvent(event);
         return ResponseEntity.ok(new MessageResponse("Event added successfully!"));
     }
 
     @PostMapping(value = "/deleteEvent")
-    public ResponseEntity<?> deleteEvent(@Valid @RequestBody DeleteEventRequest deleteEventRequest){
-        eventService.deleteEvent(eventService.findByEventId(deleteEventRequest.getEventId()));
+    public ResponseEntity<?> deleteEvent(@Valid @RequestBody IdHolder deleteEventRequest) {
+        eventService.deleteEvent(eventService.findByEventId(deleteEventRequest.getId()));
         return ResponseEntity.ok(new MessageResponse("Event deleted successfully!"));
     }
 
+
     @PostMapping(value = "/joinEvent")
-    public ResponseEntity<?> joinEvent(@Valid @RequestBody JoinEventRequest joinEventRequest){
-        if(studentService.findById(joinEventRequest.getStudentId()) == null){
+    public ResponseEntity<?> joinEvent(@Valid @RequestBody JoinEventRequest joinEventRequest) {
+        if (studentService.findById(joinEventRequest.getStudentId()) == null) {
             return ResponseEntity.ok(new MessageResponse("Student doesnot exists"));
         }
 
-        if(eventService.findByEventId(joinEventRequest.getEventId()) == null){
+        if (eventService.findByEventId(joinEventRequest.getEventId()) == null) {
             return ResponseEntity.ok(new MessageResponse("Event doesnot exists"));
         }
 
-        if(clubService.findById(joinEventRequest.getClubId()) == null){
-            return ResponseEntity.ok(new MessageResponse("Club doesnot exists"));
-        }
 
         int studentId = joinEventRequest.getStudentId();
         int eventId = joinEventRequest.getEventId();
-        int clubId = joinEventRequest.getClubId();
+        int clubId = eventService.findByEventId(eventId).getClubId();
+
         List<ClubRole> clubRoles = clubRoleService.findByStudentId(studentId);
+
         List<Integer> registeredClubs = new ArrayList<>();
-        for(ClubRole role: clubRoles){
+        for (ClubRole role : clubRoles) {
             registeredClubs.add(role.getClub().getId());
         }
 
-        if(registeredClubs.contains(clubId)){
+        if (registeredClubs.contains(clubId)) {
             Event registeredEvent = eventService.findByEventId(eventId);
             Student registeringStudent = studentService.findById(studentId);
-            /*List<Integer> registeredStudents;
-            registeredStudents = registeredEvent.getParticipants();
-            for(Integer i: registeredStudents){
-                if(i == studentId){
-                    return ResponseEntity.ok(new MessageResponse("You are already registered."));
-                }
-            }
-            registeredStudents.add(studentId);
-            registeredEvent.setParticipants(registeredStudents);
+            Set<Student> alreadyRegisteredStudents = studentService.findAllStudentRegisteredEvent(registeredEvent);
 
-             */
+            if (alreadyRegisteredStudents.contains(registeringStudent)) {
+                return ResponseEntity.ok(new MessageResponse("You are already registered."));
+            }
+
+            //other case we need to register student
+            alreadyRegisteredStudents.add(registeringStudent);
+            registeredEvent.setParticipants(alreadyRegisteredStudents);
             registeredEvent.setRemainingQuota(registeredEvent.getRemainingQuota() - 1);
+            eventService.saveEvent(registeredEvent);
             return ResponseEntity.ok(new MessageResponse("You are registered."));
-        }
-        else{
+        } else {
             return ResponseEntity.ok(new MessageResponse("You should be member of the club."));
         }
     }
-}
 
+    @GetMapping(value = "/allEvents", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<List<Event>> allEvents(){
+        return ResponseEntity.ok(eventService.findAll());
+    }
+
+
+}
 

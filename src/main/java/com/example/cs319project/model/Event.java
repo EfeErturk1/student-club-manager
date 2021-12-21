@@ -1,5 +1,6 @@
 package com.example.cs319project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,10 +37,17 @@ public class Event {
 
     private int quota;
 
-    private int remainingQuota = quota;
+    private int remainingQuota;
 
     private int eventIdStore;
 
-    //private List<Integer> participants;
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "event_participants",
+            joinColumns = @JoinColumn(name = "event_eventId"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    Set<Student> participants;
+
 
 }

@@ -12,5 +12,7 @@ public interface EventService {
     Event addEvent(Event event);
     void deleteEvent(Event event);
     List<Event> findAll();
+    List<Event> findAllEventParticipatedBy(Student s);
+    void saveEvent(Event event);
     //void joinEvent(Event event, Student student);
 }

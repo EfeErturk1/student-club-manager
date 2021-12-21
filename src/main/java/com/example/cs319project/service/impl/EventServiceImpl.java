@@ -45,6 +45,16 @@ public class EventServiceImpl implements EventService {
         return repository.findAll();
     }
 
+    @Override
+    public List<Event> findAllEventParticipatedBy(Student s) {
+        return repository.findAllByParticipantsContaining(s);
+    }
+
+    @Override
+    public void saveEvent(Event event) {
+        repository.save(event);
+        return;
+    }
 
     /*
     @Override

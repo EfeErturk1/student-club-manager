@@ -8,5 +8,4 @@ import lombok.Setter;
 public class JoinEventRequest {
     private int studentId;
     private int eventId;
-    private int clubId;
 }

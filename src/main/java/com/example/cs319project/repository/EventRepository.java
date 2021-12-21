@@ -11,5 +11,5 @@ import java.util.Set;
 public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findAll();
     Event findByEventId(Integer eventId);
-    //void joinEvent(Event event, Student student);
+    List<Event> findAllByParticipantsContaining(Student s);
 }

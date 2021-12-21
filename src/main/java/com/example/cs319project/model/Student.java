@@ -1,6 +1,7 @@
 package com.example.cs319project.model;
 
 import com.example.cs319project.model.clubstrategy.ClubRole;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,9 @@ public class Student {
 
     @OneToMany(mappedBy="student")
     private Set<ClubRole> rolesOfStudent;
+
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "participants")
+    Set<Event> joinedEvents;
 
 }

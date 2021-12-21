@@ -37,8 +37,11 @@ public class ClubController {
         Club club = Club.builder().name(clubRequest.getName()).description(clubRequest.getDescription()).build();
         if(clubRequest.getClubAdvisorId() != 0){
             Advisor advisor = advisorService.findById(clubRequest.getClubAdvisorId());
+            if(advisor.getClub() != null){
+                return ResponseEntity.ok(new MessageResponse("Advisor already have a club first try to remove advisor's club!"));
+            }
             advisor.setClub(club);
-            advisorService.createNewAdvisor(advisor);
+            advisorService.createNewAdvisor(advisor); //it calls save method of repository so it updates as well
         }
 
         clubService.createNewClub(club);
@@ -77,15 +80,20 @@ public class ClubController {
     }
 
     @PostMapping(value = "/deleteClub")
-    public ResponseEntity<?> deleteClub(@Valid @RequestBody DeleteClubRequest deleteClubRequest){
-        /*
+    public ResponseEntity<?> deleteClub(@Valid @RequestBody IdHolder idHolder){
+
         Club club = clubService.findById(idHolder.getId());
+        if(club == null){
+            return ResponseEntity.ok(new MessageResponse("There is no such a club"));
+        }
+
+        // if club exists check for its advisor
         Advisor advisor = advisorService.findByClub(club);
         if(advisor != null){
             advisor.setClub(null);
         }
-        */
-        clubService.deleteClub(clubService.findById(deleteClubRequest.getClubId()));
+
+        clubService.deleteClub(clubService.findById(idHolder.getId()));
         return ResponseEntity.ok(new MessageResponse("Club has deleted successfully!"));
     }
 
@@ -100,4 +108,6 @@ public class ClubController {
         Club club = clubService.findById(idHolder.getId());
         return ResponseEntity.ok(club);
     }
+
+
 }
