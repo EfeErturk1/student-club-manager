@@ -109,5 +109,48 @@ public class ClubController {
         return ResponseEntity.ok(club);
     }
 
+    @GetMapping(value = "/getStudentClub", produces =  MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<List<Club>> getClubOfStudent(@Valid @RequestBody IdHolder idHolder) {
+        List<ClubRole> clubRoles = clubRoleService.findByStudentId(idHolder.getId());
+        List<Club> clubsOfStudent = new ArrayList<>();
+        for(ClubRole role: clubRoles){
+            clubsOfStudent.add(clubService.findById(role.getClub().getId()));
+        }
+        return ResponseEntity.ok(clubsOfStudent);
+    }
 
+    @PostMapping(value = "/assignPresident", produces =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> assignPresident(@Valid @RequestBody JoinClubRequest idHolder){
+        Club club = clubService.findById(idHolder.getClubId());
+        Student student = studentService.findById(idHolder.getStudentId());
+
+        if(student == null){
+            return ResponseEntity.ok(new MessageResponse("There is no such student exists"));
+        }
+
+        if(club == null){
+            return ResponseEntity.ok(new MessageResponse("There is no such club exists"));
+        }
+
+        // if club exists check for its president
+        List<ClubRole> clubRoles = clubRoleService.findByClubId(idHolder.getClubId());
+        for(ClubRole role: clubRoles){
+            if(role.getName() == ClubRoleName.PRESIDENT){
+                return ResponseEntity.ok(new MessageResponse("This club already has an president "));
+            }
+        }
+
+        List<ClubRole> studentRoles = clubRoleService.findByStudentId(idHolder.getStudentId());
+        for(ClubRole role: studentRoles){
+            if(role.getClub().getId() == idHolder.getClubId()){
+                role.setName(ClubRoleName.PRESIDENT);
+                clubRoleService.assignNewRole(role);
+                return ResponseEntity.ok(new MessageResponse("Member has become a president"));
+            }
+        }
+
+        ClubRole newRole = ClubRole.builder().student(student).club(club).name(ClubRoleName.PRESIDENT).build();
+        clubRoleService.assignNewRole(newRole);
+        return ResponseEntity.ok(new MessageResponse("Club has a president now"));
+    }
 }
