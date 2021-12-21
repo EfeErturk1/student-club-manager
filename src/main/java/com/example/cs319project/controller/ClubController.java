@@ -2,6 +2,7 @@ package com.example.cs319project.controller;
 
 import com.example.cs319project.model.Advisor;
 import com.example.cs319project.model.Club;
+import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.clubstrategy.ClubRoleName;
@@ -10,7 +11,6 @@ import com.example.cs319project.service.AdvisorService;
 import com.example.cs319project.service.ClubRoleService;
 import com.example.cs319project.service.ClubService;
 import com.example.cs319project.service.StudentService;
-import com.oracle.javafx.jmx.json.JSONException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -77,24 +77,26 @@ public class ClubController {
     }
 
     @PostMapping(value = "/deleteClub")
-    public ResponseEntity<?> deleteClub(@Valid @RequestBody IdHolder idHolder){
+    public ResponseEntity<?> deleteClub(@Valid @RequestBody DeleteClubRequest deleteClubRequest){
+        /*
         Club club = clubService.findById(idHolder.getId());
         Advisor advisor = advisorService.findByClub(club);
         if(advisor != null){
             advisor.setClub(null);
         }
-        clubService.deleteClub(clubService.findById(idHolder.getId()));
+        */
+        clubService.deleteClub(clubService.findById(deleteClubRequest.getClubId()));
         return ResponseEntity.ok(new MessageResponse("Club has deleted successfully!"));
     }
 
 
     @GetMapping(value = "/allClubs", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Club>> allClubs() throws JSONException {
+    public @ResponseBody ResponseEntity<List<Club>> allClubs(){
         return ResponseEntity.ok(clubService.findAll());
     }
 
     @GetMapping(value= "/clubView", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Club> getSpecificClub(@Valid @RequestBody IdHolder idHolder) throws JSONException {
+    public @ResponseBody ResponseEntity<Club> getSpecificClub(@Valid @RequestBody IdHolder idHolder) {
         Club club = clubService.findById(idHolder.getId());
         return ResponseEntity.ok(club);
     }
