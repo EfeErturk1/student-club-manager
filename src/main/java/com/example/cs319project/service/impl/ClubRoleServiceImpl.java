@@ -33,4 +33,9 @@ public class ClubRoleServiceImpl implements ClubRoleService {
         Objects.requireNonNull(role, "user cannot be null");
         return repository.save(role);
     }
+
+    @Override
+    public void deleteRole(ClubRole role){
+        repository.delete(role);
+    }
 }

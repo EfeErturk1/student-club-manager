@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -76,6 +77,38 @@ public class ClubController {
         }
         else{
             return ResponseEntity.ok(new MessageResponse("You have already registered"));
+        }
+    }
+
+    @PostMapping(value = "/leaveClub")
+    public ResponseEntity<?>  leaveClub(@Valid @RequestBody JoinClubRequest request){
+        if(studentService.findById(request.getStudentId()) == null){
+            return ResponseEntity.ok(new MessageResponse("Student doesnot exists"));
+        }
+
+        if(clubService.findById(request.getClubId()) == null){
+            return ResponseEntity.ok(new MessageResponse("Club doesnot exists"));
+        }
+
+        // if both of them exists we can try to join to club
+        int studentId = request.getStudentId();
+        int clubId = request.getClubId();
+        List<ClubRole> clubRoles = clubRoleService.findByStudentId(studentId);
+        List<Integer> registeredClubs = new ArrayList<>();
+        for(ClubRole role: clubRoles){
+            registeredClubs.add(role.getClub().getId());
+        }
+
+        if(clubRoles.size() == 0 || !registeredClubs.contains(clubId)){
+            return ResponseEntity.ok(new MessageResponse("You are not a member of the club"));
+        }
+        else{
+            Club registeredClub = clubService.findById(clubId);
+            Student registeringStudent = studentService.findById(studentId);
+            Set<ClubRole> alreadyRegisteredStudents = registeringStudent.getRolesOfStudent();
+
+            //clubRoleService.deleteRole(registeringStudent.getRolesOfStudent(registeredClub));
+            return ResponseEntity.ok(new MessageResponse("You left the club"));
         }
     }
 

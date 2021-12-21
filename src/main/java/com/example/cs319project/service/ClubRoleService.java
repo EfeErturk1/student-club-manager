@@ -9,4 +9,5 @@ public interface ClubRoleService {
     List<ClubRole> findByClubId(Integer id);
     List<ClubRole> findByStudentId(Integer id);
     ClubRole assignNewRole(ClubRole role);
+    void deleteRole(ClubRole role);
 }
