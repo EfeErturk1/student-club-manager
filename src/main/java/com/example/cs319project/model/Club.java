@@ -30,7 +30,7 @@ public class Club {
     private String description;
 
     @JsonManagedReference
-    @OneToMany(mappedBy="club")
+    @OneToMany(mappedBy="club",cascade = CascadeType.REMOVE)
     private Set<ClubRole> roles;
 
 }

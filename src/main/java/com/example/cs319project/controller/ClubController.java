@@ -1,5 +1,6 @@
 package com.example.cs319project.controller;
 
+import com.example.cs319project.dto.ClubDto;
 import com.example.cs319project.model.Advisor;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
@@ -119,6 +120,7 @@ public class ClubController {
         return ResponseEntity.ok(clubsOfStudent);
     }
 
+    //@PreAuthorize(value = "hasRole('ROLE_ADMIN')") buraya en son bu tarz şeyler gelecek güvenlik için
     @PostMapping(value = "/assignPresident", produces =  MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> assignPresident(@Valid @RequestBody JoinClubRequest idHolder){
         Club club = clubService.findById(idHolder.getClubId());
@@ -153,4 +155,10 @@ public class ClubController {
         clubRoleService.assignNewRole(newRole);
         return ResponseEntity.ok(new MessageResponse("Club has a president now"));
     }
-}
+
+    @PostMapping(value = "/updateClub", produces =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateClub(@Valid @RequestBody ClubDto dto) {
+        clubService.updateClub(dto);
+        return ResponseEntity.ok(new MessageResponse("Club has been updated"));
+    }
+   }
