@@ -47,7 +47,8 @@ public class Event {
 
     private int remainingQuota;
 
-    private int eventIdStore;
+    @Column(columnDefinition = "VARCHAR(60) CHECK (status IN ('REJECTED', 'ACCEPTED', 'NOT_DECIDED'))")
+    private String status;
 
     @JsonBackReference
     @ManyToMany

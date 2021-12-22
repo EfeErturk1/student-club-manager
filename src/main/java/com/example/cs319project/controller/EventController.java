@@ -1,6 +1,7 @@
 package com.example.cs319project.controller;
 
 
+import com.example.cs319project.dto.EventDto;
 import com.example.cs319project.model.Advisor;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
@@ -38,7 +39,7 @@ public class EventController {
 
     @PostMapping(value = "/addEvent")
     public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
-        Event event = Event.builder().name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).duration(addEventRequest.getDuration()).build();
+        Event event = Event.builder().status("NOT_DECIDED").name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).duration(addEventRequest.getDuration()).build();
         String formattedDateTime = "";
         for(int i = 0; i < 11; i++){
             formattedDateTime = formattedDateTime + event.getEventDate().charAt(i);
@@ -72,7 +73,6 @@ public class EventController {
         if (eventService.findByEventId(joinEventRequest.getEventId()) == null) {
             return ResponseEntity.ok(new MessageResponse("Event doesnot exists"));
         }
-
 
         int studentId = joinEventRequest.getStudentId();
         int eventId = joinEventRequest.getEventId();
@@ -177,6 +177,20 @@ public class EventController {
         return ResponseEntity.ok(clubEvents);
     }
 
+    @GetMapping(value = "/eventView", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Event> getSpecificEvent(@Valid @RequestBody IdHolder eventId) {
+        Event event = eventService.findByEventId(eventId.getId());
+        if(event == null){
+            return ResponseEntity.ok(null);
+        }
+        return ResponseEntity.ok(event);
+    }
+
+    @PostMapping(value = "/editEvent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> editEvent(@Valid @RequestBody EventDto dto) {
+        eventService.updateEvent(dto);
+        return ResponseEntity.ok(new MessageResponse("Event has been updated"));
+    }
 
 }
 

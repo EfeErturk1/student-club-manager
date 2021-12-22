@@ -13,4 +13,5 @@ public class AddEventRequest {
     private int quota;
     private String eventDate;
     private int duration;
+    private String status;
 }

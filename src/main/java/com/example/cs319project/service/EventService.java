@@ -2,6 +2,7 @@
 
 package com.example.cs319project.service;
 
+import com.example.cs319project.dto.EventDto;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
@@ -15,5 +16,6 @@ public interface EventService {
     List<Event> findAll();
     List<Event> findAllEventParticipatedBy(Student s);
     void saveEvent(Event event);
+    void updateEvent(EventDto event);
     //void joinEvent(Event event, Student student);
 }

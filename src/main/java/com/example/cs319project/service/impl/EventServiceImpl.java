@@ -1,5 +1,7 @@
 package com.example.cs319project.service.impl;
 
+import com.example.cs319project.dto.ClubDto;
+import com.example.cs319project.dto.EventDto;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
@@ -9,8 +11,12 @@ import com.example.cs319project.service.ClubService;
 import com.example.cs319project.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -57,10 +63,13 @@ public class EventServiceImpl implements EventService {
         return;
     }
 
-    /*
     @Override
-    public void joinEvent(Event event, Student student){
-        repository.joinEvent(event, student);
+    @Transactional
+    public void updateEvent(EventDto dto) {
+        Event origEvent = repository.findByEventId(dto.getId());
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT).setSkipNullEnabled(true);
+        mapper.map(dto, origEvent);
+        repository.save(origEvent);
     }
-    */
 }

@@ -52,4 +52,26 @@ public class AdvisorController {
     public @ResponseBody ResponseEntity<List<Advisor>> allAdvisors(){
         return ResponseEntity.ok(advisorService.findAll());
     }
+
+    @PostMapping(value = "/rejectEvent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> rejectEvent(@Valid @RequestBody IdHolder idHolder) {
+        Event event = eventService.findByEventId(idHolder.getId());
+        if(event == null) {
+            return ResponseEntity.ok(new MessageResponse("There is no such an event"));
+        }
+        event.setStatus("REJECTED");
+        eventService.saveEvent(event);
+        return ResponseEntity.ok(new MessageResponse("Event has been rejected successfully"));
+    }
+
+    @PostMapping(value = "/acceptEvent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> acceptEvent(@Valid @RequestBody IdHolder idHolder) {
+        Event event = eventService.findByEventId(idHolder.getId());
+        if(event == null) {
+            return ResponseEntity.ok(new MessageResponse("There is no such an event"));
+        }
+        event.setStatus("ACCEPTED");
+        eventService.saveEvent(event);
+        return ResponseEntity.ok(new MessageResponse("Event has been accepted successfully"));
+    }
 }
