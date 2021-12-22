@@ -2,7 +2,6 @@ package com.example.cs319project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sun.tools.javac.jvm.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +27,13 @@ public class Document {
     protected int documentId;
 
     @Column(nullable = true, length = 64)
-    private Profile author;
-
     private String document_name;
 
     private File document_file;
+
+    private Date submission_date;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "studentId")
+    private Student author;
 }

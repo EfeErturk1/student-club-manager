@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface DocumentService {
     Document findByDocumentId(Integer id);
-    Boolean addDocument(Document document);
-    Boolean removeDocument(Integer documentId);
+    Document addDocument(Document document);
+    void removeDocument(Document document);
     List<Document> findAll();
-    Boolean editDocument(Document document);
-    void viewDocument(Integer id);
 }

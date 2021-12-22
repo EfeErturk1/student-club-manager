@@ -30,24 +30,28 @@ public class DocumentController {
 
 
     @PostMapping(value = "/addDocument")
-    public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
-        //Document document = Document.builder().name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).build();
-        //documentService.addDocument(document);
-        return ResponseEntity.ok(new MessageResponse("Event added successfully!"));
+    public ResponseEntity<?> addEvent(@Valid @RequestBody Document request) {
+        Document document = Document.builder().author(request.getAuthor()).document_name(request.getDocument_name()).document_file(request.getDocument_file()).submission_date(request.getSubmission_date()).build();
+        documentService.addDocument(document);
+        return ResponseEntity.ok(new MessageResponse("Document added successfully!"));
     }
 
     @PostMapping(value = "/deleteDocument")
-    public ResponseEntity<?> deleteDocument(@Valid @RequestBody IdHolder deleteEventRequest) {
-        //documentService.removeDocument(documentService.findByDocumentId(deleteEventRequest.getId()));
+    public ResponseEntity<?> deleteDocument(@Valid @RequestBody IdHolder id) {
+        documentService.removeDocument(documentService.findByDocumentId(id.getId()));
         return ResponseEntity.ok(new MessageResponse("Document deleted successfully!"));
     }
 
 
     @GetMapping(value = "/allDocuments", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Document>> allEvents(){
+    public @ResponseBody ResponseEntity<List<Document>> all(){
         return ResponseEntity.ok(documentService.findAll());
     }
 
-
+    @GetMapping(value= "/documentView", produces =  MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Document> getSpecificDocument(@Valid @RequestBody IdHolder idHolder) {
+        Document doc = documentService.findByDocumentId(idHolder.getId());
+        return ResponseEntity.ok(doc);
+    }
 }
 
