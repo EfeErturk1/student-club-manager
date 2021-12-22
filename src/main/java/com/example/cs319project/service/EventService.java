@@ -2,6 +2,7 @@
 
 package com.example.cs319project.service;
 
+import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
 
