@@ -1,13 +1,17 @@
 package com.example.cs319project.service.impl;
 
+import com.example.cs319project.dto.ClubDto;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Student;
 import com.example.cs319project.repository.ClubRepository;
 import com.example.cs319project.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -38,5 +42,15 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<Club> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void updateClub(ClubDto dto) {
+        Club origClub = repository.findClubById(dto.getId());
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT).setSkipNullEnabled(true);
+        mapper.map(dto, origClub);
+        repository.save(origClub);
     }
 }

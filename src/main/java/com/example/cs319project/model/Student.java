@@ -23,7 +23,7 @@ public class Student {
 
     public String name;
 
-    @OneToMany(mappedBy="student")
+    @OneToMany(mappedBy="student", cascade = CascadeType.REMOVE)
     private Set<ClubRole> rolesOfStudent;
 
     @JsonManagedReference

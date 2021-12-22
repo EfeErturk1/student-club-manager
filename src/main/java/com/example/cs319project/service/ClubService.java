@@ -1,5 +1,6 @@
 package com.example.cs319project.service;
 
+import com.example.cs319project.dto.ClubDto;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Student;
 
@@ -11,4 +12,5 @@ public interface ClubService {
     Club createNewClub(Club club);
     void deleteClub(Club club);
     List<Club> findAll();
+    void updateClub(ClubDto dto);
 }
