@@ -30,7 +30,7 @@ public class DocumentController {
 
 
     @PostMapping(value = "/addDocument")
-    public ResponseEntity<?> addEvent(@Valid @RequestBody Document request) {
+    public ResponseEntity<?> addDocument(@Valid @RequestBody Document request) {
         Document document = Document.builder().author(request.getAuthor()).document_name(request.getDocument_name()).document_file(request.getDocument_file()).submission_date(request.getSubmission_date()).build();
         documentService.addDocument(document);
         return ResponseEntity.ok(new MessageResponse("Document added successfully!"));
