@@ -161,16 +161,16 @@ public class EventController {
     }
 
     @GetMapping(value = "/myEvents", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Event>> getStudentEvents(@Valid @RequestBody IdHolder studentId){
-        return ResponseEntity.ok(eventService.findAllEventParticipatedBy(studentService.findById(studentId.getId())));
+    public @ResponseBody ResponseEntity<List<Event>> getStudentEvents(@RequestParam(name = "id") int studentId){
+        return ResponseEntity.ok(eventService.findAllEventParticipatedBy(studentService.findById(studentId)));
     }
 
     @GetMapping(value = "/clubEvents", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Event>> getClubEvents(@Valid @RequestBody IdHolder clubId){
+    public @ResponseBody ResponseEntity<List<Event>> getClubEvents(@RequestParam(name = "id") int clubId){
         List<Event> allEvents = eventService.findAll();
         List<Event> clubEvents = new ArrayList<>();
         for(Event event: allEvents){
-            if(event.getClubId() == clubId.getId()) {
+            if(event.getClubId() == clubId) {
                 clubEvents.add(event);
             }
         }
@@ -178,8 +178,8 @@ public class EventController {
     }
 
     @GetMapping(value = "/eventView", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Event> getSpecificEvent(@Valid @RequestBody IdHolder eventId) {
-        Event event = eventService.findByEventId(eventId.getId());
+    public @ResponseBody ResponseEntity<Event> getSpecificEvent(@RequestParam(name = "id") int eventId) {
+        Event event = eventService.findByEventId(eventId);
         if(event == null){
             return ResponseEntity.ok(null);
         }

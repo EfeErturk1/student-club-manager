@@ -142,14 +142,14 @@ public class ClubController {
     }
 
     @GetMapping(value= "/clubView", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Club> getSpecificClub(@Valid @RequestBody IdHolder idHolder) {
-        Club club = clubService.findById(idHolder.getId());
+    public @ResponseBody ResponseEntity<Club> getSpecificClub(@RequestParam(name = "id") int idHolder) {
+        Club club = clubService.findById(idHolder);
         return ResponseEntity.ok(club);
     }
 
     @GetMapping(value = "/getStudentClub", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Club>> getClubOfStudent(@Valid @RequestBody IdHolder idHolder) {
-        List<ClubRole> clubRoles = clubRoleService.findByStudentId(idHolder.getId());
+    public @ResponseBody ResponseEntity<List<Club>> getClubOfStudent(@RequestParam(name = "id") int  idHolder) {
+        List<ClubRole> clubRoles = clubRoleService.findByStudentId(idHolder);
         List<Club> clubsOfStudent = new ArrayList<>();
         for(ClubRole role: clubRoles){
             clubsOfStudent.add(clubService.findById(role.getClub().getId()));

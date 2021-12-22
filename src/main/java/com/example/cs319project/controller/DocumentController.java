@@ -49,8 +49,8 @@ public class DocumentController {
     }
 
     @GetMapping(value= "/documentView", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Document> getSpecificDocument(@Valid @RequestBody IdHolder idHolder) {
-        Document doc = documentService.findByDocumentId(idHolder.getId());
+    public @ResponseBody ResponseEntity<Document> getSpecificDocument(@RequestParam(name = "id") int  idHolder) {
+        Document doc = documentService.findByDocumentId(idHolder);
         return ResponseEntity.ok(doc);
     }
 }

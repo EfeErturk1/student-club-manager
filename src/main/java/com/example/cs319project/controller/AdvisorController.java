@@ -37,13 +37,14 @@ public class AdvisorController {
     private final AdvisorService advisorService;
 
     @GetMapping(value= "/advisorView", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Advisor> advisorView(@Valid @RequestBody IdHolder idHolder) {
-        Advisor advisor = advisorService.findById(idHolder.getId());
+    public @ResponseBody ResponseEntity<Advisor> advisorView(@RequestParam(name = "id") int idHolder) {
+        Advisor advisor = advisorService.findById(idHolder);
         return ResponseEntity.ok(advisor);
     }
 
     @GetMapping(value= "/advisorOfClubView", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Advisor> advisorOfClubView(@Valid @RequestBody Club club) {
+    public @ResponseBody ResponseEntity<Advisor> advisorOfClubView(@RequestParam(name = "id") int  clubId) {
+        Club club = clubService.findById(clubId);
         Advisor advisor = advisorService.findByClub(club);
         return ResponseEntity.ok(advisor);
     }

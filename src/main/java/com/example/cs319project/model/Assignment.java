@@ -34,8 +34,12 @@ public class Assignment {
 
     private int clubId;
 
-
-
-
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "assignees",
+            joinColumns = @JoinColumn(name = "assignmentId"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    Set<Student> assignees;
 
 }

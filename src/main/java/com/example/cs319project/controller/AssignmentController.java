@@ -50,8 +50,8 @@ public class AssignmentController {
     }
 
     @GetMapping(value= "/assignmentView", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Assignment> getSpecificAssignment(@Valid @RequestBody IdHolder idHolder) {
-        Assignment assignment = assignmentService.findByAssignmentId(idHolder.getId());
+    public @ResponseBody ResponseEntity<Assignment> getSpecificAssignment(@RequestParam(name = "id") int  idHolder) {
+        Assignment assignment = assignmentService.findByAssignmentId(idHolder);
         return ResponseEntity.ok(assignment);
     }
 }
