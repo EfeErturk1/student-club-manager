@@ -198,4 +198,4 @@ public class ClubController {
         clubService.updateClub(dto);
         return ResponseEntity.ok(new MessageResponse("Club has been updated"));
     }
-   }
+}

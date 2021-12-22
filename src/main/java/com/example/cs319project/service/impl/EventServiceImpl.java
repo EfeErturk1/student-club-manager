@@ -50,6 +50,7 @@ public class EventServiceImpl implements EventService {
         return repository.findAllByParticipantsContaining(s);
     }
 
+
     @Override
     public void saveEvent(Event event) {
         repository.save(event);

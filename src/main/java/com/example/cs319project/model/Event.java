@@ -10,7 +10,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.text.*;
 
 @Getter
 @Setter
@@ -34,6 +35,13 @@ public class Event {
     private String description;
 
     private String eventDate;
+
+    private String eventFinish;
+
+    private int duration;
+
+    //String oldstring = "2011-01-18 00:00:00.0";
+    //Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldstring);
 
     private int quota;
 
