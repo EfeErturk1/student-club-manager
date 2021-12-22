@@ -30,4 +30,8 @@ public class Student {
     @ManyToMany(mappedBy = "participants")
     Set<Event> joinedEvents;
 
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "assignees")
+    Set<Assignment> assignments;
+
 }
