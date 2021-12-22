@@ -30,16 +30,11 @@ public class Assignment {
 
     private String name;
 
+    private String description;
+
     private int clubId;
 
-    //Set<Document> documents;
-    @JsonBackReference
-    @ManyToMany
-    @JoinTable(
-            name = "assignees",
-            joinColumns = @JoinColumn(name = "assignment_assignmentId"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
-    Set<Student> assignees;
+
 
 
 
