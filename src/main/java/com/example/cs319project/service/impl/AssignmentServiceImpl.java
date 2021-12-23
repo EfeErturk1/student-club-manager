@@ -1,12 +1,14 @@
 package com.example.cs319project.service.impl;
 
 import com.example.cs319project.model.Assignment;
+import com.example.cs319project.model.Document;
 import com.example.cs319project.repository.AssignmentRepository;
 import com.example.cs319project.service.AssignmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,5 +38,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public List<Assignment> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public Assignment findAssignmentHasDocument(Document document) {
+        List<Document> documents = new ArrayList<>();
+        documents.add(document);
+        return repository.findAllByDocumentsIn(documents);
     }
 }

@@ -5,6 +5,7 @@ import com.example.cs319project.model.request.*;
 import com.example.cs319project.security.JwtUtils;
 import com.example.cs319project.security.MyUserDetails;
 import com.example.cs319project.service.*;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -56,7 +57,13 @@ public class AuthController {
 
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
-        return JwtResponse
+
+        // finding club
+        Club club = null;
+        if(advisorService.findById(userDetails.getId()) != null){
+             club = advisorService.findById(userDetails.getId()).getClub();
+        }
+        JwtResponse response = JwtResponse
                 .builder()
                 .token(jwt)
                 .id(userDetails.getId())
@@ -64,6 +71,14 @@ public class AuthController {
                 .email(userDetails.getEmail())
                 .roles(roles)
                 .build();
+
+        if(club != null){
+            response.setClubId(club.getId());
+            return response;
+        }
+            return response;
+
+
     }
 
     @PostMapping("/signupStudent")
@@ -93,7 +108,6 @@ public class AuthController {
         Student student = new Student();
         student.setId(user.getId());
         student.setName(user.getName());
-        student.setPhoto(user.getPhoto());
         studentService.createNewStudent(student);
 
         return ResponseEntity.ok(new MessageResponse("Student registered successfully!"));
