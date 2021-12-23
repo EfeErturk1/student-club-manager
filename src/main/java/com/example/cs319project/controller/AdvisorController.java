@@ -1,6 +1,8 @@
 package com.example.cs319project.controller;
 
 
+import com.example.cs319project.dto.AdvisorDto;
+import com.example.cs319project.dto.ClubDto;
 import com.example.cs319project.model.Advisor;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
@@ -75,4 +77,36 @@ public class AdvisorController {
         eventService.saveEvent(event);
         return ResponseEntity.ok(new MessageResponse("Event has been accepted successfully"));
     }
+
+    @PostMapping(value = "/advisorUpdate", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> assignAdvisor(@Valid @RequestBody JoinClubRequest request){
+        Club club = clubService.findById(request.getClubId());
+        if(club == null){
+            return ResponseEntity.ok(new MessageResponse("There is no such a club"));
+        }
+
+        Advisor advisor = advisorService.findById(request.getStudentId());
+        if(advisor == null){
+            return ResponseEntity.ok(new MessageResponse("There is no such an advisor"));
+        }
+        advisor.setClub(club);
+        advisorService.createNewAdvisor(advisor);
+        return ResponseEntity.ok(new MessageResponse("Advisor updated"));
+    }
+
+    @GetMapping(value = "/findAdvisorClub", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Club> returnClubOfAdvisor(@RequestParam(name="id") int id){
+        Advisor advisor = advisorService.findById(id);
+        if(advisor == null){
+           return ResponseEntity.ok(null);
+        }
+
+        Club club = advisor.getClub();
+        if(club == null){
+            return ResponseEntity.ok(null);
+        }
+
+        return ResponseEntity.ok(club);
+    }
+
 }
