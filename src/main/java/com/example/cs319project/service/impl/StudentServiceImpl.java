@@ -37,4 +37,9 @@ public class StudentServiceImpl implements StudentService {
     public Set<Student> findAllStudentRegisteredEvent(Event event) {
         return repository.findAllByJoinedEventsContaining(event);
     }
+
+    @Override
+    public Student saveorUpdateStudent(Student student) {
+        return repository.save(student);
+    }
 }

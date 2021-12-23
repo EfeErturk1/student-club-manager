@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -141,10 +142,17 @@ public class ClubController {
 
         for(Club club: allClubs){
             int eventNumber = (int) eventService.findNumberOfEventsOfClub(club);
+            Set<ClubRole> roles = club.getRoles();
+            Set<ClubRoleResponse> rolesOfClub = new HashSet<>();
+
+            for(ClubRole role: roles){
+                ClubRoleResponse roleResponse = ClubRoleResponse.builder().clubId(club.getId()).studentId(role.getStudent().getId()).id(role.getId()).name(role.getName()).build();
+                rolesOfClub.add(roleResponse);
+            }
             System.out.println(eventNumber);
             ClubResponse response = ClubResponse.builder().name(club.getName()).
                     photos(club.getPhotos()).description(club.getDescription()).
-                    id(club.getId()).numberOfEvents(eventNumber).roles(club.getRoles()).build();
+                    id(club.getId()).numberOfEvents(eventNumber).roles(rolesOfClub).build();
             clubs.add(response);
         }
         return ResponseEntity.ok(clubs);
@@ -206,5 +214,11 @@ public class ClubController {
     public ResponseEntity<?> updateClub(@Valid @RequestBody ClubDto dto) {
         clubService.updateClub(dto);
         return ResponseEntity.ok(new MessageResponse("Club has been updated"));
+    }
+
+    @GetMapping(value = "/getRolesOfClub",  produces =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getClubRoles(@RequestParam(name = "id") int idHolder){
+        List<ClubRole> clubRoles = clubRoleService.findByClubId(idHolder);
+        return ResponseEntity.ok(clubRoles);
     }
 }

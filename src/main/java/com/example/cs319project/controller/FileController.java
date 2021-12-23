@@ -43,8 +43,20 @@ public class FileController {
     }
 
     @PostMapping("/uploadStudentProfilePic")
-    public ResponseEntity<MessageResponse> uploadStudentFile(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(""));
+    public ResponseEntity<MessageResponse> uploadStudentFile(@RequestParam("file") MultipartFile file, @RequestParam("id") int idHolder) {
+        String message = "";
+        Student student = studentService.findById(idHolder);
+
+        try{
+            FileDB fileDB = storageService.store(file);
+            student.setProfilePhoto(fileDB);
+            studentService.saveorUpdateStudent(student);
+            message = "Uploaded the profile pic successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
     }
 
 

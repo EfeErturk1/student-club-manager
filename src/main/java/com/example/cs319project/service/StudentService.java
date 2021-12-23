@@ -10,4 +10,5 @@ public interface StudentService {
     Student findById(Integer id);
     Student createNewStudent(Student student);
     Set<Student> findAllStudentRegisteredEvent(Event event);
+    Student saveorUpdateStudent(Student student);
 }

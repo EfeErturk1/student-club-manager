@@ -21,7 +21,7 @@ public class ClubResponse {
 
     private String description;
 
-    private Set<ClubRole> roles;
+    private Set<ClubRoleResponse> roles;
 
     private int numberOfEvents;
 }
