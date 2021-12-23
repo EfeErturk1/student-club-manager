@@ -93,7 +93,6 @@ public class AuthController {
         Student student = new Student();
         student.setId(user.getId());
         student.setName(user.getName());
-        student.setPhoto(user.getPhoto());
         studentService.createNewStudent(student);
 
         return ResponseEntity.ok(new MessageResponse("Student registered successfully!"));
