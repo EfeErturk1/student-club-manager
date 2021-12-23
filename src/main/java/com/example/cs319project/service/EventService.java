@@ -17,5 +17,6 @@ public interface EventService {
     List<Event> findAllEventParticipatedBy(Student s);
     void saveEvent(Event event);
     void updateEvent(EventDto event);
+    long findNumberOfEventsOfClub(Club club);
     //void joinEvent(Event event, Student student);
 }

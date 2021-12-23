@@ -72,4 +72,10 @@ public class EventServiceImpl implements EventService {
         mapper.map(dto, origEvent);
         repository.save(origEvent);
     }
+
+    @Override
+    public long findNumberOfEventsOfClub(Club club) {
+        int id = club.getId();
+        return repository.countAllByClubId(id);
+    }
 }

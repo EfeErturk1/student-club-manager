@@ -175,6 +175,7 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
 
+
     @PostMapping(value = "/editEvent", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> editEvent(@Valid @RequestBody EventDto dto) {
         eventService.updateEvent(dto);

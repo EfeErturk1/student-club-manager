@@ -8,10 +8,7 @@ import com.example.cs319project.model.Student;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.clubstrategy.ClubRoleName;
 import com.example.cs319project.model.request.*;
-import com.example.cs319project.service.AdvisorService;
-import com.example.cs319project.service.ClubRoleService;
-import com.example.cs319project.service.ClubService;
-import com.example.cs319project.service.StudentService;
+import com.example.cs319project.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -33,6 +30,7 @@ public class ClubController {
     private final ClubRoleService clubRoleService;
     private final StudentService studentService;
     private final AdvisorService advisorService;
+    private final EventService eventService;
 
     @PostMapping(value = "/addClub")
     public ResponseEntity<?> addClub(@Valid @RequestBody ClubCreateRequest clubRequest){
@@ -137,8 +135,19 @@ public class ClubController {
 
 
     @GetMapping(value = "/allClubs", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Club>> allClubs(){
-        return ResponseEntity.ok(clubService.findAll());
+    public @ResponseBody ResponseEntity<List<ClubResponse>> allClubs(){
+        List<Club> allClubs = clubService.findAll();
+        List<ClubResponse> clubs = new ArrayList<>();
+
+        for(Club club: allClubs){
+            int eventNumber = (int) eventService.findNumberOfEventsOfClub(club);
+            System.out.println(eventNumber);
+            ClubResponse response = ClubResponse.builder().name(club.getName()).
+                    photos(club.getPhotos()).description(club.getDescription()).
+                    id(club.getId()).numberOfEvents(eventNumber).roles(club.getRoles()).build();
+            clubs.add(response);
+        }
+        return ResponseEntity.ok(clubs);
     }
 
     @GetMapping(value= "/clubView", produces =  MediaType.APPLICATION_JSON_VALUE)

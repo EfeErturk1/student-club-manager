@@ -12,4 +12,5 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findAll();
     Event findByEventId(Integer eventId);
     List<Event> findAllByParticipantsContaining(Student s);
+    long countAllByClubId(int id);
 }
