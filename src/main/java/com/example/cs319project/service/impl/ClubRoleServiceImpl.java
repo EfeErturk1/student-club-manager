@@ -29,7 +29,13 @@ public class ClubRoleServiceImpl implements ClubRoleService {
     }
 
     @Override
-    public ClubRole assignNewRole(ClubRole role) {
+    public ClubRole promote(ClubRole role) {
+        Objects.requireNonNull(role, "user cannot be null");
+        return repository.save(role);
+    }
+
+    @Override
+    public ClubRole demote(ClubRole role) {
         Objects.requireNonNull(role, "user cannot be null");
         return repository.save(role);
     }
@@ -37,5 +43,10 @@ public class ClubRoleServiceImpl implements ClubRoleService {
     @Override
     public void deleteRole(ClubRole role){
         repository.delete(role);
+    }
+
+    @Override
+    public ClubRole findStudentsRoleInClub(Integer studentId,Integer clubId){
+        return repository.findStudentsRoleInClub(studentId,clubId);
     }
 }

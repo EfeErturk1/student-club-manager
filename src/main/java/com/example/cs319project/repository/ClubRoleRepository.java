@@ -16,5 +16,6 @@ public interface ClubRoleRepository extends JpaRepository<ClubRole, Integer> {
    @Query("SELECT c from ClubRole c where c.student.id = :studentId")
     List<ClubRole> findByStudentId(Integer studentId);
 
-
+    @Query("SELECT c from ClubRole c where c.student.id = :studentId AND c.club.id = :clubId")
+    ClubRole findStudentsRoleInClub(Integer studentId,Integer clubId);
 }
