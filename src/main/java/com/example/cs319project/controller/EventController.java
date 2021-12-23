@@ -74,6 +74,10 @@ public class EventController {
             return ResponseEntity.ok(new MessageResponse("Event doesnot exists"));
         }
 
+        if (eventService.findByEventId(joinEventRequest.getEventId()).getRemainingQuota() == 0) {
+            return ResponseEntity.ok(new MessageResponse("Event is full"));
+        }
+
         int studentId = joinEventRequest.getStudentId();
         int eventId = joinEventRequest.getEventId();
         int clubId = eventService.findByEventId(eventId).getClubId();
