@@ -14,4 +14,5 @@ public class AddEventRequest {
     private String eventDate;
     private int duration;
     private String status;
+    private String photos;
 }

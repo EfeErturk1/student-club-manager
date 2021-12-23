@@ -82,6 +82,8 @@ public class AuthController {
                 .builder()
                 .name(signUpRequest.getName())
                 .email(signUpRequest.getEmail())
+                .photo(signUpRequest.getPhoto())
+                .ge250(0)
                 .password(encoder.encode(signUpRequest.getPassword()))
                 .build();
 
@@ -91,6 +93,7 @@ public class AuthController {
         Student student = new Student();
         student.setId(user.getId());
         student.setName(user.getName());
+        student.setPhoto(user.getPhoto());
         studentService.createNewStudent(student);
 
         return ResponseEntity.ok(new MessageResponse("Student registered successfully!"));

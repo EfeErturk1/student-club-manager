@@ -27,6 +27,10 @@ public class User {
     @NotNull
     private String password;
 
+    private String photo;
+
+    private int ge250;
+
     @Builder.Default
     @OneToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,

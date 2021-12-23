@@ -36,7 +36,7 @@ public class ClubController {
 
     @PostMapping(value = "/addClub")
     public ResponseEntity<?> addClub(@Valid @RequestBody ClubCreateRequest clubRequest){
-        Club club = Club.builder().name(clubRequest.getName()).description(clubRequest.getDescription()).build();
+        Club club = Club.builder().name(clubRequest.getName()).description(clubRequest.getDescription()).photos(clubRequest.getPhoto()).build();
         if(clubRequest.getClubAdvisorId() != 0){
             Advisor advisor = advisorService.findById(clubRequest.getClubAdvisorId());
             if(advisor.getClub() != null){

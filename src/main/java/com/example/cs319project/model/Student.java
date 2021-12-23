@@ -23,6 +23,10 @@ public class Student {
 
     public String name;
 
+    private String photo;
+
+    private int ge250;
+
     @OneToMany(mappedBy="student", cascade = CascadeType.REMOVE)
     private Set<ClubRole> rolesOfStudent;
 
