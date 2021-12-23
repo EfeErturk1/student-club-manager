@@ -1,5 +1,6 @@
 package com.example.cs319project.model;
 
+import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -41,5 +42,8 @@ public class Assignment {
             joinColumns = @JoinColumn(name = "assignmentId"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     Set<Student> assignees;
+
+    @OneToMany(mappedBy="belongsToAssignment", cascade = CascadeType.REMOVE)
+    private Set<Document> documents;
 
 }
