@@ -33,6 +33,7 @@ public class Club {
     @OneToMany(mappedBy="club",cascade = CascadeType.REMOVE)
     private Set<ClubRole> roles;
 
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "advisor_id")
     private Advisor advisor;

@@ -1,6 +1,8 @@
 package com.example.cs319project.model;
 
 import com.example.cs319project.model.clubstrategy.ClubRole;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,7 @@ public class Advisor {
 
     public String name;
 
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "club_id")
     private Club club;
