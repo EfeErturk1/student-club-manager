@@ -12,7 +12,7 @@ public class AddEventRequest {
     private int clubId;
     private int quota;
     private String eventDate;
-    private int duration;
-    private String status;
+    private String finishDate;
     private String photos;
+    private int ge250;
 }
