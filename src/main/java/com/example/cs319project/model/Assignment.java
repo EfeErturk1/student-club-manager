@@ -35,6 +35,8 @@ public class Assignment {
 
     private int clubId;
 
+    private boolean status; // 0 if non-complete, 1 if complete
+
     @JsonBackReference
     @ManyToMany
     @JoinTable(

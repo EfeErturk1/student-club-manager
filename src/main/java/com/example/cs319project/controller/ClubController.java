@@ -35,14 +35,13 @@ public class ClubController {
 
     @PostMapping(value = "/addClub")
     public ResponseEntity<?> addClub(@Valid @RequestBody ClubCreateRequest clubRequest){
-        Club club = Club.builder().name(clubRequest.getName()).description(clubRequest.getDescription()).photos(clubRequest.getPhoto()).build();
+        Club club = Club.builder().name(clubRequest.getName()).description(clubRequest.getDescription()).photos(clubRequest.getPhoto()).advisor(advisorService.findById(clubRequest.getClubAdvisorId())).build();
         if(clubRequest.getClubAdvisorId() != 0){
             Advisor advisor = advisorService.findById(clubRequest.getClubAdvisorId());
             if(advisor.getClub() != null){
                 return ResponseEntity.ok(new MessageResponse("Advisor already have a club first try to remove advisor's club!"));
             }
             advisor.setClub(club);
-            advisorService.createNewAdvisor(advisor); //it calls save method of repository so it updates as well
         }
 
         clubService.createNewClub(club);

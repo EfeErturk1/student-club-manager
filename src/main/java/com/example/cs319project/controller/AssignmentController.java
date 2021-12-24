@@ -78,5 +78,20 @@ public class AssignmentController {
         Assignment assignment = assignmentService.findByAssignmentId(idHolder);
         return ResponseEntity.ok(assignment);
     }
+
+    @PostMapping(value = "/completeAssignment")
+    public ResponseEntity<?> completeAssignment(@Valid @RequestBody IdHolder id) {
+        Assignment assignment = assignmentService.findByAssignmentId(id.getId());
+        if (assignment == null)
+            return ResponseEntity.ok(new MessageResponse("There is no such assignment"));
+        assignment.setStatus(true);
+        assignmentService.createNewAssignment(assignment);
+        return ResponseEntity.ok(new MessageResponse("Assignment completed successfully!"));
+    }
+
+    @GetMapping(value = "/getAssignment")
+    public @ResponseBody ResponseEntity<Assignment> getAssignment(@Valid @RequestBody IdHolder id) {
+        return ResponseEntity.ok(assignmentService.findByAssignmentId(id.getId()));
+    }
 }
 
