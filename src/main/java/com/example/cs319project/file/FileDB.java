@@ -2,6 +2,7 @@ package com.example.cs319project.file;
 
 import javax.persistence.*;
 
+import com.example.cs319project.model.Document;
 import com.example.cs319project.model.Student;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -23,6 +24,9 @@ public class FileDB {
 
     @OneToOne(mappedBy = "profilePhoto")
     private Student photoOwner;
+
+    @OneToOne(mappedBy = "document_file")
+    private Document document;
 
     public FileDB() {
     }

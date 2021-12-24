@@ -25,6 +25,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteUser(User user) {
+        Objects.requireNonNull(user, "user cannot be null");
+        userRepository.delete(user);
+    }
+
+    @Override
     public User createNewUser(User user) {
         Objects.requireNonNull(user, "user cannot be null");
         return userRepository.save(user);

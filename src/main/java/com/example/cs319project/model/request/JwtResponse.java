@@ -1,17 +1,17 @@
 package com.example.cs319project.model.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class JwtResponse {
 
-    private String token;
+    public String token;
 
     @Builder.Default
     private String type = "Bearer";
@@ -23,4 +23,6 @@ public class JwtResponse {
     private String email;
 
     private List<String> roles;
+
+    private int clubId;
 }

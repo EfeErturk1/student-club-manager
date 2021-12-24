@@ -5,6 +5,7 @@ import com.example.cs319project.model.request.*;
 import com.example.cs319project.security.JwtUtils;
 import com.example.cs319project.security.MyUserDetails;
 import com.example.cs319project.service.*;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -37,6 +38,8 @@ public class AuthController {
 
     private final StudentService studentService;
 
+    private final AdminService adminService;
+
     private final PasswordEncoder encoder;
 
     private final JwtUtils jwtUtils;
@@ -56,7 +59,13 @@ public class AuthController {
 
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
-        return JwtResponse
+
+        // finding club
+        Club club = null;
+        if(advisorService.findById(userDetails.getId()) != null){
+             club = advisorService.findById(userDetails.getId()).getClub();
+        }
+        JwtResponse response = JwtResponse
                 .builder()
                 .token(jwt)
                 .id(userDetails.getId())
@@ -64,6 +73,14 @@ public class AuthController {
                 .email(userDetails.getEmail())
                 .roles(roles)
                 .build();
+
+        if(club != null){
+            response.setClubId(club.getId());
+            return response;
+        }
+            return response;
+
+
     }
 
     @PostMapping("/signupStudent")
@@ -93,7 +110,6 @@ public class AuthController {
         Student student = new Student();
         student.setId(user.getId());
         student.setName(user.getName());
-        student.setPhoto(user.getPhoto());
         studentService.createNewStudent(student);
 
         return ResponseEntity.ok(new MessageResponse("Student registered successfully!"));
@@ -129,6 +145,53 @@ public class AuthController {
 
     }
 
+    @PostMapping("/createAdmin")
+    public ResponseEntity<?> registerAdmin(@Valid @RequestBody AdminCreateRequest request) {
+        if (userService.existsByName(request.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+        }
 
+        if (userService.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        User user = User
+                .builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(encoder.encode(request.getPassword()))
+                .build();
+
+        Role role = roleService.findByName(RoleType.ROLE_ADMIN);
+        user.setRole(role);
+        userService.createNewUser(user);
+        Admin admin = new Admin();
+        admin.setName(user.getName());
+        admin.setId(user.getId());
+        adminService.createNewAdmin(admin);
+        return ResponseEntity.ok(new MessageResponse("Admin created successfully!"));
+
+    }
+
+    @PostMapping(value = "/deleteStudent")
+    public ResponseEntity<?> deleteStudent(@Valid @RequestBody IdHolder idHolder) {
+        if (studentService.findById(idHolder.getId()) == null) {
+            return ResponseEntity.ok(new MessageResponse("Student doesnot exists"));
+        }
+
+        if(!((studentService.findById(idHolder.getId()).getRolesOfStudent() == null) || (studentService.findById(idHolder.getId()).getRolesOfStudent().size() == 0))){
+            return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the clubs that you are a member of!"));
+        }
+
+        if(!((studentService.findById(idHolder.getId()).getJoinedEvents() == null) || (studentService.findById(idHolder.getId()).getJoinedEvents().size() == 0))){
+            return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the events you joined!"));
+        }
+        studentService.findById(idHolder.getId()).setJoinedEvents(null);
+        studentService.findById(idHolder.getId()).setRolesOfStudent(null);
+        studentService.findById(idHolder.getId()).setAssignments(null);
+        studentService.deleteStudent(studentService.findById(idHolder.getId()));
+        userService.deleteUser(userService.findById(idHolder.getId()));
+        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));
+    }
 
     }

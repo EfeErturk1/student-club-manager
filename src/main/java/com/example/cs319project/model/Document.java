@@ -1,5 +1,6 @@
 package com.example.cs319project.model;
 
+import com.example.cs319project.file.FileDB;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -29,11 +30,19 @@ public class Document {
     @Column(nullable = true, length = 64)
     private String document_name;
 
-    private File document_file;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file", referencedColumnName = "id")
+    private FileDB document_file;
 
     private Date submission_date;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "studentId")
     private Student author;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name="for_assignment",nullable=true)
+    private Assignment belongsToAssignment;
+
 }

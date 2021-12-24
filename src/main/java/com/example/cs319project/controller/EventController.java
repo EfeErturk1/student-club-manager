@@ -39,20 +39,7 @@ public class EventController {
 
     @PostMapping(value = "/addEvent")
     public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
-        Event event = Event.builder().status("NOT_DECIDED").name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).duration(addEventRequest.getDuration()).photos(addEventRequest.getPhotos()).build();
-        String formattedDateTime = "";
-        for(int i = 0; i < 11; i++){
-            formattedDateTime = formattedDateTime + event.getEventDate().charAt(i);
-        }
-        String num = event.getEventDate().substring(11, 13);
-        int num1 = Integer.parseInt(num);
-        num1 = num1 + event.getDuration();
-        num = Integer.toString(num1);
-        formattedDateTime = formattedDateTime + num;
-        for(int i = 13; i < 19; i++){
-            formattedDateTime = formattedDateTime + event.getEventDate().charAt(i);
-        }
-        event.setEventFinish(formattedDateTime);
+        Event event = Event.builder().status("NOT_DECIDED").name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).eventFinish(addEventRequest.getFinishDate()).photos(addEventRequest.getPhotos()).ge250(addEventRequest.getGe250()).build();
         eventService.addEvent(event);
         return ResponseEntity.ok(new MessageResponse("Event added successfully!"));
     }
@@ -72,6 +59,10 @@ public class EventController {
 
         if (eventService.findByEventId(joinEventRequest.getEventId()) == null) {
             return ResponseEntity.ok(new MessageResponse("Event doesnot exists"));
+        }
+
+        if (eventService.findByEventId(joinEventRequest.getEventId()).getRemainingQuota() == 0) {
+            return ResponseEntity.ok(new MessageResponse("Event is full"));
         }
 
         int studentId = joinEventRequest.getStudentId();
@@ -107,6 +98,8 @@ public class EventController {
             alreadyRegisteredStudents.add(registeringStudent);
             registeredEvent.setParticipants(alreadyRegisteredStudents);
             registeredEvent.setRemainingQuota(registeredEvent.getRemainingQuota() - 1);
+            studentService.findById(studentId).setGe250(studentService.findById(studentId).getGe250() + eventService.findByEventId(eventId).getGe250());
+            studentService.saveorUpdateStudent(studentService.findById(studentId));
             eventService.saveEvent(registeredEvent);
             return ResponseEntity.ok(new MessageResponse("You are registered."));
         } else {
@@ -137,6 +130,8 @@ public class EventController {
             alreadyRegisteredStudents.remove(registeringStudent);
             registeredEvent.setParticipants(alreadyRegisteredStudents);
             registeredEvent.setRemainingQuota(registeredEvent.getRemainingQuota() + 1);
+            studentService.findById(studentId).setGe250(studentService.findById(studentId).getGe250() - eventService.findByEventId(eventId).getGe250());
+            studentService.saveorUpdateStudent(studentService.findById(studentId));
             eventService.saveEvent(registeredEvent);
             return ResponseEntity.ok(new MessageResponse("You left the event registered."));
         }

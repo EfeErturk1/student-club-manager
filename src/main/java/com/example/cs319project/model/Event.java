@@ -38,14 +38,14 @@ public class Event {
 
     private String eventFinish;
 
-    private int duration;
-
     //String oldstring = "2011-01-18 00:00:00.0";
     //Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldstring);
 
     private int quota;
 
     private int remainingQuota;
+
+    private int ge250;
 
     @Column(columnDefinition = "VARCHAR(60) CHECK (status IN ('REJECTED', 'ACCEPTED', 'NOT_DECIDED'))")
     private String status;

@@ -20,6 +20,11 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository repository;
 
     @Override
+    public void deleteStudent(Student student){
+        repository.delete(student);
+    }
+
+    @Override
     public Student findById(Integer id) {
         System.out.println(id);
         if(repository.findStudentById(id) == null)
