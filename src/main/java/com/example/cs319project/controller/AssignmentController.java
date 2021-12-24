@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,8 +32,14 @@ public class AssignmentController {
 
 
     @PostMapping(value = "/addAssignment")
-    public ResponseEntity<?> addAssignment(@Valid @RequestBody Assignment request) {
-        Assignment assignment = Assignment.builder().due_date(request.getDue_date()).name(request.getName()).description(request.getDescription()).clubId(request.getClubId()).build();
+    public ResponseEntity<?> addAssignment(@Valid @RequestBody AssignmentCreateRequest request) {
+        Set<Student> assignedStudent = new HashSet<>();
+
+        for(int studentId: request.getAssignees()){
+            Student student = studentService.findById(studentId);
+            assignedStudent.add(student);
+        }
+        Assignment assignment = Assignment.builder().due_date(request.getDue_date()).name(request.getName()).description(request.getDescription()).clubId(request.getClubId()).assignees(assignedStudent).build();
         assignmentService.createNewAssignment(assignment);
         return ResponseEntity.ok(new MessageResponse("Assignment added successfully!"));
     }
