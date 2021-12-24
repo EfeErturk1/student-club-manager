@@ -207,4 +207,11 @@ public class AuthController {
         studentService.updateStudent(response);
         return ResponseEntity.ok(new MessageResponse("Profile has been edited"));
     }
+
+    @GetMapping("/getStudentInfo")
+    public ResponseEntity<StudentResponse> getStudent(@RequestParam(name="id") int id) {
+        Student student = studentService.findById(id);
+        StudentResponse response = StudentResponse.builder().name(student.getName()).id(id).ge250(student.getGe250()).build();
+        return ResponseEntity.ok(response);
+    }
 }
