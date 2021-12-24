@@ -38,6 +38,8 @@ public class AuthController {
 
     private final StudentService studentService;
 
+    private final AdminService adminService;
+
     private final PasswordEncoder encoder;
 
     private final JwtUtils jwtUtils;
@@ -143,6 +145,32 @@ public class AuthController {
 
     }
 
+    @PostMapping("/createAdmin")
+    public ResponseEntity<?> registerAdmin(@Valid @RequestBody AdminCreateRequest request) {
+        if (userService.existsByName(request.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+        }
 
+        if (userService.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        User user = User
+                .builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(encoder.encode(request.getPassword()))
+                .build();
+
+        Role role = roleService.findByName(RoleType.ROLE_ADMIN);
+        user.setRole(role);
+        userService.createNewUser(user);
+        Admin admin = new Admin();
+        admin.setName(user.getName());
+        admin.setId(user.getId());
+        adminService.createNewAdmin(admin);
+        return ResponseEntity.ok(new MessageResponse("Admin created successfully!"));
+
+    }
 
     }
