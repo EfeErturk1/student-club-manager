@@ -190,6 +190,10 @@ public class AuthController {
         if(!((studentService.findById(idHolder.getId()).getJoinedEvents() == null) || (studentService.findById(idHolder.getId()).getJoinedEvents().size() == 0))){
             return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the events you joined!"));
         }
+
+        if(!((studentService.findById(idHolder.getId()).getAssignments() == null) || (studentService.findById(idHolder.getId()).getAssignments().size() == 0))){
+            return ResponseEntity.ok(new MessageResponse("To delete, firstly you should not have an assigned assignment, talk with your club advisor!"));
+        }
         studentService.findById(idHolder.getId()).setJoinedEvents(null);
         studentService.findById(idHolder.getId()).setRolesOfStudent(null);
         studentService.findById(idHolder.getId()).setAssignments(null);

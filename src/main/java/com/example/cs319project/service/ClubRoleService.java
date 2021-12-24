@@ -8,6 +8,8 @@ import java.util.List;
 public interface ClubRoleService {
     List<ClubRole> findByClubId(Integer id);
     List<ClubRole> findByStudentId(Integer id);
-    ClubRole assignNewRole(ClubRole role);
+    ClubRole promote(ClubRole role);
+    ClubRole demote(ClubRole role);
     void deleteRole(ClubRole role);
+    ClubRole findStudentsRoleInClub(Integer studentId,Integer clubId);
 }
