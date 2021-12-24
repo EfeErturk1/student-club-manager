@@ -148,7 +148,7 @@ public class ClubController {
                 ClubRoleResponse roleResponse = ClubRoleResponse.builder().clubId(club.getId()).studentId(role.getStudent().getId()).id(role.getId()).name(role.getName()).build();
                 rolesOfClub.add(roleResponse);
             }
-            System.out.println(eventNumber);
+
             ClubResponse response = ClubResponse.builder().name(club.getName()).
                     photos(club.getPhotos()).description(club.getDescription()).
                     id(club.getId()).numberOfEvents(eventNumber).roles(rolesOfClub).build();
@@ -166,8 +166,15 @@ public class ClubController {
     @GetMapping(value = "/getStudentClub", produces =  MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Club>> getClubOfStudent(@RequestParam(name = "id") int  idHolder) {
         List<ClubRole> clubRoles = clubRoleService.findByStudentId(idHolder);
+        List<ClubResponse> clubs = new ArrayList<>();
         List<Club> clubsOfStudent = new ArrayList<>();
+        Set<ClubRoleResponse> rolesOfClub = new HashSet<>();
         for(ClubRole role: clubRoles){
+            int eventNumber = (int) eventService.findNumberOfEventsOfClub(clubService.findById(role.getClub().getId()));
+            ClubResponse response = ClubResponse.builder().name((clubService.findById(role.getClub().getId())).getName()).
+                    photos((clubService.findById(role.getClub().getId())).getPhotos()).description((clubService.findById(role.getClub().getId())).getDescription()).
+                    id((clubService.findById(role.getClub().getId())).getId()).numberOfEvents(eventNumber).roles(rolesOfClub).build();
+            clubs.add(response);
             clubsOfStudent.add(clubService.findById(role.getClub().getId()));
         }
         return ResponseEntity.ok(clubsOfStudent);
