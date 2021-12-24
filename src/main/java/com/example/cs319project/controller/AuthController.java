@@ -138,10 +138,9 @@ public class AuthController {
         Advisor advisor = new Advisor();
         advisor.setName(user.getName());
         advisor.setId(user.getId());
-        Club club = clubService.findById(request.getClubId());
-        advisor.setClub(club);
+        advisor.setClub(null);
         advisorService.createNewAdvisor(advisor);
-        return ResponseEntity.ok(new MessageResponse("Advisor created successfully!"));
+        return ResponseEntity.ok(new MessageResponse("Advisor created successfully! " + user.getId()));
 
     }
 
