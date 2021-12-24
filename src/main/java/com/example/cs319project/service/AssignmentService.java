@@ -12,4 +12,5 @@ public interface AssignmentService {
     void deleteAssignment(Assignment assignment);
     List<Assignment> findAll();
     Assignment findAssignmentHasDocument(Document document);
+    Assignment saveAssignment(Assignment assignment);
 }

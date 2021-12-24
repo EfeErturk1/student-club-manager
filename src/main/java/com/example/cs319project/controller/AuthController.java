@@ -62,8 +62,8 @@ public class AuthController {
 
         // finding club
         Club club = null;
-        if(advisorService.findById(userDetails.getId()) != null){
-             club = advisorService.findById(userDetails.getId()).getClub();
+        if (advisorService.findById(userDetails.getId()) != null) {
+            club = advisorService.findById(userDetails.getId()).getClub();
         }
         JwtResponse response = JwtResponse
                 .builder()
@@ -74,11 +74,11 @@ public class AuthController {
                 .roles(roles)
                 .build();
 
-        if(club != null){
+        if (club != null) {
             response.setClubId(club.getId());
             return response;
         }
-            return response;
+        return response;
 
 
     }
@@ -177,8 +177,12 @@ public class AuthController {
         if (studentService.findById(idHolder.getId()) == null) {
             return ResponseEntity.ok(new MessageResponse("Student doesnot exists"));
         }
+        Student student = studentService.findById(idHolder.getId());
+        studentService.deleteStudent(student);
+        userService.deleteUser(userService.findById(idHolder.getId()));
+        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));
 
-        if(!((studentService.findById(idHolder.getId()).getRolesOfStudent() == null) || (studentService.findById(idHolder.getId()).getRolesOfStudent().size() == 0))){
+        /*if(!((studentService.findById(idHolder.getId()).getRolesOfStudent() == null) || (studentService.findById(idHolder.getId()).getRolesOfStudent().size() == 0))){
             return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the clubs that you are a member of!"));
         }
 
@@ -194,7 +198,20 @@ public class AuthController {
         studentService.findById(idHolder.getId()).setAssignments(null);
         studentService.deleteStudent(studentService.findById(idHolder.getId()));
         userService.deleteUser(userService.findById(idHolder.getId()));
-        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));
+        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));*/
     }
 
+    @PostMapping("/updateStudentProfile")
+    public ResponseEntity<?> updateStudent(@Valid @RequestBody StudentResponse response) {
+        Student student = studentService.findById(response.getId());
+        studentService.updateStudent(response);
+        return ResponseEntity.ok(new MessageResponse("Profile has been edited"));
     }
+
+    @GetMapping("/getStudentInfo")
+    public ResponseEntity<StudentResponse> getStudent(@RequestParam(name="id") int id) {
+        Student student = studentService.findById(id);
+        StudentResponse response = StudentResponse.builder().name(student.getName()).id(id).ge250(student.getGe250()).build();
+        return ResponseEntity.ok(response);
+    }
+}

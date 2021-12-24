@@ -36,8 +36,9 @@ public class Document {
 
     private Date submission_date;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "studentId")
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="student_id", nullable=false)
     private Student author;
 
     @ManyToOne

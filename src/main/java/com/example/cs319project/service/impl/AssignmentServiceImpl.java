@@ -46,4 +46,9 @@ public class AssignmentServiceImpl implements AssignmentService {
         documents.add(document);
         return repository.findAllByDocumentsIn(documents);
     }
+
+    @Override
+    public Assignment saveAssignment(Assignment assignment) {
+        return repository.save(assignment);
+    }
 }
