@@ -72,7 +72,7 @@ public class ClubController {
             Club registeredClub = clubService.findById(clubId);
             Student registeringStudent = studentService.findById(studentId);
             ClubRole clubRole = ClubRole.builder().name(ClubRoleName.MEMBER).student(registeringStudent).club(registeredClub).build();
-            clubRoleService.assignNewRole(clubRole);
+            clubRoleService.promote(clubRole);
             return ResponseEntity.ok(new MessageResponse("Student successfully become a member"));
         }
         else{
@@ -200,13 +200,13 @@ public class ClubController {
         for(ClubRole role: studentRoles){
             if(role.getClub().getId() == idHolder.getClubId()){
                 role.setName(ClubRoleName.PRESIDENT);
-                clubRoleService.assignNewRole(role);
+                clubRoleService.promote(role);
                 return ResponseEntity.ok(new MessageResponse("Member has become a president"));
             }
         }
 
         ClubRole newRole = ClubRole.builder().student(student).club(club).name(ClubRoleName.PRESIDENT).build();
-        clubRoleService.assignNewRole(newRole);
+        clubRoleService.promote(newRole);
         return ResponseEntity.ok(new MessageResponse("Club has a president now"));
     }
 
