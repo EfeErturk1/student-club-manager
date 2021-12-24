@@ -11,4 +11,5 @@ public interface StudentService {
     Student createNewStudent(Student student);
     Set<Student> findAllStudentRegisteredEvent(Event event);
     Student saveorUpdateStudent(Student student);
+    void deleteStudent(Student student);
 }

@@ -130,6 +130,8 @@ public class EventController {
             alreadyRegisteredStudents.remove(registeringStudent);
             registeredEvent.setParticipants(alreadyRegisteredStudents);
             registeredEvent.setRemainingQuota(registeredEvent.getRemainingQuota() + 1);
+            studentService.findById(studentId).setGe250(studentService.findById(studentId).getGe250() - eventService.findByEventId(eventId).getGe250());
+            studentService.saveorUpdateStudent(studentService.findById(studentId));
             eventService.saveEvent(registeredEvent);
             return ResponseEntity.ok(new MessageResponse("You left the event registered."));
         }

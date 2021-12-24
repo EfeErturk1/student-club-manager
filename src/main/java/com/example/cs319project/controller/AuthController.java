@@ -173,4 +173,25 @@ public class AuthController {
 
     }
 
+    @PostMapping(value = "/deleteStudent")
+    public ResponseEntity<?> deleteStudent(@Valid @RequestBody IdHolder idHolder) {
+        if (studentService.findById(idHolder.getId()) == null) {
+            return ResponseEntity.ok(new MessageResponse("Student doesnot exists"));
+        }
+
+        if(!((studentService.findById(idHolder.getId()).getRolesOfStudent() == null) || (studentService.findById(idHolder.getId()).getRolesOfStudent().size() == 0))){
+            return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the clubs that you are a member of!"));
+        }
+
+        if(!((studentService.findById(idHolder.getId()).getJoinedEvents() == null) || (studentService.findById(idHolder.getId()).getJoinedEvents().size() == 0))){
+            return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the events you joined!"));
+        }
+        studentService.findById(idHolder.getId()).setJoinedEvents(null);
+        studentService.findById(idHolder.getId()).setRolesOfStudent(null);
+        studentService.findById(idHolder.getId()).setAssignments(null);
+        studentService.deleteStudent(studentService.findById(idHolder.getId()));
+        userService.deleteUser(userService.findById(idHolder.getId()));
+        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));
+    }
+
     }
