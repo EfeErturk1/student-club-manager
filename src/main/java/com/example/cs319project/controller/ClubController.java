@@ -42,7 +42,6 @@ public class ClubController {
                 return ResponseEntity.ok(new MessageResponse("Advisor already have a club first try to remove advisor's club!"));
             }
             advisor.setClub(club);
-            advisorService.createNewAdvisor(advisor); //it calls save method of repository so it updates as well
         }
 
         clubService.createNewClub(club);
