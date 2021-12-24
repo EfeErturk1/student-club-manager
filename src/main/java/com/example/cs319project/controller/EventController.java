@@ -141,6 +141,12 @@ public class EventController {
 
     @GetMapping(value = "/allEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Event>> allEvents(){
+        List<Event> allEvents = eventService.findAll();
+        List<EventResponse> events = new ArrayList<>();
+        for(Event event: allEvents){
+            EventResponse response = EventResponse.builder().eventId(event.getEventId()).status(event.getStatus()).build();
+            events.add(response);
+        }
         return ResponseEntity.ok(eventService.findAll());
     }
 
