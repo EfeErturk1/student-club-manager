@@ -178,8 +178,12 @@ public class AuthController {
         if (studentService.findById(idHolder.getId()) == null) {
             return ResponseEntity.ok(new MessageResponse("Student doesnot exists"));
         }
+        Student student = studentService.findById(idHolder.getId());
+        studentService.deleteStudent(student);
+        userService.deleteUser(userService.findById(idHolder.getId()));
+        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));
 
-        if(!((studentService.findById(idHolder.getId()).getRolesOfStudent() == null) || (studentService.findById(idHolder.getId()).getRolesOfStudent().size() == 0))){
+        /*if(!((studentService.findById(idHolder.getId()).getRolesOfStudent() == null) || (studentService.findById(idHolder.getId()).getRolesOfStudent().size() == 0))){
             return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the clubs that you are a member of!"));
         }
 
@@ -191,7 +195,7 @@ public class AuthController {
         studentService.findById(idHolder.getId()).setAssignments(null);
         studentService.deleteStudent(studentService.findById(idHolder.getId()));
         userService.deleteUser(userService.findById(idHolder.getId()));
-        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));
+        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));*/
     }
 
     }

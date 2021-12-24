@@ -30,7 +30,7 @@ public class Student {
     private Set<ClubRole> rolesOfStudent;
 
     @JsonManagedReference
-    @ManyToMany(mappedBy = "participants")
+    @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL)
     Set<Event> joinedEvents;
 
     @JsonManagedReference
@@ -40,5 +40,8 @@ public class Student {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_photo", referencedColumnName = "id")
     private FileDB profilePhoto;
+
+    @OneToMany(mappedBy="author", cascade = CascadeType.REMOVE)
+    private Set<Document> documentFilledByStudent;
 
 }

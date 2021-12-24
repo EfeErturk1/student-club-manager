@@ -9,4 +9,5 @@ public interface DocumentService {
     Document addDocument(Document document);
     void removeDocument(Document document);
     List<Document> findAll();
+    Document saveDocument(Document document);
 }

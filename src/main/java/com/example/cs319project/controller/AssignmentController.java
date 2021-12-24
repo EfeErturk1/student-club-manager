@@ -44,6 +44,23 @@ public class AssignmentController {
         return ResponseEntity.ok(new MessageResponse("Assignment added successfully!"));
     }
 
+    @PostMapping(value = "/addDocumentsToAssignment")
+    public ResponseEntity<?> addDocumentToAssignment(@Valid @RequestBody  DocumentAssignmentIdHolder idHolder){
+        Assignment assignment = assignmentService.findByAssignmentId(idHolder.getAssignmentId());
+        Set<Document> documentOfAssignment = new HashSet<>();
+
+        for(int id: idHolder.getDocumentIds()){
+            Document document = documentService.findByDocumentId(id);
+            document.setBelongsToAssignment(assignment);
+            documentService.saveDocument(document);
+            documentOfAssignment.add(document);
+        }
+        assignment.setDocuments(documentOfAssignment);
+        assignmentService.saveAssignment(assignment);
+        return ResponseEntity.ok(new MessageResponse("Document added to assignment successfully!"));
+    }
+
+
     @PostMapping(value = "/deleteAssignment")
     public ResponseEntity<?> deleteAssignment(@Valid @RequestBody IdHolder id) {
         assignmentService.deleteAssignment(assignmentService.findByAssignmentId(id.getId()));

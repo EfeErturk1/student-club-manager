@@ -37,4 +37,9 @@ public class DocumentServiceImpl implements DocumentService{
     public List<Document> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public Document saveDocument(Document document) {
+        return repository.save(document);
+    }
 }
