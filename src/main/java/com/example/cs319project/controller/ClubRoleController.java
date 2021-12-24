@@ -84,7 +84,7 @@ public class ClubRoleController {
             role.setName(ClubRoleName.ACTIVE_MEMBER);
         else if (role.getName() == ClubRoleName.PRESIDENT)
             role.setName(ClubRoleName.BOARD_MEMBER);
-        clubRoleService.promote(role);
+        clubRoleService.demote(role);
         return ResponseEntity.ok(new MessageResponse("Role has been updated"));
     }
 
