@@ -1,11 +1,15 @@
 package com.example.cs319project.service.impl;
 
+import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
+import com.example.cs319project.model.request.StudentResponse;
 import com.example.cs319project.repository.StudentRepository;
 import com.example.cs319project.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +26,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteStudent(Student student){
         repository.delete(student);
+    }
+
+    @Override
+    public void updateStudent(StudentResponse dto) {
+        Student origStudent = repository.findStudentById(dto.getId());
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT).setSkipNullEnabled(true);
+        mapper.map(dto, origStudent);
+        repository.save(origStudent);
     }
 
     @Override

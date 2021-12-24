@@ -62,8 +62,8 @@ public class AuthController {
 
         // finding club
         Club club = null;
-        if(advisorService.findById(userDetails.getId()) != null){
-             club = advisorService.findById(userDetails.getId()).getClub();
+        if (advisorService.findById(userDetails.getId()) != null) {
+            club = advisorService.findById(userDetails.getId()).getClub();
         }
         JwtResponse response = JwtResponse
                 .builder()
@@ -74,11 +74,11 @@ public class AuthController {
                 .roles(roles)
                 .build();
 
-        if(club != null){
+        if (club != null) {
             response.setClubId(club.getId());
             return response;
         }
-            return response;
+        return response;
 
 
     }
@@ -201,4 +201,10 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));*/
     }
 
+    @PostMapping("/updateStudentProfile")
+    public ResponseEntity<?> updateStudent(@Valid @RequestBody StudentResponse response) {
+        Student student = studentService.findById(response.getId());
+        studentService.updateStudent(response);
+        return ResponseEntity.ok(new MessageResponse("Profile has been edited"));
     }
+}
