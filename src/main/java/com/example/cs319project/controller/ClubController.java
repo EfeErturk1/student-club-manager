@@ -1,10 +1,7 @@
 package com.example.cs319project.controller;
 
 import com.example.cs319project.dto.ClubDto;
-import com.example.cs319project.model.Advisor;
-import com.example.cs319project.model.Club;
-import com.example.cs319project.model.Event;
-import com.example.cs319project.model.Student;
+import com.example.cs319project.model.*;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.clubstrategy.ClubRoleName;
 import com.example.cs319project.model.request.*;
@@ -32,6 +29,7 @@ public class ClubController {
     private final StudentService studentService;
     private final AdvisorService advisorService;
     private final EventService eventService;
+    private final AssignmentService assignmentService;
 
     @PostMapping(value = "/addClub")
     public ResponseEntity<?> addClub(@Valid @RequestBody ClubCreateRequest clubRequest){
@@ -72,6 +70,16 @@ public class ClubController {
             Student registeringStudent = studentService.findById(studentId);
             ClubRole clubRole = ClubRole.builder().name(ClubRoleName.MEMBER).student(registeringStudent).club(registeredClub).build();
             clubRoleService.promote(clubRole);
+
+            List<Assignment> assignments = assignmentService.findAll();
+            for(Assignment assignment: assignments){
+                if(assignment.getClubId() == clubId){
+                    Set<Student> students = assignment.getAssignees();
+                    students.add(registeringStudent);
+                    assignment.setAssignees(students);
+                    assignmentService.saveAssignment(assignment);
+                }
+            }
             return ResponseEntity.ok(new MessageResponse("Student successfully become a member"));
         }
         else{
@@ -108,6 +116,24 @@ public class ClubController {
             for(ClubRole role: studentRoles){
                 if(role.getClub().getId() == registeredClub.getId()){
                     clubRoleService.deleteRole(role);
+
+                    //deleting from assignees
+                    List<Assignment> allAssignments  = assignmentService.findAll();
+                    List<Assignment> clubAssignments = new ArrayList<>();
+
+                    for(Assignment assigment: allAssignments){
+                        if(assigment.getClubId() == clubId){
+                            clubAssignments.add(assigment);
+                        }
+                    }
+
+                    for(Assignment assignment: clubAssignments){
+                        Set<Student> assigned = assignment.getAssignees();
+                        assigned.remove(registeringStudent);
+                        assignment.setAssignees(assigned);
+                        assignmentService.saveAssignment(assignment);
+                    }
+
                     return ResponseEntity.ok(new MessageResponse("You left the club"));
                 }
             }

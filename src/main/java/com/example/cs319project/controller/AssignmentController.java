@@ -107,5 +107,17 @@ public class AssignmentController {
         }
         return ResponseEntity.ok(assignments);
     }
+
+    @GetMapping(value = "/getStudentAssignment")
+    public @ResponseBody ResponseEntity<List<Assignment>> getClubAssignment(@RequestParam(name = "id") int idHolder) {
+        List<Assignment> assignments = assignmentService.findAll();
+        List<Assignment> assignmentOfClub = new ArrayList<>();
+        for(Assignment assignment: assignments){
+            if(assignment.getClubId() == idHolder){
+                assignmentOfClub.add(assignment);
+            }
+        }
+        return ResponseEntity.ok(assignmentOfClub);
+    }
 }
 
