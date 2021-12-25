@@ -19,5 +19,6 @@ public interface EventService {
     void saveEvent(Event event);
     void updateEvent(EventDto event);
     long findNumberOfEventsOfClub(Club club);
+    Event saveorUpdate(Event event);
     //void joinEvent(Event event, Student student);
 }
