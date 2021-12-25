@@ -45,9 +45,11 @@ public class EventController {
             notifieds.add(student);
         }
 
+        String str = "There is a new Event with name " + event.getName();
+
         Notification notification = Notification.builder()
                 .date(addEventRequest.getEventDate())
-                .description(addEventRequest.getDescription())
+                .description(str)
                 .clubId(addEventRequest.getClubId())
                 .isRequest(false)
                 .notified_people(notifieds).build();

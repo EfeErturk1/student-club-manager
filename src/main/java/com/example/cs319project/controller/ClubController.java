@@ -89,7 +89,7 @@ public class ClubController {
             Set<Club> notifieds = new HashSet<>();
             notifieds.add(registeredClub);
 
-            String str = "New member with id " + registeringStudent.getId() + " has joined the club!";
+            String str = "New member with name " + registeringStudent.getName() + " has joined the club!";
 
             Notification notification = Notification.builder()
                     .date(null)
@@ -139,7 +139,7 @@ public class ClubController {
                     Set<Club> notifieds = new HashSet<>();
                     notifieds.add(registeredClub);
 
-                    String str = "Member with id " + registeringStudent.getId() + " has left the club!";
+                    String str = "Member with name " + registeringStudent.getName() + " has left the club!";
 
                     Notification notification = Notification.builder()
                             .date(null)

@@ -51,9 +51,11 @@ public class AssignmentController {
             notifieds.add(student);
         }
 
+        String str = "Assignment with name " + assignment.getName() + " is assigned!";
+
         Notification notification = Notification.builder()
                 .date(null) // request.getDue_date().toString() niyeyse stringe çevirmiyo, o yüzden null
-                .description(request.getDescription())
+                .description(str)
                 .clubId(request.getClubId())
                 .isRequest(false)
                 .notified_people(notifieds).build();
@@ -108,7 +110,7 @@ public class AssignmentController {
         Set<Club> notifieds = new HashSet<>();
         notifieds.add(clubService.findById(assignment.getClubId()));
 
-        String str = "Assignment with id " + id.getId() + " is completed!";
+        String str = "Assignment with name " + assignment.getName() + " is completed!";
 
         Notification notification = Notification.builder()
                 .date(null)
