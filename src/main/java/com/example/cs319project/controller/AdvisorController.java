@@ -3,10 +3,7 @@ package com.example.cs319project.controller;
 
 import com.example.cs319project.dto.AdvisorDto;
 import com.example.cs319project.dto.ClubDto;
-import com.example.cs319project.model.Advisor;
-import com.example.cs319project.model.Club;
-import com.example.cs319project.model.Event;
-import com.example.cs319project.model.Student;
+import com.example.cs319project.model.*;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.clubstrategy.ClubRoleName;
 import com.example.cs319project.model.request.*;
@@ -21,10 +18,7 @@ import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,6 +31,7 @@ public class AdvisorController {
     private final StudentService studentService;
     private final EventService eventService;
     private final AdvisorService advisorService;
+    private final NotificationService notificationService;
 
     @GetMapping(value= "/advisorView", produces =  MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Advisor> advisorView(@RequestParam(name = "id") int idHolder) {
@@ -64,6 +59,20 @@ public class AdvisorController {
         }
         event.setStatus("REJECTED");
         eventService.saveEvent(event);
+
+        Set<Club> notifieds = new HashSet<>();
+        notifieds.add(clubService.findById(event.getClubId()));
+
+        String str = "Event with name " + event.getName() + " is rejected!";
+
+        Notification notification = Notification.builder()
+                .date(null)
+                .description(str)
+                .clubId(event.getClubId())
+                .isRequest(false)
+                .notified_clubs(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Event has been rejected successfully"));
     }
 
@@ -75,6 +84,20 @@ public class AdvisorController {
         }
         event.setStatus("ACCEPTED");
         eventService.saveEvent(event);
+
+        Set<Club> notifieds = new HashSet<>();
+        notifieds.add(clubService.findById(event.getClubId()));
+
+        String str = "Event with name " + event.getName() + " is accepted!";
+
+        Notification notification = Notification.builder()
+                .date(null)
+                .description(str)
+                .clubId(event.getClubId())
+                .isRequest(false)
+                .notified_clubs(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Event has been accepted successfully"));
     }
 

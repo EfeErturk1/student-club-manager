@@ -30,6 +30,7 @@ public class ClubController {
     private final AdvisorService advisorService;
     private final EventService eventService;
     private final AssignmentService assignmentService;
+    private final NotificationService notificationService;
 
     @PostMapping(value = "/addClub")
     public ResponseEntity<?> addClub(@Valid @RequestBody ClubCreateRequest clubRequest){
@@ -41,8 +42,23 @@ public class ClubController {
             }
             advisor.setClub(club);
         }
-
         clubService.createNewClub(club);
+
+        Set<Student> notifieds = new HashSet<>();
+
+        for(Student s: studentService.findAll()){
+            notifieds.add(s);
+        }
+
+        String str = clubRequest.getName() + " is now opened!. " + clubRequest.getDescription();
+
+        Notification notification = Notification.builder()
+                .description(str)
+                .clubId(club.getId())
+                .isRequest(false)
+                .notified_people(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Club added successfully!"));
     }
 
@@ -80,6 +96,19 @@ public class ClubController {
                     assignmentService.saveAssignment(assignment);
                 }
             }
+            Set<Club> notifieds = new HashSet<>();
+            notifieds.add(registeredClub);
+
+            String str = "New member with name " + registeringStudent.getName() + " has joined the club!";
+
+            Notification notification = Notification.builder()
+                    .date(null)
+                    .description(str)
+                    .clubId(clubId)
+                    .isRequest(true)
+                    .notified_clubs(notifieds).build();
+            notificationService.createNewNotification(notification);
+
             return ResponseEntity.ok(new MessageResponse("Student successfully become a member"));
         }
         else{
@@ -134,6 +163,18 @@ public class ClubController {
                         assignmentService.saveAssignment(assignment);
                     }
 
+                    Set<Club> notifieds = new HashSet<>();
+                    notifieds.add(registeredClub);
+
+                    String str = "Member with name " + registeringStudent.getName() + " has left the club!";
+
+                    Notification notification = Notification.builder()
+                            .date(null)
+                            .description(str)
+                            .clubId(clubId)
+                            .isRequest(false)
+                            .notified_clubs(notifieds).build();
+                    notificationService.createNewNotification(notification);
                     return ResponseEntity.ok(new MessageResponse("You left the club"));
                 }
             }
