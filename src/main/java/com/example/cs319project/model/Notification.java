@@ -42,4 +42,12 @@ public class Notification {
             joinColumns = @JoinColumn(name = "notificationId"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     Set<Student> notified_people;
+
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "notified_clubs",
+            joinColumns = @JoinColumn(name = "notification_id"),
+            inverseJoinColumns = @JoinColumn(name = "club_id"))
+    Set<Club> notified_clubs;
 }

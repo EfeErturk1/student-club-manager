@@ -104,6 +104,20 @@ public class AssignmentController {
             return ResponseEntity.ok(new MessageResponse("There is no such assignment"));
         assignment.setStatus(true);
         assignmentService.createNewAssignment(assignment);
+
+        Set<Club> notifieds = new HashSet<>();
+        notifieds.add(clubService.findById(assignment.getClubId()));
+
+        String str = "Assignment with id " + id.getId() + " is completed!";
+
+        Notification notification = Notification.builder()
+                .date(null)
+                .description(str)
+                .clubId(assignment.getClubId())
+                .isRequest(false)
+                .notified_clubs(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Assignment completed successfully!"));
     }
 

@@ -85,6 +85,20 @@ public class ClubController {
             Student registeringStudent = studentService.findById(studentId);
             ClubRole clubRole = ClubRole.builder().name(ClubRoleName.MEMBER).student(registeringStudent).club(registeredClub).build();
             clubRoleService.promote(clubRole);
+
+            Set<Club> notifieds = new HashSet<>();
+            notifieds.add(registeredClub);
+
+            String str = "New member with id " + registeringStudent.getId() + " has joined the club!";
+
+            Notification notification = Notification.builder()
+                    .date(null)
+                    .description(str)
+                    .clubId(clubId)
+                    .isRequest(true)
+                    .notified_clubs(notifieds).build();
+            notificationService.createNewNotification(notification);
+
             return ResponseEntity.ok(new MessageResponse("Student successfully become a member"));
         }
         else{
@@ -121,6 +135,19 @@ public class ClubController {
             for(ClubRole role: studentRoles){
                 if(role.getClub().getId() == registeredClub.getId()){
                     clubRoleService.deleteRole(role);
+
+                    Set<Club> notifieds = new HashSet<>();
+                    notifieds.add(registeredClub);
+
+                    String str = "Member with id " + registeringStudent.getId() + " has left the club!";
+
+                    Notification notification = Notification.builder()
+                            .date(null)
+                            .description(str)
+                            .clubId(clubId)
+                            .isRequest(false)
+                            .notified_clubs(notifieds).build();
+                    notificationService.createNewNotification(notification);
                     return ResponseEntity.ok(new MessageResponse("You left the club"));
                 }
             }
