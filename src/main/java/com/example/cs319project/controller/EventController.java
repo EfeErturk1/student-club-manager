@@ -38,10 +38,10 @@ public class EventController {
 
 
     @PostMapping(value = "/addEvent")
-    public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
+    public ResponseEntity<Event> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
         Event event = Event.builder().status("NOT_DECIDED").name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).eventFinish(addEventRequest.getFinishDate()).photos(addEventRequest.getPhotos()).ge250(addEventRequest.getGe250()).build();
         eventService.addEvent(event);
-        return ResponseEntity.ok(new MessageResponse("Event added successfully!"));
+        return ResponseEntity.ok(event);
     }
 
     @PostMapping(value = "/deleteEvent")

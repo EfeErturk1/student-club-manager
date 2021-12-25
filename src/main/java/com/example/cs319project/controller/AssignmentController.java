@@ -67,6 +67,14 @@ public class AssignmentController {
         return ResponseEntity.ok(new MessageResponse("Assignment deleted successfully!"));
     }
 
+    @PostMapping(value="/updateSubmission")
+    public ResponseEntity<?> updateSubmissionInfo(@Valid @RequestBody SubmissionRequest submission) {
+        Assignment assignment = assignmentService.findByAssignmentId(submission.getId());
+        assignment.setSubmissionDes(submission.getDescription());
+        assignmentService.saveAssignment(assignment);
+        return ResponseEntity.ok(new MessageResponse("Assignment has been submitted successfully!"));
+    }
+
 
     @GetMapping(value = "/allAssignments", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Assignment>> all(){

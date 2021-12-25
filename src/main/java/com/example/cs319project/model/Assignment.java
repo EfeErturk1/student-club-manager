@@ -33,6 +33,8 @@ public class Assignment {
 
     private String description;
 
+    private String submissionDes;
+
     private int clubId;
 
     private boolean status; // 0 if non-complete, 1 if complete
