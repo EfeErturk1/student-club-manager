@@ -22,6 +22,8 @@ public class EventDto {
 
     private int clubId;
 
+    private int ge250;
+
     private String description;
 
     private String eventDate;
