@@ -2,10 +2,7 @@ package com.example.cs319project.controller;
 
 
 import com.example.cs319project.dto.EventDto;
-import com.example.cs319project.model.Advisor;
-import com.example.cs319project.model.Club;
-import com.example.cs319project.model.Event;
-import com.example.cs319project.model.Student;
+import com.example.cs319project.model.*;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.clubstrategy.ClubRoleName;
 import com.example.cs319project.model.request.*;
@@ -20,10 +17,7 @@ import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,12 +29,32 @@ public class EventController {
     private final ClubRoleService clubRoleService;
     private final StudentService studentService;
     private final EventService eventService;
+    private final NotificationService notificationService;
 
 
     @PostMapping(value = "/addEvent")
     public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
         Event event = Event.builder().status("NOT_DECIDED").name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).eventFinish(addEventRequest.getFinishDate()).photos(addEventRequest.getPhotos()).ge250(addEventRequest.getGe250()).build();
         eventService.addEvent(event);
+
+        List<ClubRole> clubRoles = clubRoleService.findByClubId(addEventRequest.getClubId());
+        Set<Student> notifieds = new HashSet<>();
+
+        for(ClubRole role: clubRoles){
+            Student student = studentService.findById(role.getStudent().getId());
+            notifieds.add(student);
+        }
+
+        String str = "There is a new Event with name " + event.getName();
+
+        Notification notification = Notification.builder()
+                .date(addEventRequest.getEventDate())
+                .description(str)
+                .clubId(addEventRequest.getClubId())
+                .isRequest(false)
+                .notified_people(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Event added successfully!"));
     }
 

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.aspectj.weaver.ast.Not;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -37,9 +38,12 @@ public class Student {
     @ManyToMany(mappedBy = "assignees")
     Set<Assignment> assignments;
 
-    /*@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_photo", referencedColumnName = "id")
-    private FileDB profilePhoto;*/
+
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "notified_people")
+    Set<Notification> notifications;
+
+
 
     private String profilePhotoName;
 

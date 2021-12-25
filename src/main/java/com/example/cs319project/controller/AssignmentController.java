@@ -29,6 +29,7 @@ public class AssignmentController {
     private final StudentService studentService;
     private final DocumentService documentService;
     private final AssignmentService assignmentService;
+    private final NotificationService notificationService;
 
 
     @PostMapping(value = "/addAssignment")
@@ -41,6 +42,25 @@ public class AssignmentController {
         }
         Assignment assignment = Assignment.builder().due_date(request.getDue_date()).name(request.getName()).description(request.getDescription()).clubId(request.getClubId()).assignees(assignedStudent).build();
         assignmentService.createNewAssignment(assignment);
+
+        List<ClubRole> clubRoles = clubRoleService.findByClubId(request.getClubId());
+        Set<Student> notifieds = new HashSet<>();
+
+        for(ClubRole role: clubRoles){
+            Student student = studentService.findById(role.getStudent().getId());
+            notifieds.add(student);
+        }
+
+        String str = "Assignment with name " + assignment.getName() + " is assigned!";
+
+        Notification notification = Notification.builder()
+                .date(null) // request.getDue_date().toString() niyeyse stringe çevirmiyo, o yüzden null
+                .description(str)
+                .clubId(request.getClubId())
+                .isRequest(false)
+                .notified_people(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Assignment added successfully!"));
     }
 
@@ -86,6 +106,20 @@ public class AssignmentController {
             return ResponseEntity.ok(new MessageResponse("There is no such assignment"));
         assignment.setStatus(true);
         assignmentService.createNewAssignment(assignment);
+
+        Set<Club> notifieds = new HashSet<>();
+        notifieds.add(clubService.findById(assignment.getClubId()));
+
+        String str = "Assignment with name " + assignment.getName() + " is completed!";
+
+        Notification notification = Notification.builder()
+                .date(null)
+                .description(str)
+                .clubId(assignment.getClubId())
+                .isRequest(false)
+                .notified_clubs(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Assignment completed successfully!"));
     }
 
