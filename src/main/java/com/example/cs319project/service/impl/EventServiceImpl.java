@@ -81,4 +81,9 @@ public class EventServiceImpl implements EventService {
         return repository.countAllByClubId(id);
     }
 
+    @Override
+    public Event saveorUpdate(Event event) {
+        return repository.save(event);
+    }
+
 }

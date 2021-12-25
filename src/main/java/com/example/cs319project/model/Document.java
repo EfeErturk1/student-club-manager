@@ -30,9 +30,9 @@ public class Document {
     @Column(nullable = true, length = 64)
     private String document_name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    /*@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "file", referencedColumnName = "id")
-    private FileDB document_file;
+    private FileDB document_file;*/
 
     private Date submission_date;
 

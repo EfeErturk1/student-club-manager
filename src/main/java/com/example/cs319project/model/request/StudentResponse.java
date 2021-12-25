@@ -24,5 +24,7 @@ public class StudentResponse {
 
     private int ge250;
 
+    private String photoName;
+
     private ClubRoleName role;
 }

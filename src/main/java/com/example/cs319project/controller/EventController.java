@@ -201,6 +201,9 @@ public class EventController {
     public ResponseEntity<?> editEvent(@Valid @RequestBody EventDto dto) {
         System.out.println(dto.getId());
         eventService.updateEvent(dto);
+        Event event = eventService.findByEventId(dto.getId());
+        event.setStatus("NOT_DECIDED");
+        eventService.saveorUpdate(event);
         return ResponseEntity.ok(new MessageResponse("Event has been updated"));
     }
 

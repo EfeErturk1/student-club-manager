@@ -33,17 +33,17 @@ public class DocumentController {
     private final ClubRoleService clubRoleService;
     private final StudentService studentService;
     private final DocumentService documentService;
-    @Autowired
-    private FileStorageService storageService;
+    //@Autowired
+    //private FileStorageService storageService;
 
 
     @PostMapping(value = "/addDocument")
     public ResponseEntity<?> addDocument(@RequestParam("file") MultipartFile file, @RequestParam(name="json") String json) throws IOException {
-        FileDB fileDB = storageService.store(file);
+        //FileDB fileDB = storageService.store(file);
         ObjectMapper mapper = new ObjectMapper();
         DocumentRequest request = mapper.readValue(json, DocumentRequest.class);
         Student student = studentService.findById(request.getAuthor());
-        Document document = Document.builder().author(student).document_name(request.getDocument_name()).document_file(fileDB).submission_date(request.getSubmission_date()).build();
+        Document document = Document.builder().author(student).document_name(request.getDocument_name()).submission_date(request.getSubmission_date()).build();
         documentService.addDocument(document);
         return ResponseEntity.ok(new MessageResponse("Document added successfully!"));
     }

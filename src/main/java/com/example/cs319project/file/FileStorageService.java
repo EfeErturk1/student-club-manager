@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
-@Service
+//@Service
 public class FileStorageService {
 
-    @Autowired
+   /* @Autowired
     private FileDBRepository fileDBRepository;
 
     public FileDB store(MultipartFile file) throws IOException {
@@ -35,5 +35,5 @@ public class FileStorageService {
 
     public Stream<FileDB> getAllFiles() {
         return fileDBRepository.findAll().stream();
-    }
+    }*/
 }
