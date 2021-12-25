@@ -1,10 +1,7 @@
 package com.example.cs319project.controller;
 
 import com.example.cs319project.dto.ClubDto;
-import com.example.cs319project.model.Advisor;
-import com.example.cs319project.model.Club;
-import com.example.cs319project.model.Event;
-import com.example.cs319project.model.Student;
+import com.example.cs319project.model.*;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.clubstrategy.ClubRoleName;
 import com.example.cs319project.model.request.*;
@@ -32,6 +29,7 @@ public class ClubController {
     private final StudentService studentService;
     private final AdvisorService advisorService;
     private final EventService eventService;
+    private final NotificationService notificationService;
 
     @PostMapping(value = "/addClub")
     public ResponseEntity<?> addClub(@Valid @RequestBody ClubCreateRequest clubRequest){
@@ -43,8 +41,23 @@ public class ClubController {
             }
             advisor.setClub(club);
         }
-
         clubService.createNewClub(club);
+
+        Set<Student> notifieds = new HashSet<>();
+
+        for(Student s: studentService.findAll()){
+            notifieds.add(s);
+        }
+
+        String str = clubRequest.getName() + " is now opened!. " + clubRequest.getDescription();
+
+        Notification notification = Notification.builder()
+                .description(str)
+                .clubId(club.getId())
+                .isRequest(false)
+                .notified_people(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Club added successfully!"));
     }
 

@@ -15,5 +15,5 @@ public interface StudentService {
     Student saveorUpdateStudent(Student student);
     void deleteStudent(Student student);
     void updateStudent(StudentResponse dto);
-
+    List<Student> findAll();
 }

@@ -29,6 +29,7 @@ public class AssignmentController {
     private final StudentService studentService;
     private final DocumentService documentService;
     private final AssignmentService assignmentService;
+    private final NotificationService notificationService;
 
 
     @PostMapping(value = "/addAssignment")
@@ -41,6 +42,23 @@ public class AssignmentController {
         }
         Assignment assignment = Assignment.builder().due_date(request.getDue_date()).name(request.getName()).description(request.getDescription()).clubId(request.getClubId()).assignees(assignedStudent).build();
         assignmentService.createNewAssignment(assignment);
+
+        List<ClubRole> clubRoles = clubRoleService.findByClubId(request.getClubId());
+        Set<Student> notifieds = new HashSet<>();
+
+        for(ClubRole role: clubRoles){
+            Student student = studentService.findById(role.getStudent().getId());
+            notifieds.add(student);
+        }
+
+        Notification notification = Notification.builder()
+                .date(null) // request.getDue_date().toString() niyeyse stringe çevirmiyo, o yüzden null
+                .description(request.getDescription())
+                .clubId(request.getClubId())
+                .isRequest(false)
+                .notified_people(notifieds).build();
+        notificationService.createNewNotification(notification);
+
         return ResponseEntity.ok(new MessageResponse("Assignment added successfully!"));
     }
 
