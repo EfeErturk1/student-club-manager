@@ -144,7 +144,7 @@ public class AssignmentController {
             AssignmentResponse response = AssignmentResponse.builder().assignmentId(assignment.getAssignmentId()).due_date(assignment.getDue_date())
                     .name(assignment.getName()).description(assignment.getDescription()).clubId(assignment.getClubId())
                     .clubName(clubService.findById(assignment.getClubId()).getName()).status(assignment.isStatus())
-                    .assignees(assignment.getAssignees()).documents(assignment.getDocuments()).build();
+                    .file(assignment.getAssignmentFile()).assignees(assignment.getAssignees()).documents(assignment.getDocuments()).build();
             assignments.add(response);
         }
         return ResponseEntity.ok(assignments);
