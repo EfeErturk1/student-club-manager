@@ -27,11 +27,19 @@ public class NotificationController {
     private final ClubService clubService;
     private final ClubRoleService clubRoleService;
     private final NotificationService notificationService;
+    private final StudentService studentService;
 
 
     @PostMapping(value = "/addNotification")
     public ResponseEntity<?> addNotification(@Valid @RequestBody NotificationCreateRequest request) {
-        Notification notification = Notification.builder().date(request.getDate()).description(request.getDescription()).clubId(request.getClubId()).isRequest(request.isRequest()).build();
+        Set<Student> notifieds = new HashSet<>();
+
+        for(int studentId: request.getNotified_people()){
+            Student student = studentService.findById(studentId);
+            notifieds.add(student);
+        }
+
+        Notification notification = Notification.builder().date(request.getDate()).description(request.getDescription()).clubId(request.getClubId()).isRequest(request.isRequest()).notified_people(notifieds).build();
         notificationService.createNewNotification(notification);
         return ResponseEntity.ok(new MessageResponse("Notification added successfully!"));
     }
