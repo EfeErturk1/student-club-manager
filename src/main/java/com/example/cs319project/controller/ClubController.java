@@ -158,9 +158,24 @@ public class ClubController {
     }
 
     @GetMapping(value= "/clubView", produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Club> getSpecificClub(@RequestParam(name = "id") int idHolder) {
+    public @ResponseBody ResponseEntity<List<ClubResponse>> getSpecificClub(@RequestParam(name = "id") int idHolder) {
+        List<ClubResponse> clubs = new ArrayList<>();
         Club club = clubService.findById(idHolder);
-        return ResponseEntity.ok(club);
+        int eventNumber = (int) eventService.findNumberOfEventsOfClub(club);
+        Set<ClubRole> roles = club.getRoles();
+        Set<ClubRoleResponse> rolesOfClub = new HashSet<>();
+
+        for(ClubRole role: roles){
+            ClubRoleResponse roleResponse = ClubRoleResponse.builder().clubId(club.getId()).studentId(role.getStudent().getId()).id(role.getId()).name(role.getName()).build();
+            rolesOfClub.add(roleResponse);
+        }
+
+        ClubResponse response = ClubResponse.builder().name(club.getName()).
+                photos(club.getPhotos()).description(club.getDescription()).
+                id(club.getId()).numberOfEvents(eventNumber).roles(rolesOfClub).build();
+        clubs.add(response);
+
+        return ResponseEntity.ok(clubs);
     }
 
     @GetMapping(value = "/getStudentClub", produces =  MediaType.APPLICATION_JSON_VALUE)
