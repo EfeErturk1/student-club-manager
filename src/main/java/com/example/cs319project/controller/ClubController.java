@@ -267,4 +267,21 @@ public class ClubController {
         return ResponseEntity.ok(studentResponses);
     }
 
+    @GetMapping(value = "/getMembersIdsOfClub",  produces =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getMembersIds(@RequestParam(name = "id") int idHolder){
+        Club club = clubService.findById(idHolder);
+        List<Integer> studentIds = new ArrayList<>();
+
+        if(club == null){
+            return ResponseEntity.ok(null);
+        }
+        List<ClubRole> clubRoles = clubRoleService.findByClubId(idHolder);
+
+        for(ClubRole role: clubRoles){
+            studentIds.add(role.getStudent().getId());
+        }
+
+        return ResponseEntity.ok(studentIds);
+    }
+
     }
