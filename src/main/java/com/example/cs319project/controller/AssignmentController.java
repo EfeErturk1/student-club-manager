@@ -93,5 +93,19 @@ public class AssignmentController {
     public @ResponseBody ResponseEntity<Assignment> getAssignment(@Valid @RequestBody IdHolder id) {
         return ResponseEntity.ok(assignmentService.findByAssignmentId(id.getId()));
     }
+
+    @GetMapping(value = "/getStudentAssignment")
+    public @ResponseBody ResponseEntity<?> getStudentAssignment(@RequestParam(name = "id") int idHolder) {
+        Set<Assignment> myAssignments = studentService.findById(idHolder).getAssignments();
+        List<AssignmentResponse> assignments = new ArrayList<>();
+        for(Assignment assignment: myAssignments){
+            AssignmentResponse response = AssignmentResponse.builder().assignmentId(assignment.getAssignmentId()).due_date(assignment.getDue_date())
+                    .name(assignment.getName()).description(assignment.getDescription()).clubId(assignment.getClubId())
+                    .clubName(clubService.findById(assignment.getClubId()).getName()).status(assignment.isStatus())
+                    .assignees(assignment.getAssignees()).documents(assignment.getDocuments()).build();
+            assignments.add(response);
+        }
+        return ResponseEntity.ok(assignments);
+    }
 }
 
