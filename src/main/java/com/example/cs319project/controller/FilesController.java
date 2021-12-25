@@ -5,8 +5,10 @@ import java.util.stream.Collectors;
 
 import com.example.cs319project.file2.FileInfo;
 import com.example.cs319project.file2.FilesStorageService;
+import com.example.cs319project.model.Assignment;
 import com.example.cs319project.model.Student;
 import com.example.cs319project.model.request.MessageResponse;
+import com.example.cs319project.service.AssignmentService;
 import com.example.cs319project.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ public class FilesController {
     FilesStorageService storageService;
 
     private final StudentService studentService;
+    private final AssignmentService assignmentService;
+
 
     @PostMapping("/upload")
     public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -54,6 +58,23 @@ public class FilesController {
             student.setProfilePhotoName(file.getOriginalFilename());
             studentService.saveorUpdateStudent(student);
             message = "Uploaded profile pic the file successfully: " + file.getOriginalFilename();
+
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
+    }
+
+    @PostMapping("/uploadAssignmentDocument")
+    public ResponseEntity<MessageResponse> uploadAssignmentDocument(@RequestParam("file") MultipartFile file, @RequestParam(name="id") int id) {
+        String message = "";
+        try {
+            storageService.save(file);
+            Assignment assignment = assignmentService.findByAssignmentId(id);
+            assignment.setAssignmentFile(file.getOriginalFilename());
+            assignmentService.saveAssignment(assignment);
+            message = "Uploaded assignment successfully: " + file.getOriginalFilename();
 
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
         } catch (Exception e) {
