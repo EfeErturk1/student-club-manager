@@ -108,7 +108,7 @@ public class AssignmentController {
         return ResponseEntity.ok(assignments);
     }
 
-    @GetMapping(value = "/getStudentAssignment")
+    @GetMapping(value = "/getClubAssignment")
     public @ResponseBody ResponseEntity<List<Assignment>> getClubAssignment(@RequestParam(name = "id") int idHolder) {
         List<Assignment> assignments = assignmentService.findAll();
         List<Assignment> assignmentOfClub = new ArrayList<>();
