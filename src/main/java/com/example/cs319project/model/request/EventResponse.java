@@ -14,5 +14,5 @@ public class EventResponse {
 
     private String status;
 
-    private int clubId;
+    private String clubName;
 }

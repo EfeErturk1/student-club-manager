@@ -144,7 +144,7 @@ public class EventController {
         List<Event> allEvents = eventService.findAll();
         List<EventResponse> events = new ArrayList<>();
         for(Event event: allEvents){
-            EventResponse response = EventResponse.builder().eventId(event.getEventId()).status(event.getStatus()).clubId(event.getClubId()).build();
+            EventResponse response = EventResponse.builder().eventId(event.getEventId()).status(event.getStatus()).clubName(clubService.findById(event.getClubId()).getName()).build();
             events.add(response);
         }
         return ResponseEntity.ok(eventService.findAll());
