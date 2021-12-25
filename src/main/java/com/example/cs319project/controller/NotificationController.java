@@ -60,5 +60,17 @@ public class NotificationController {
     public @ResponseBody ResponseEntity<Notification> getNotification(@Valid @RequestBody IdHolder id) {
         return ResponseEntity.ok(notificationService.findByNotificationId(id.getId()));
     }
+
+    @GetMapping(value = "/getStudentNotification")
+    public @ResponseBody ResponseEntity<?> getStudentNotification(@RequestParam(name = "id") int idHolder) {
+        Set<Notification> myNotification = studentService.findById(idHolder).getNotifications();
+        return ResponseEntity.ok(myNotification);
+    }
+
+    @GetMapping(value = "/getClubNotification")
+    public @ResponseBody ResponseEntity<?> getClubNotification(@RequestParam(name = "id") int idHolder) {
+        Set<Notification> clubNotification = clubService.findById(idHolder).getNotifications();
+        return ResponseEntity.ok(clubNotification);
+    }
 }
 
