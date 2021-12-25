@@ -243,6 +243,11 @@ public class ClubController {
         return ResponseEntity.ok(clubRoles);
     }
 
+    @GetMapping(value = "/getNameOfClub",  produces =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getNameOfClub(@RequestParam(name = "id") int idHolder){
+        return ResponseEntity.ok(clubService.findById(idHolder).getName());
+    }
+
     @GetMapping(value = "/getMembersOfClub",  produces =  MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StudentResponse>> getMembers(@RequestParam(name = "id") int idHolder){
         Club club = clubService.findById(idHolder);

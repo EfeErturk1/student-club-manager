@@ -93,5 +93,10 @@ public class AssignmentController {
     public @ResponseBody ResponseEntity<Assignment> getAssignment(@Valid @RequestBody IdHolder id) {
         return ResponseEntity.ok(assignmentService.findByAssignmentId(id.getId()));
     }
+
+    @GetMapping(value = "/getStudentAssignment")
+    public @ResponseBody ResponseEntity<Set<Assignment>> getStudentAssignment(@RequestParam(name = "id") int idHolder) {
+        return ResponseEntity.ok(studentService.findById(idHolder).getAssignments());
+    }
 }
 
