@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -27,6 +28,8 @@ public class FileStorageService {
     }
 
     public FileDB getStudentPhoto(Student student){
+        System.out.println(student.getId());
+        System.out.println('h');
         return fileDBRepository.findAllByPhotoOwner(student);
     }
 

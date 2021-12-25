@@ -71,6 +71,7 @@ public class EventServiceImpl implements EventService {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT).setSkipNullEnabled(true);
         mapper.map(dto, origEvent);
+        System.out.println(origEvent.getClubId());
         repository.save(origEvent);
     }
 
