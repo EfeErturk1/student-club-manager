@@ -45,6 +45,8 @@ public class Assignment {
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     Set<Student> assignees;
 
+    private String assignmentFile;
+
     @OneToMany(mappedBy="belongsToAssignment", cascade = CascadeType.REMOVE)
     private Set<Document> documents;
 
