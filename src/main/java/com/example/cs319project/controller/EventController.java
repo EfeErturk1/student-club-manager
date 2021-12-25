@@ -179,6 +179,7 @@ public class EventController {
 
     @PostMapping(value = "/editEvent", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> editEvent(@Valid @RequestBody EventDto dto) {
+        System.out.println(dto.getId());
         eventService.updateEvent(dto);
         return ResponseEntity.ok(new MessageResponse("Event has been updated"));
     }

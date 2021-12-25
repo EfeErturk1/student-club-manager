@@ -6,6 +6,7 @@ import com.example.cs319project.dto.EventDto;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
+import com.example.cs319project.model.request.AddEventRequest;
 
 import java.util.List;
 

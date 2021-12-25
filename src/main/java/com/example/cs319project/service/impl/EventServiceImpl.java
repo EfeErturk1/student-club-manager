@@ -5,6 +5,7 @@ import com.example.cs319project.dto.EventDto;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
+import com.example.cs319project.model.request.AddEventRequest;
 import com.example.cs319project.repository.ClubRepository;
 import com.example.cs319project.repository.EventRepository;
 import com.example.cs319project.service.ClubService;
@@ -70,6 +71,7 @@ public class EventServiceImpl implements EventService {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT).setSkipNullEnabled(true);
         mapper.map(dto, origEvent);
+        System.out.println(origEvent.getClubId());
         repository.save(origEvent);
     }
 
@@ -78,4 +80,5 @@ public class EventServiceImpl implements EventService {
         int id = club.getId();
         return repository.countAllByClubId(id);
     }
+
 }

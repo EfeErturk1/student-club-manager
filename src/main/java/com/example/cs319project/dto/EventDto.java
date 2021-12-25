@@ -20,7 +20,7 @@ public class EventDto {
 
     private String name;
 
-    private int clubId;
+    private int ge250;
 
     private String description;
 

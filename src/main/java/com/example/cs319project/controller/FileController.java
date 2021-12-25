@@ -54,6 +54,7 @@ public class FileController {
             message = "Uploaded the profile pic successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
         } catch (Exception e) {
+            System.out.println(e);
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
         }
@@ -89,12 +90,20 @@ public class FileController {
     }
 
     @GetMapping("/profilePicture")
-    public ResponseEntity<byte[]> getStudentProfile(@RequestParam(name = "id") int  idHolder){
+    public ResponseEntity<ResponseFile> getStudentProfile(@RequestParam(name = "id") int  idHolder){
         Student student = studentService.findById(idHolder);
-        FileDB fileDB = storageService.getStudentPhoto(student);
+        FileDB fileDB = student.getProfilePhoto();
+        System.out.println(fileDB.getName());
+        String fileDownloadUri = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/files/")
+                .path(fileDB.getId())
+                .toUriString();
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-                .body(fileDB.getData());
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFile(
+                fileDB.getName(),
+                fileDownloadUri,
+                fileDB.getType(),
+                fileDB.getData().length));
     }
 }
