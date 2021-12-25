@@ -1,6 +1,6 @@
 package com.example.cs319project.model;
 
-import com.example.cs319project.file.FileDB;
+//import com.example.cs319project.file.FileDB;
 import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -37,9 +37,11 @@ public class Student {
     @ManyToMany(mappedBy = "assignees")
     Set<Assignment> assignments;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    /*@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_photo", referencedColumnName = "id")
-    private FileDB profilePhoto;
+    private FileDB profilePhoto;*/
+
+    private String profilePhotoName;
 
     @OneToMany(mappedBy="author", cascade = CascadeType.REMOVE)
     private Set<Document> documentFilledByStudent;

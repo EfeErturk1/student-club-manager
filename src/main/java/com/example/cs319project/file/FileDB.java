@@ -7,10 +7,10 @@ import com.example.cs319project.model.Student;
 import org.hibernate.annotations.GenericGenerator;
 
 
-@Entity
-@Table(name = "files")
+//@Entity
+//@Table(name = "files")
 public class FileDB {
-    @Id
+   /* @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
@@ -63,6 +63,6 @@ public class FileDB {
 
     public void setData(byte[] data) {
         this.data = data;
-    }
+    }*/
 
 }

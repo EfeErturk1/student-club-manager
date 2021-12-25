@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.io.File;
 import java.util.List;
 
-@Repository
-public interface FileDBRepository extends JpaRepository<FileDB, String> {
-    FileDB findAllByPhotoOwner(Student student);
-}
+//@Repository
+//public interface FileDBRepository extends JpaRepository<FileDB, String> {
+    //FileDB findAllByPhotoOwner(Student student);
+//}

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RestController
 public class FileController {
 
-    @Autowired
+    /*@Autowired
     private FileStorageService storageService;
 
     private final StudentService studentService;
@@ -105,5 +105,5 @@ public class FileController {
                 fileDownloadUri,
                 fileDB.getType(),
                 fileDB.getData().length));
-    }
+    }*/
 }

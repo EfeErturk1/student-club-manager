@@ -211,7 +211,7 @@ public class AuthController {
     @GetMapping("/getStudentInfo")
     public ResponseEntity<StudentResponse> getStudent(@RequestParam(name="id") int id) {
         Student student = studentService.findById(id);
-        StudentResponse response = StudentResponse.builder().name(student.getName()).id(id).ge250(student.getGe250()).build();
+        StudentResponse response = StudentResponse.builder().photoName(student.getProfilePhotoName()).name(student.getName()).id(id).ge250(student.getGe250()).build();
         return ResponseEntity.ok(response);
     }
 }
