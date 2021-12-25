@@ -53,4 +53,10 @@ public class ClubServiceImpl implements ClubService {
         mapper.map(dto, origClub);
         repository.save(origClub);
     }
+
+    @Override
+    public Club saveClub(Club club) {
+        Club newClub = repository.findClubById(club.getId());
+        return repository.save(newClub);
+    }
 }

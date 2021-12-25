@@ -6,9 +6,13 @@ import java.util.stream.Collectors;
 import com.example.cs319project.file2.FileInfo;
 import com.example.cs319project.file2.FilesStorageService;
 import com.example.cs319project.model.Assignment;
+import com.example.cs319project.model.Club;
+import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
 import com.example.cs319project.model.request.MessageResponse;
 import com.example.cs319project.service.AssignmentService;
+import com.example.cs319project.service.ClubService;
+import com.example.cs319project.service.EventService;
 import com.example.cs319project.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +36,8 @@ public class FilesController {
 
     private final StudentService studentService;
     private final AssignmentService assignmentService;
+    private final ClubService clubService;
+    private final EventService eventService;
 
 
     @PostMapping("/upload")
@@ -58,6 +64,40 @@ public class FilesController {
             student.setProfilePhotoName(file.getOriginalFilename());
             studentService.saveorUpdateStudent(student);
             message = "Uploaded profile pic the file successfully: " + file.getOriginalFilename();
+
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
+    }
+
+    @PostMapping("/uploadClubPic")
+    public ResponseEntity<MessageResponse> uploadClubPic(@RequestParam("file") MultipartFile file, @RequestParam(name="id") int id){
+        String message = "";
+        try {
+            storageService.save(file);
+            Club club = clubService.findById(id);
+            club.setPhotos(file.getOriginalFilename());
+            clubService.saveClub(club);
+            message = "Uploaded club pic the file successfully: " + file.getOriginalFilename();
+
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
+    }
+
+    @PostMapping("/uploadEventPic")
+    public ResponseEntity<MessageResponse> uploadEventPic(@RequestParam("file") MultipartFile file, @RequestParam(name="id") int id){
+        String message = "";
+        try {
+            storageService.save(file);
+            Event event = eventService.findByEventId(id);
+            event.setPhotos(file.getOriginalFilename());
+            eventService.saveEvent(event);
+            message = "Uploaded event pic the file successfully: " + file.getOriginalFilename();
 
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
         } catch (Exception e) {

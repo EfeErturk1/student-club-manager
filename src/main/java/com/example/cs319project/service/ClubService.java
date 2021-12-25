@@ -13,4 +13,5 @@ public interface ClubService {
     void deleteClub(Club club);
     List<Club> findAll();
     void updateClub(ClubDto dto);
+    Club saveClub(Club club);
 }

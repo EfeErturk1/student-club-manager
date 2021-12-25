@@ -156,6 +156,21 @@ public class ClubController {
         }
 
         clubService.deleteClub(clubService.findById(idHolder.getId()));
+
+        //removing events
+        List<Event> events = eventService.findAll();
+        for(Event event: events){
+            if(event.getClubId() == club.getId()){
+                eventService.deleteEvent(event);
+            }
+        }
+
+        List<Assignment> assignments = assignmentService.findAll();
+        for(Assignment assignment: assignments){
+            if(assignment.getClubId() == idHolder.getId()){
+                assignmentService.deleteAssignment(assignment);
+            }
+        }
         return ResponseEntity.ok(new MessageResponse("Club has deleted successfully!"));
     }
 
