@@ -18,6 +18,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//This is the controller for assignment service
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -32,6 +34,7 @@ public class AssignmentController {
     private final NotificationService notificationService;
 
 
+    //when there is a new assignment at the system, the members should be notified
     @PostMapping(value = "/addAssignment")
     public ResponseEntity<?> addAssignment(@Valid @RequestBody AssignmentCreateRequest request) {
         Set<Student> assignedStudent = new HashSet<>();
@@ -100,6 +103,7 @@ public class AssignmentController {
         return ResponseEntity.ok(assignment);
     }
 
+    // whenever an assignment is completed users should be notified again
     @PostMapping(value = "/completeAssignment")
     public ResponseEntity<?> completeAssignment(@Valid @RequestBody IdHolder id) {
         Assignment assignment = assignmentService.findByAssignmentId(id.getId());

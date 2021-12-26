@@ -22,6 +22,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// This is the class for authentication system
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -29,25 +31,17 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
-
     private final AuthenticationManager authenticationManager;
-
     private final UserService userService;
-
     private final RoleService roleService;
-
     private final StudentService studentService;
-
     private final AdminService adminService;
-
     private final PasswordEncoder encoder;
-
     private final JwtUtils jwtUtils;
-
     private final AdvisorService advisorService;
-
     private final ClubService clubService;
 
+    //for authentication bearer token will be used
     @PostMapping("/login")
     public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -144,6 +138,7 @@ public class AuthController {
 
     }
 
+    //This method is called once at initialization because there is only one admin
     @PostMapping("/createAdmin")
     public ResponseEntity<?> registerAdmin(@Valid @RequestBody AdminCreateRequest request) {
         if (userService.existsByName(request.getName())) {
@@ -172,6 +167,7 @@ public class AuthController {
 
     }
 
+    //when a student is deleted from system, its information should be eliminated from clubs and events alsoç
     @PostMapping(value = "/deleteStudent")
     public ResponseEntity<?> deleteStudent(@Valid @RequestBody IdHolder idHolder) {
         if (studentService.findById(idHolder.getId()) == null) {
@@ -181,24 +177,6 @@ public class AuthController {
         studentService.deleteStudent(student);
         userService.deleteUser(userService.findById(idHolder.getId()));
         return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));
-
-        /*if(!((studentService.findById(idHolder.getId()).getRolesOfStudent() == null) || (studentService.findById(idHolder.getId()).getRolesOfStudent().size() == 0))){
-            return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the clubs that you are a member of!"));
-        }
-
-        if(!((studentService.findById(idHolder.getId()).getJoinedEvents() == null) || (studentService.findById(idHolder.getId()).getJoinedEvents().size() == 0))){
-            return ResponseEntity.ok(new MessageResponse("To delete, firstly you should leave all the events you joined!"));
-        }
-
-        if(!((studentService.findById(idHolder.getId()).getAssignments() == null) || (studentService.findById(idHolder.getId()).getAssignments().size() == 0))){
-            return ResponseEntity.ok(new MessageResponse("To delete, firstly you should not have an assigned assignment, talk with your club advisor!"));
-        }
-        studentService.findById(idHolder.getId()).setJoinedEvents(null);
-        studentService.findById(idHolder.getId()).setRolesOfStudent(null);
-        studentService.findById(idHolder.getId()).setAssignments(null);
-        studentService.deleteStudent(studentService.findById(idHolder.getId()));
-        userService.deleteUser(userService.findById(idHolder.getId()));
-        return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));*/
     }
 
     @PostMapping("/updateStudentProfile")

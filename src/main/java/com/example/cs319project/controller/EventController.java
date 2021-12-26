@@ -31,7 +31,7 @@ public class EventController {
     private final EventService eventService;
     private final NotificationService notificationService;
 
-
+    // whenever a new event comes users should be notified
     @PostMapping(value = "/addEvent")
     public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
         Event event = Event.builder().status("NOT_DECIDED").name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).eventFinish(addEventRequest.getFinishDate()).photos(addEventRequest.getPhotos()).ge250(addEventRequest.getGe250()).build();
@@ -59,6 +59,7 @@ public class EventController {
         return ResponseEntity.ok(new MessageResponse("Event added successfully!"));
     }
 
+    //whenever an event is deleted, users should not continue to be the participants of an unexisting event
     @PostMapping(value = "/deleteEvent")
     public ResponseEntity<?> deleteEvent(@Valid @RequestBody IdHolder deleteEventRequest) {
         eventService.deleteEvent(eventService.findByEventId(deleteEventRequest.getId()));
@@ -66,6 +67,7 @@ public class EventController {
     }
 
 
+    // to join an event user should not have any other event at the same time
     @PostMapping(value = "/joinEvent")
     public ResponseEntity<?> joinEvent(@Valid @RequestBody JoinEventRequest joinEventRequest) {
         if (studentService.findById(joinEventRequest.getStudentId()) == null) {
@@ -122,6 +124,7 @@ public class EventController {
         }
     }
 
+    //whenever student leaves an event, it should be removed from participants
     @PostMapping(value = "/leaveEvent")
     public ResponseEntity<?> leaveEvent(@Valid @RequestBody JoinEventRequest joinEventRequest) {
         if (studentService.findById(joinEventRequest.getStudentId()) == null) {
@@ -153,6 +156,7 @@ public class EventController {
 
         return ResponseEntity.ok(new MessageResponse("You are not registered to the event."));
     }
+
 
     @GetMapping(value = "/allEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<?> allEvents(){

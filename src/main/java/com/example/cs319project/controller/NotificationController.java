@@ -18,6 +18,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//This is the controller to manage the notification process
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -30,6 +32,7 @@ public class NotificationController {
     private final StudentService studentService;
 
 
+    //notifications are added at certain situations to inform clubs and students
     @PostMapping(value = "/addNotification")
     public ResponseEntity<?> addNotification(@Valid @RequestBody NotificationCreateRequest request) {
         Set<Student> notifieds = new HashSet<>();
