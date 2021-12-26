@@ -3,6 +3,10 @@
 ## This is the repository of CS319 term project.
 -----------------------------------
 
+## IMPORTANT:
+1) We have developed frontend in another repository. Frontend original repository's link: https://github.com/egeergul/ohmygoat
+2) We have implemented a sample database, you can find this example data in the file called db_export.sql
+
 ### Developers (GOATs):
 
 * Emre Erdal 21901597
