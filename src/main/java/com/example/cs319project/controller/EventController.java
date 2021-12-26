@@ -52,6 +52,7 @@ public class EventController {
                 .description(str)
                 .clubId(addEventRequest.getClubId())
                 .isRequest(false)
+                .name(clubService.findById(addEventRequest.getClubId()).getName())
                 .notified_people(notifieds).build();
         notificationService.createNewNotification(notification);
 

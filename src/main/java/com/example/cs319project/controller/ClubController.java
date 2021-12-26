@@ -56,6 +56,7 @@ public class ClubController {
                 .description(str)
                 .clubId(club.getId())
                 .isRequest(false)
+                .name(club.getName())
                 .notified_people(notifieds).build();
         notificationService.createNewNotification(notification);
 
@@ -106,6 +107,7 @@ public class ClubController {
                     .description(str)
                     .clubId(clubId)
                     .isRequest(true)
+                    .name(registeringStudent.getName())
                     .notified_clubs(notifieds).build();
             notificationService.createNewNotification(notification);
 
@@ -173,6 +175,7 @@ public class ClubController {
                             .description(str)
                             .clubId(clubId)
                             .isRequest(false)
+                            .name(registeringStudent.getName())
                             .notified_clubs(notifieds).build();
                     notificationService.createNewNotification(notification);
                     return ResponseEntity.ok(new MessageResponse("You left the club"));

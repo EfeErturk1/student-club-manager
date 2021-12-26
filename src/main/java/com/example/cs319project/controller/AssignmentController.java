@@ -58,6 +58,7 @@ public class AssignmentController {
                 .description(str)
                 .clubId(request.getClubId())
                 .isRequest(false)
+                .name(clubService.findById(request.getClubId()).getName())
                 .notified_people(notifieds).build();
         notificationService.createNewNotification(notification);
 
@@ -117,6 +118,7 @@ public class AssignmentController {
                 .description(str)
                 .clubId(assignment.getClubId())
                 .isRequest(false)
+                .name(assignment.getName())
                 .notified_clubs(notifieds).build();
         notificationService.createNewNotification(notification);
 

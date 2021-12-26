@@ -69,6 +69,7 @@ public class AdvisorController {
                 .date(null)
                 .description(str)
                 .clubId(event.getClubId())
+                .name(event.getName())
                 .isRequest(false)
                 .notified_clubs(notifieds).build();
         notificationService.createNewNotification(notification);
@@ -94,6 +95,7 @@ public class AdvisorController {
                 .date(null)
                 .description(str)
                 .clubId(event.getClubId())
+                .name(event.getName())
                 .isRequest(false)
                 .notified_clubs(notifieds).build();
         notificationService.createNewNotification(notification);
