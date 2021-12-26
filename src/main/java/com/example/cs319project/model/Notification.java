@@ -50,4 +50,6 @@ public class Notification {
             joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "club_id"))
     Set<Club> notified_clubs;
+
+    private String name;
 }

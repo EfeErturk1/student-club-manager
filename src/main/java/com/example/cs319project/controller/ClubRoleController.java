@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+//This is the controller to manage the relation between clubs and members
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -29,12 +31,10 @@ public class ClubRoleController {
     private final StudentService studentService;
     private final DocumentService documentService;
 
-//    @PostMapping(value = "/deleteRole")
-//    public ResponseEntity<?> deleteRole(@Valid @RequestBody IdHolder id) {
-//        clubRoleService.deleteRole(clubRoleService.findByAssignmentId(id.getId()));
-//        return ResponseEntity.ok(new MessageResponse("Assignment deleted successfully!"));
-//    }
-
+    /*Role hierarchy
+    MEMBER -> ACTIVE_MEMBER
+    ACTIVE_MEMBER -> BOARD_MEMBER
+    BOARD_MEMBER -> PRESIDENT*/
     @PostMapping(value= "/promote")
     public ResponseEntity<?> promote(@Valid @RequestBody JoinClubRequest request) {
         // has fields student and club, promotes the students role in that club
@@ -63,6 +63,10 @@ public class ClubRoleController {
         }
     }
 
+    /*Role hierarchy
+    PRESIDENT -> BOARD_MEMBER
+    BOARD_MEMBER -> ACTIVE_MEMBER
+    ACTIVE_MEMBER -> MEMBER*/
     @PostMapping(value= "/demote")
     public ResponseEntity<?> demote(@Valid @RequestBody JoinClubRequest request) {
         // has fields student and club, promotes the students role in that club

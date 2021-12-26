@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//This is the controller for assignment service
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -31,6 +33,7 @@ public class AssignmentController {
     private final NotificationService notificationService;
 
 
+    //when there is a new assignment at the system, the members should be notified
     // an assignment can only be given to member
     @PostMapping(value = "/addAssignment")
     public ResponseEntity<?> addAssignment(@Valid @RequestBody AssignmentDto request) {
@@ -58,6 +61,7 @@ public class AssignmentController {
                 .description(str)
                 .clubId(request.getClubId())
                 .isRequest(false)
+                .name(clubService.findById(request.getClubId()).getName())
                 .notified_people(notifieds).build();
         notificationService.createNewNotification(notification);
 
@@ -107,6 +111,7 @@ public class AssignmentController {
         return ResponseEntity.ok(assignment);
     }
 
+    // whenever an assignment is completed users should be notified again
     @PostMapping(value = "/completeAssignment")
     public ResponseEntity<?> completeAssignment(@Valid @RequestBody IdHolder id) {
         Assignment assignment = assignmentService.findByAssignmentId(id.getId());
@@ -125,6 +130,7 @@ public class AssignmentController {
                 .description(str)
                 .clubId(assignment.getClubId())
                 .isRequest(false)
+                .name(assignment.getName())
                 .notified_clubs(notifieds).build();
         notificationService.createNewNotification(notification);
 

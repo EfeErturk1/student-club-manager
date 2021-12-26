@@ -18,12 +18,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//This is the controller to manage the club business
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/club")
 public class ClubController {
 
+    //required services
     private final ClubService clubService;
     private final ClubRoleService clubRoleService;
     private final StudentService studentService;
@@ -56,12 +58,14 @@ public class ClubController {
                 .description(str)
                 .clubId(club.getId())
                 .isRequest(false)
+                .name(club.getName())
                 .notified_people(notifieds).build();
         notificationService.createNewNotification(notification);
 
         return ResponseEntity.ok(new MessageResponse("Club added successfully!"));
     }
 
+    //when a student joins the club, student starts to be notified and assigned about club
     @PostMapping(value = "/joinClub")
     public ResponseEntity<?>  joinClub(@Valid @RequestBody JoinClubRequest request){
         if(studentService.findById(request.getStudentId()) == null){
@@ -106,6 +110,7 @@ public class ClubController {
                     .description(str)
                     .clubId(clubId)
                     .isRequest(true)
+                    .name(registeringStudent.getName())
                     .notified_clubs(notifieds).build();
             notificationService.createNewNotification(notification);
 
@@ -116,6 +121,8 @@ public class ClubController {
         }
     }
 
+    //when a student leaves club, it no longer gets notified or assigned on club
+    //in order to leave the club, first you should be member
     @PostMapping(value = "/leaveClub")
     public ResponseEntity<?>  leaveClub(@Valid @RequestBody JoinClubRequest request){
         if(studentService.findById(request.getStudentId()) == null){
@@ -173,6 +180,7 @@ public class ClubController {
                             .description(str)
                             .clubId(clubId)
                             .isRequest(false)
+                            .name(registeringStudent.getName())
                             .notified_clubs(notifieds).build();
                     notificationService.createNewNotification(notification);
                     return ResponseEntity.ok(new MessageResponse("You left the club"));
@@ -182,6 +190,7 @@ public class ClubController {
         }
     }
 
+    //when a club is deleted its assignments is also gone
     @PostMapping(value = "/deleteClub")
     public ResponseEntity<?> deleteClub(@Valid @RequestBody IdHolder idHolder){
 
@@ -277,7 +286,7 @@ public class ClubController {
         return ResponseEntity.ok(clubsOfStudent);
     }
 
-    //@PreAuthorize(value = "hasRole('ROLE_ADMIN')") buraya en son bu tarz şeyler gelecek güvenlik için
+    //either member can promote to be president or someone new can become a president
     @PostMapping(value = "/assignPresident", produces =  MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> assignPresident(@Valid @RequestBody JoinClubRequest idHolder){
         Club club = clubService.findById(idHolder.getClubId());
