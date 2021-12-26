@@ -1,0 +1,24 @@
+.create-assigment-container{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+.create-assignment{
+    margin-top: 35px;
+    margin-bottom: 35px;
+    max-width: 85vw;
+    min-width: 70vw;
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 ) ;
+    background-color: white;
+}
+.create-assignment-header{
+    padding: 20px;
+    background-color: #C70039;
+    color: beige;
+}
+.create-assignment-body{
+    padding: 20px;
+}
+.create-button{
+    width: 100%;
+}

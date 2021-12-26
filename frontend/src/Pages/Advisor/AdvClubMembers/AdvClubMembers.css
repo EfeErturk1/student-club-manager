@@ -1,0 +1,44 @@
+.adv-club-members{
+    display: grid;
+    height: max-content;
+    justify-content: center;
+    max-height: 90vh;
+    overflow-y: scroll;
+    align-items: center;
+}
+.adv-st-filter{
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 ) ;
+    border-radius: 25px 25px 25px 25px;
+    margin: 12px;
+    width:max-content;
+    height: max-content;
+    
+}
+.adv-st-filter-head{
+    background: #581845;
+    color: #e1e1e1;
+    border-radius: 25px 25px 0px 0px;
+   
+    padding: 12px;
+    text-align: center;
+}
+.adv-st-filter-body{
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+    padding: 12px;
+    border-radius:  0px 0px 25px 25px;
+    width:max-content;
+    
+
+}
+.adv-st-filter-body > form > label{
+    margin-left: 10px ;
+}
+.button{
+    width: 100%;
+    margin-top: 10px ;
+}
+.grid{
+    display: grid;
+}

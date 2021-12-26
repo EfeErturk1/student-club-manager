@@ -1,0 +1,7 @@
+.st-assignment{
+    display: grid;
+    align-items: center;
+    height: 80vh;
+    overflow-y: scroll;
+    justify-content: center;
+}

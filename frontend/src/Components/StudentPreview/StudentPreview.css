@@ -1,0 +1,32 @@
+.st-prev-container{
+    display: flex;
+    flex-direction: row;
+    background-color: #6ad323fd;
+    padding: 12px 30px;
+    width: 100%;
+    height: max-content;
+    border-radius: 20px;
+    margin-top: 20px;
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 ) ;
+    justify-content: space-between;
+}
+.st-prev-container > p {
+    margin-right: 12px;
+}
+.st-edit-role{
+    border-radius: 10px;
+    padding: 12px;
+    background: #fff;
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 ) ;
+}
+.cancel{
+    background: red;
+    color: #fff;
+}
+@media only screen and (max-width: 480px) {
+    .st-prev-container{
+        flex-direction: column;
+        max-width: 250px;
+        text-align: center;
+    }
+}

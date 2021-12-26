@@ -1,0 +1,8 @@
+.cl-notifications{
+    display: grid;
+    align-items: center;
+    height: 87vh;
+    overflow-y: scroll;
+    justify-content: center;
+}
+    

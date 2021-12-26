@@ -1,0 +1,22 @@
+.forum{
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 ) ;
+    border-radius: 25px;
+    background: white;
+    padding: 20px;
+    margin: 20px;
+    max-width: 85vw;
+}
+.forum-body{
+    padding-left: 20px;
+}
+.send{
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
+}
+@media screen and (max-width: 600px) {
+    .send {
+        flex-direction:column;
+    }
+}

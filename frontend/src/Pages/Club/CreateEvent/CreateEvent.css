@@ -1,0 +1,28 @@
+.create-club-container{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.crate-event{
+    margin-top: 35px;
+    margin-bottom: 35px;
+    max-width: 85vw;
+    min-width: 70vw;
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 ) ;
+    background-color: white;
+    
+}
+.create-event-header{
+    padding: 20px;
+    background-color: #C70039;
+    color: beige;
+}
+.create-event-body{
+    padding: 20px;
+}
+.react-datepicker__input-container{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}

@@ -1,0 +1,7 @@
+.adm-home{
+    display: grid;
+    align-items: center;
+    height: 90vh;
+    overflow-y: scroll;
+    justify-content: center;
+}

@@ -1,0 +1,33 @@
+.club-bio{
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 ) ;
+   
+}
+.club-pp{
+    max-width: 300px ;
+}
+.club-bio-header{
+    background-color: #FFC300;
+    padding: 20px;
+}
+.club-bio-body{
+    padding: 20px;
+}
+.club-events{
+    overflow-x: scroll;
+}
+@media only screen and (min-width: 768px) {
+    .club-bio{
+        margin-top: 20px;
+        min-width: 500px;
+    }
+
+}
+@media only screen and (max-width: 767px) {
+    .club-pp {
+        max-width: 150px;
+    }
+    .club-bio {
+        min-width: none !important;
+        margin-top: 20px;
+    }
+  }

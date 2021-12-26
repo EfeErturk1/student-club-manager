@@ -1,0 +1,23 @@
+.notification{
+    margin: 15px;
+    border-radius: 15px;
+    background-color: rgb(235, 148, 67);
+    color: black;
+    padding: 10px 50px;
+    max-width: 70vw;
+    min-width: 60vw;
+ 
+}
+.notification-header{
+    color: azure;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.notification-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 30px;
+}

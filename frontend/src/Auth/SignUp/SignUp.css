@@ -1,0 +1,85 @@
+.signup_body {
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh
+}
+
+.card {
+    width: 400px;
+    padding: 40px;
+    border: none;
+    color: #495057;
+    
+}
+
+.account {
+    font-weight: 500;
+    font-size: 17px
+}
+
+.contact {
+    font-size: 13px
+}
+
+.form-control {
+    text-indent: 14px
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #FF5733;
+    outline: 0;
+    box-shadow: none
+}
+
+.inputbox {
+    margin-bottom: 10px;
+    position: relative
+}
+
+.inputbox i {
+    position: absolute;
+    left: 8px;
+    top: 12px;
+    color: #dadada
+}
+
+.form-check-label {
+    font-size: 13px
+}
+
+.form-check-input {
+    width: 14px;
+    height: 15px;
+    margin-top: 5px
+}
+
+.forgot {
+    color: #495057;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.mail {
+    color: #FF5733;
+    text-decoration: none
+}
+
+.form-check {
+    cursor: pointer
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #FF5733;
+    border-color: #FF5733
+}
+
+.to-login {
+    font-weight: 500;
+    font-size: 17px;
+    text-decoration: none;
+}

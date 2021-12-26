@@ -1,0 +1,60 @@
+.club-container{
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    max-width: 70vw;
+
+}
+.club-header{
+    color: azure;
+    border-radius: 25px 25px 0px 0px;
+    padding: 10px 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 ) ;
+    background: #4d3191;
+}
+.pp{
+    max-height: 60px;
+    width: auto;
+}
+.club-body{
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75 )  ;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #dad8d8;
+    border-radius: 0px 0px 25px 25px;
+}
+.club-body-bottom{
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+.club-body-left{
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    flex-grow: 7;
+}
+.club-body-right{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   flex-grow: 5;
+}
+.club-body-right > button{
+   margin-top: 12px;
+   width: max-content;
+}
+.club-body > img {
+   max-width: 300px;
+   width: 100%;
+   object-fit: contain;
+}

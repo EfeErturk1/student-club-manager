@@ -1,0 +1,47 @@
+.assignment{
+    margin: 15px;
+    border-radius: 15px;
+    background-color: rgb(235, 148, 67);
+    color: black;
+    padding: 10px 50px;
+    max-width: 70vw;
+    min-width: 60vw;
+ 
+}
+
+.assignment-header{
+    text-align: center;
+    color: azure;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   
+}
+
+.assignment_pp{
+    max-height: 30px;
+    width: auto;
+    margin-right: 12px;
+}
+
+.assignment-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 30px;
+}
+
+@media only screen and (max-width: 668px) {
+    .assignment-header{
+        text-align: start;
+        flex-direction: column;
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    .assignment-body{
+        padding: 0;
+        flex-direction: column;
+    }
+}

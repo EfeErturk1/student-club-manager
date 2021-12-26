@@ -1,0 +1,55 @@
+.st-body-grid{
+    width: 100vw;
+    height: max-content;
+    background-color: #eee;
+}
+.flex_cont{
+    display: flex;
+    flex-direction: column;
+    padding: 22px;
+    align-items: center;
+}
+.del_my_acc{
+    align-self: flex-end;
+    margin-right: 20px;
+    width: max-content;
+    background-color: red;
+    color: white;
+    border: 0;
+    padding: 8px;
+    border-radius: 12px;
+    margin: 18px;
+}
+.header_bio{
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+}
+.header_left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header_right{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+ 
+}
+.pp_class{
+    align-items: center;
+    justify-content: center;
+    max-width: 175px;
+    width: auto;
+}
+
+@media only screen and (min-width: 768px) {
+    .header_right{
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-top: 0;
+    }
+    
+}
