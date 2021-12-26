@@ -34,4 +34,6 @@ public class AssignmentResponse {
     private String file;
 
     private Set<Document> documents;
+
+    private String submissionDes;
 }

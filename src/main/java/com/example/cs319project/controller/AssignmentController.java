@@ -157,12 +157,17 @@ public class AssignmentController {
     }
 
     @GetMapping(value = "/getClubAssignment")
-    public @ResponseBody ResponseEntity<List<Assignment>> getClubAssignment(@RequestParam(name = "id") int idHolder) {
+    public @ResponseBody ResponseEntity<List<AssignmentResponse>> getClubAssignment(@RequestParam(name = "id") int idHolder) {
         List<Assignment> assignments = assignmentService.findAll();
-        List<Assignment> assignmentOfClub = new ArrayList<>();
+        List<AssignmentResponse> assignmentOfClub = new ArrayList<>();
         for(Assignment assignment: assignments){
             if(assignment.getClubId() == idHolder){
-                assignmentOfClub.add(assignment);
+                AssignmentResponse response = AssignmentResponse.builder().assignmentId(assignment.getAssignmentId()).due_date(assignment.getDue_date())
+                        .name(assignment.getName()).description(assignment.getDescription()).clubId(assignment.getClubId())
+                        .clubName(clubService.findById(assignment.getClubId()).getName()).status(assignment.isStatus())
+                        .file(assignment.getAssignmentFile()).assignees(assignment.getAssignees()).documents(assignment.getDocuments())
+                        .submissionDes(assignment.getSubmissionDes()).build();
+                assignmentOfClub.add(response);
             }
         }
         return ResponseEntity.ok(assignmentOfClub);
