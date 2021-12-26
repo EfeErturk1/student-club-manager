@@ -1,5 +1,6 @@
 package com.example.cs319project.file;
 
+// Class to retrieve necessary file info
 public class FileInfo {
     private String name;
     private String url;

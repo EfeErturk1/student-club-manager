@@ -17,6 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// This is the file system which inserts to database but very hard to use as an API
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController

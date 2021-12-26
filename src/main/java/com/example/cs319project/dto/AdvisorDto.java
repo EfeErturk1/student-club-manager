@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+//DTO Design Pattern
+
 @Getter
 @Setter
 @AllArgsConstructor

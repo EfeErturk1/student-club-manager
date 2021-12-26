@@ -4,6 +4,8 @@ import lombok.*;
 
 import java.util.List;
 
+//Response that returns the authentication information of logged in user
+
 @Setter
 @Getter
 @Builder
