@@ -5,7 +5,7 @@
 
 ## IMPORTANT:
 1) We have developed frontend in another repository. Frontend original repository's link: https://github.com/egeergul/ohmygoat
-2) We have implemented a sample database, you can find this example data in the file called db_export.sql
+2) We have implemented a sample database, you can find this example data in the file called db_export.sql. The passwords of users in this sample db are 123456
 3) In the frontend repository, all the commits of @emreerdal9 are done by @keremerdal
 
 ### Developers (GOATs):
