@@ -89,9 +89,15 @@ const ClubProfile = (props) => {
                                         <button className="my-3  mx-1 btn btn-primary btn-block">Edit Profile</button>
                                     </Link>
                                     <Link>
+                                        <Link to={
+                                            {
+                                                pathname: '/club/assignments'
+                                            }
+                                        }>
                                         <button className="btn btn-primary btn-block">See Assignments</button>
 
                                     </Link>
+                                  </Link>
                                 </div>
                             } </div>
                         </div>
