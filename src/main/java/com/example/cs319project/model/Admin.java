@@ -17,7 +17,6 @@ import java.util.Set;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-@Subselect("select 'admin' as name")
 public class Admin {
     @Id
     public int id;
