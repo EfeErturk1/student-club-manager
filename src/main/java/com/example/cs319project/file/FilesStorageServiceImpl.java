@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+//This class enables the access to uploaded files
+
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
 

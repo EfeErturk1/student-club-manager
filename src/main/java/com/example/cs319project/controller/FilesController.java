@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-// This is the controller where file upload process is managed
+// This is the controller where file upload process is managed to the application storage
 
 @Slf4j
 @RequiredArgsConstructor

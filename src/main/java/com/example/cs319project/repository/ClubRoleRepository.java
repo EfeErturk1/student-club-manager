@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+//the access to the club roles are satisfied through some raw queries
+
 public interface ClubRoleRepository extends JpaRepository<ClubRole, Integer> {
     @Query("SELECT c from ClubRole c where c.club.id = :clubId")
     List<ClubRole> findByClubId(Integer clubId);

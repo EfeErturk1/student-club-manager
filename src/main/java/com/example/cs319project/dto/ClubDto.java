@@ -10,6 +10,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
+//DTO Design Pattern
+
 @Getter
 @Setter
 @AllArgsConstructor

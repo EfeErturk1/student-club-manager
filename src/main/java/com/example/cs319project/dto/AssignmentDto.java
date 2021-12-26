@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+//DTO Design Pattern
+
 @Getter
 @Setter
 @Builder

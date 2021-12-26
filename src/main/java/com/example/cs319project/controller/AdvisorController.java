@@ -1,6 +1,5 @@
 package com.example.cs319project.controller;
 
-
 import com.example.cs319project.dto.AdvisorDto;
 import com.example.cs319project.dto.ClubDto;
 import com.example.cs319project.model.*;
@@ -20,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+//This is the controller for advisor business
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -51,6 +51,7 @@ public class AdvisorController {
         return ResponseEntity.ok(advisorService.findAll());
     }
 
+    //if advisor rejects an event members should be notified
     @PostMapping(value = "/rejectEvent", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> rejectEvent(@Valid @RequestBody IdHolder idHolder) {
         Event event = eventService.findByEventId(idHolder.getId());
@@ -77,6 +78,7 @@ public class AdvisorController {
         return ResponseEntity.ok(new MessageResponse("Event has been rejected successfully"));
     }
 
+    // if an event is accepted, users should be notified and event status should be updated
     @PostMapping(value = "/acceptEvent", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> acceptEvent(@Valid @RequestBody IdHolder idHolder) {
         Event event = eventService.findByEventId(idHolder.getId());
@@ -103,6 +105,7 @@ public class AdvisorController {
         return ResponseEntity.ok(new MessageResponse("Event has been accepted successfully"));
     }
 
+    //advisors can be assigned to new clubs
     @PostMapping(value = "/advisorUpdate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> assignAdvisor(@Valid @RequestBody JoinClubRequest request){
         Club club = clubService.findById(request.getClubId());
