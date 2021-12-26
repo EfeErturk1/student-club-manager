@@ -1,21 +1,16 @@
 package com.example.cs319project.service.impl;
 
-import com.example.cs319project.dto.ClubDto;
 import com.example.cs319project.dto.EventDto;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
 import com.example.cs319project.model.Student;
-import com.example.cs319project.model.request.AddEventRequest;
-import com.example.cs319project.repository.ClubRepository;
 import com.example.cs319project.repository.EventRepository;
-import com.example.cs319project.service.ClubService;
 import com.example.cs319project.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import javax.transaction.Transactional;
 import java.util.List;

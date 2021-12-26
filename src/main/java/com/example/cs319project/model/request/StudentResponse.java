@@ -1,6 +1,5 @@
 package com.example.cs319project.model.request;
 
-import com.example.cs319project.file.FileDB;
 import com.example.cs319project.model.Assignment;
 import com.example.cs319project.model.Event;
 import com.example.cs319project.model.clubstrategy.ClubRole;

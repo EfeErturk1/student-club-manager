@@ -1,9 +1,8 @@
 package com.example.cs319project.controller;
 
-
+import com.example.cs319project.dto.AssignmentDto;
 import com.example.cs319project.model.*;
 import com.example.cs319project.model.clubstrategy.ClubRole;
-import com.example.cs319project.model.clubstrategy.ClubRoleName;
 import com.example.cs319project.model.request.*;
 import com.example.cs319project.service.*;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +31,9 @@ public class AssignmentController {
     private final NotificationService notificationService;
 
 
+    // an assignment can only be given to member
     @PostMapping(value = "/addAssignment")
-    public ResponseEntity<?> addAssignment(@Valid @RequestBody AssignmentCreateRequest request) {
+    public ResponseEntity<?> addAssignment(@Valid @RequestBody AssignmentDto request) {
         Set<Student> assignedStudent = new HashSet<>();
 
         for(int studentId: request.getAssignees()){

@@ -1,6 +1,6 @@
 package com.example.cs319project;
 
-import com.example.cs319project.file2.FilesStorageService;
+import com.example.cs319project.file.FilesStorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

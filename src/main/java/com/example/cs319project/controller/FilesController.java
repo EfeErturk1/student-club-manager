@@ -3,8 +3,8 @@ package com.example.cs319project.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.cs319project.file2.FileInfo;
-import com.example.cs319project.file2.FilesStorageService;
+import com.example.cs319project.file.FileInfo;
+import com.example.cs319project.file.FilesStorageService;
 import com.example.cs319project.model.Assignment;
 import com.example.cs319project.model.Club;
 import com.example.cs319project.model.Event;
@@ -21,7 +21,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
