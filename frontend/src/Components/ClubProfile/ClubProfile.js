@@ -75,7 +75,7 @@ const ClubProfile = (props) => {
                                     props.description
                                 }</p>
                                 {
-                                props.isStudent || localStorage.getItem("role") == "ROLE_ADVISOR" <></> : <div className="">
+                                props.isStudent || localStorage.getItem("role") == "ROLE_ADVISOR" ? <></> : <div className="">
                                     <Link to={
                                         {
                                             pathname: '/editClubProfile',
