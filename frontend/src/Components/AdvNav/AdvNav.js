@@ -28,11 +28,6 @@ const AdvNav = () => {
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider/>
                                 <NavDropdown.Item as={Link}
-                                    to="/documents">
-                                    Documents
-                                </NavDropdown.Item>
-                                <NavDropdown.Divider/>
-                                <NavDropdown.Item as={Link}
                                     to="/view-club">
                                     View Club
                                 </NavDropdown.Item>
