@@ -44,7 +44,6 @@ public class Student {
     Set<Notification> notifications;
 
 
-
     private String profilePhotoName;
 
     @OneToMany(mappedBy="author", cascade = CascadeType.REMOVE)

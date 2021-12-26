@@ -1,9 +1,8 @@
 package com.example.cs319project.controller;
 
-
+import com.example.cs319project.dto.AssignmentDto;
 import com.example.cs319project.model.*;
 import com.example.cs319project.model.clubstrategy.ClubRole;
-import com.example.cs319project.model.clubstrategy.ClubRoleName;
 import com.example.cs319project.model.request.*;
 import com.example.cs319project.service.*;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +34,9 @@ public class AssignmentController {
 
 
     //when there is a new assignment at the system, the members should be notified
+    // an assignment can only be given to member
     @PostMapping(value = "/addAssignment")
-    public ResponseEntity<?> addAssignment(@Valid @RequestBody AssignmentCreateRequest request) {
+    public ResponseEntity<?> addAssignment(@Valid @RequestBody AssignmentDto request) {
         Set<Student> assignedStudent = new HashSet<>();
 
         for(int studentId: request.getAssignees()){
@@ -91,6 +91,14 @@ public class AssignmentController {
         return ResponseEntity.ok(new MessageResponse("Assignment deleted successfully!"));
     }
 
+    @PostMapping(value="/updateSubmission")
+    public ResponseEntity<?> updateSubmissionInfo(@Valid @RequestBody SubmissionRequest submission) {
+        Assignment assignment = assignmentService.findByAssignmentId(submission.getId());
+        assignment.setSubmissionDes(submission.getDescription());
+        assignmentService.saveAssignment(assignment);
+        return ResponseEntity.ok(new MessageResponse("Assignment has been submitted successfully!"));
+    }
+
 
     @GetMapping(value = "/allAssignments", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Assignment>> all(){
@@ -142,7 +150,7 @@ public class AssignmentController {
             AssignmentResponse response = AssignmentResponse.builder().assignmentId(assignment.getAssignmentId()).due_date(assignment.getDue_date())
                     .name(assignment.getName()).description(assignment.getDescription()).clubId(assignment.getClubId())
                     .clubName(clubService.findById(assignment.getClubId()).getName()).status(assignment.isStatus())
-                    .assignees(assignment.getAssignees()).documents(assignment.getDocuments()).build();
+                    .file(assignment.getAssignmentFile()).assignees(assignment.getAssignees()).documents(assignment.getDocuments()).build();
             assignments.add(response);
         }
         return ResponseEntity.ok(assignments);

@@ -33,7 +33,7 @@ public class EventController {
 
     // whenever a new event comes users should be notified
     @PostMapping(value = "/addEvent")
-    public ResponseEntity<?> addEvent(@Valid @RequestBody AddEventRequest addEventRequest) {
+    public ResponseEntity<Event> addEvent(@Valid @RequestBody EventDto addEventRequest) {
         Event event = Event.builder().status("NOT_DECIDED").name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).eventFinish(addEventRequest.getFinishDate()).photos(addEventRequest.getPhotos()).ge250(addEventRequest.getGe250()).build();
         eventService.addEvent(event);
 
@@ -56,7 +56,7 @@ public class EventController {
                 .notified_people(notifieds).build();
         notificationService.createNewNotification(notification);
 
-        return ResponseEntity.ok(new MessageResponse("Event added successfully!"));
+        return ResponseEntity.ok(event);
     }
 
     //whenever an event is deleted, users should not continue to be the participants of an unexisting event
@@ -68,6 +68,7 @@ public class EventController {
 
 
     // to join an event user should not have any other event at the same time
+    // a participant can join only one event at a particular time
     @PostMapping(value = "/joinEvent")
     public ResponseEntity<?> joinEvent(@Valid @RequestBody JoinEventRequest joinEventRequest) {
         if (studentService.findById(joinEventRequest.getStudentId()) == null) {
@@ -105,13 +106,11 @@ public class EventController {
             //other case we need to register student after checking have an event at that time
             List<Event> registeredEvents = eventService.findAllEventParticipatedBy(studentService.findById(joinEventRequest.getStudentId()));
             for(Event event : registeredEvents){
-
                 if(!((event.getEventFinish().compareTo((eventService.findByEventId(joinEventRequest.getEventId())).getEventDate()) < 0) || (event.getEventDate().compareTo(eventService.findByEventId(joinEventRequest.getEventId()).getEventFinish()) > 0))){
                     return ResponseEntity.ok(new MessageResponse("You have an event at that time."));
                 }
 
             }
-
             alreadyRegisteredStudents.add(registeringStudent);
             registeredEvent.setParticipants(alreadyRegisteredStudents);
             registeredEvent.setRemainingQuota(registeredEvent.getRemainingQuota() - 1);
@@ -124,20 +123,21 @@ public class EventController {
         }
     }
 
+
     //whenever student leaves an event, it should be removed from participants
+    // a participant must have been registered to event to leave
     @PostMapping(value = "/leaveEvent")
-    public ResponseEntity<?> leaveEvent(@Valid @RequestBody JoinEventRequest joinEventRequest) {
-        if (studentService.findById(joinEventRequest.getStudentId()) == null) {
+    public ResponseEntity<?> leaveEvent(@Valid @RequestBody JoinEventRequest leaveEventRequest) {
+        if (studentService.findById(leaveEventRequest.getStudentId()) == null) {
             return ResponseEntity.ok(new MessageResponse("Student doesnot exists"));
         }
 
-        if (eventService.findByEventId(joinEventRequest.getEventId()) == null) {
+        if (eventService.findByEventId(leaveEventRequest.getEventId()) == null) {
             return ResponseEntity.ok(new MessageResponse("Event doesnot exists"));
         }
 
-
-        int studentId = joinEventRequest.getStudentId();
-        int eventId = joinEventRequest.getEventId();
+        int studentId = leaveEventRequest.getStudentId();
+        int eventId = leaveEventRequest.getEventId();
         int clubId = eventService.findByEventId(eventId).getClubId();
 
         Event registeredEvent = eventService.findByEventId(eventId);

@@ -1,4 +1,4 @@
-package com.example.cs319project.file2;
+package com.example.cs319project.file;
 
 public class FileInfo {
     private String name;

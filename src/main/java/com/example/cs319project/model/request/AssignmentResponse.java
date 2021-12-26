@@ -31,5 +31,7 @@ public class AssignmentResponse {
 
     Set<Student> assignees;
 
+    private String file;
+
     private Set<Document> documents;
 }

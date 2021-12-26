@@ -1,4 +1,4 @@
-package com.example.cs319project.model.request;
+package com.example.cs319project.dto;
 
 import com.example.cs319project.model.Document;
 import com.example.cs319project.model.Student;
@@ -15,17 +15,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class AssignmentCreateRequest {
-
+public class AssignmentDto {
     private Date due_date;
-
     private String name;
-
     private String description;
-
     private int clubId;
-
     List<Integer> assignees;
-
     private List<Integer> documents;
 }

@@ -1,4 +1,4 @@
-package com.example.cs319project.file2;
+package com.example.cs319project.file;
 
 import java.nio.file.Path;
 import java.util.stream.Stream;
