@@ -7,7 +7,6 @@ import {Link} from 'react-router-dom';
 import defaultPP from "../../../Assets/ppDefault.jpg"
 
 const Profile = (props) => {
-
     let history = useHistory();
     const [clubs, setmyClubs] = useState([]);
     const studentId = localStorage.getItem("id");
@@ -279,7 +278,7 @@ const Profile = (props) => {
                                     club.numberOfEvents
                                 }
                                 description={
-                                    club.description.substring(0, 30)
+                                    club.description
                                 }
                                 pp={
                                     club.pp
@@ -328,7 +327,10 @@ const Profile = (props) => {
                                 description={
                                     event.description
                                 }
-                                img={"https://i.pinimg.com/736x/b2/8a/ee/b28aee3a7e645b68bcebc83f780af2a5.jpg"}
+
+                                photos={
+                                    event.photos
+                                }
                                 startClock={
                                     event.startClock
                                 }

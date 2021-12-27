@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //This is the controller for assignment service
 
@@ -145,8 +142,10 @@ public class AssignmentController {
     @GetMapping(value = "/getStudentAssignment")
     public @ResponseBody ResponseEntity<?> getStudentAssignment(@RequestParam(name = "id") int idHolder) {
         Set<Assignment> myAssignments = studentService.findById(idHolder).getAssignments();
+        List<Assignment> sortedList = new ArrayList<>(myAssignments);
+        Collections.sort(sortedList);
         List<AssignmentResponse> assignments = new ArrayList<>();
-        for(Assignment assignment: myAssignments){
+        for(Assignment assignment: sortedList){
             AssignmentResponse response = AssignmentResponse.builder().assignmentId(assignment.getAssignmentId()).due_date(assignment.getDue_date())
                     .name(assignment.getName()).description(assignment.getDescription()).clubId(assignment.getClubId())
                     .clubName(clubService.findById(assignment.getClubId()).getName()).status(assignment.isStatus())

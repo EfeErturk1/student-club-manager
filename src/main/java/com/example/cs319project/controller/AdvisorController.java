@@ -91,6 +91,7 @@ public class AdvisorController {
         Set<Club> notifieds = new HashSet<>();
         notifieds.add(clubService.findById(event.getClubId()));
 
+
         String str = "Event with name " + event.getName() + " is accepted!";
 
         Notification notification = Notification.builder()
@@ -101,6 +102,25 @@ public class AdvisorController {
                 .isRequest(false)
                 .notified_clubs(notifieds).build();
         notificationService.createNewNotification(notification);
+
+        List<ClubRole> clubRoles = clubRoleService.findByClubId(event.getClubId());
+        Set<Student> notifieds_p = new HashSet<>();
+
+        for(ClubRole role: clubRoles){
+            Student student = studentService.findById(role.getStudent().getId());
+            notifieds_p.add(student);
+        }
+
+        String str2 = "There is a new Event with name " + event.getName();
+
+        Notification notification_p = Notification.builder()
+                .date(event.getEventDate())
+                .description(str2)
+                .clubId(event.getClubId())
+                .isRequest(false)
+                .name(clubService.findById(event.getClubId()).getName())
+                .notified_people(notifieds_p).build();
+        notificationService.createNewNotification(notification_p);
 
         return ResponseEntity.ok(new MessageResponse("Event has been accepted successfully"));
     }

@@ -53,7 +53,7 @@ const StHome = () => {
             console.log(e.message);
         });
     }, []);
-
+console.log(events);
     return (
         <div>
             <h3 className='m-3 text-center'>Events</h3>
@@ -91,6 +91,9 @@ const StHome = () => {
                             }
                             date={
                                 event.eventDate
+                            }
+                            photos={
+                                event.photos
                             }
                             endDate={
                                 event.eventFinish

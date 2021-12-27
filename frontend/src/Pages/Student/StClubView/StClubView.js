@@ -7,6 +7,7 @@ const StClubView = () => {
     const [name, setName] = useState("")
     const [clubId, setClubId] = useState(-1)
     const [myEvents, setMyEvents] = useState([]);
+    const [myOwnEvents, setMyOwnEvents] = useState([]);
     const [numberOfEvents, setNumberOfEvents] = useState(0);
     const [numberOfMember, setNumberOfMembers] = useState(0);
     const [photoLink, setPhotoLink] = useState(null);
@@ -76,6 +77,29 @@ const StClubView = () => {
             console.log(e.message);
         });
 
+        fetch("http://localhost:8080/event/myEvents?id=" + localStorage.id, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${
+                            localStorage.token
+                        }`
+                    },
+                    credentials: "include"
+                }).then((r) => {
+                    if (r.ok) {
+                        return r;
+                    } else if (r.status === 401 || r.status === 403 || r.status === 500) {
+                        return Promise.reject(new Error("Bir hata oluştu " + r.status));
+                    } else {
+                        return Promise.reject(new Error("Bilinmeyen bir hata oluştu."));
+                    }
+                }).then((r) => r.json()).then((r) => {
+                    setMyOwnEvents(r)
+                }).catch((e) => {
+                    console.log(e.message);
+                });
+
     }, []);
 
 
@@ -133,7 +157,9 @@ const StClubView = () => {
                                 description={
                                     event.description
                                 }
-                                img={"https://i.pinimg.com/736x/b2/8a/ee/b28aee3a7e645b68bcebc83f780af2a5.jpg"}
+                                photos={
+                                    event.photos
+                                }
                                 startClock={
                                     event.startClock
                                 }
@@ -141,7 +167,7 @@ const StClubView = () => {
                                     event.endClock
                                 }
                                 isInEvent={
-                                    !(myEvents.filter(a => a.eventId == event.eventId).length == 0)
+                                    !(myOwnEvents.filter(a => a.eventId == event.eventId).length == 0)
                                 }/>
                         ))
                     } </div>

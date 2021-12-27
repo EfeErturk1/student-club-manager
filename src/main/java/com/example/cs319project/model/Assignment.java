@@ -20,8 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-public class Assignment {
-
+public class Assignment implements Comparable<Assignment> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int assignmentId;
@@ -52,4 +51,8 @@ public class Assignment {
     @OneToMany(mappedBy="belongsToAssignment", cascade = CascadeType.REMOVE)
     private Set<Document> documents;
 
+    @Override
+    public int compareTo(Assignment o) {
+        return assignmentId - o.getAssignmentId();
+    }
 }

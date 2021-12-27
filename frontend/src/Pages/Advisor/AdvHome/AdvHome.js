@@ -72,7 +72,9 @@ const AdvHome = () => {
                             description={
                                 event.description
                             }
-                            img={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWFk6kSNgK6Mhq9vrL-P6vQrHp60fJKYXuADtH8VAgPYEatKTBFt741R3SgLK_OwkkMRQ&usqp=CAU"}
+                            photos={
+                                event.photos
+                            }
                             startClock={
                                 event.startClock
                             }

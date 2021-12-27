@@ -20,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-public class Notification {
+public class Notification implements Comparable<Notification> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,4 +52,9 @@ public class Notification {
     Set<Club> notified_clubs;
 
     private String name;
+
+    @Override
+    public int compareTo(Notification o) {
+        return notificationId - o.getNotificationId();
+    }
 }

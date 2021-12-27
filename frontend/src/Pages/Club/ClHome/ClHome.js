@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Event} from "../../../Components"
+import "./ClHome.css"
 
 const ClHome = () => {
 
@@ -57,6 +58,7 @@ const ClHome = () => {
                 obj["club"] = localStorage.clubId;
 
             }
+            console.log(r)
             setMyEvents(r)
 
         }).catch((e) => {
@@ -130,14 +132,12 @@ const ClHome = () => {
                                 clubName={
                                     event.clubName
                                 }
-
-                             
                                 isInEvent={
                                     !(myEvents.filter(a => a.eventId == event.eventId).length == 0)
                                 }
 
-                                img={
-                                    event.img
+                                photos={
+                                    event.photos
                                 }
                                 date={
                                     event.eventDate
@@ -149,6 +149,7 @@ const ClHome = () => {
 
                     )) : myEvents.map((event) => (
                         <div>
+                        <p className="hide"> {event.photos} </p>
                             <Event isStudent={false}
                                 clubName={
                                     event.clubName
@@ -199,8 +200,8 @@ const ClHome = () => {
                                     !(myEvents.filter(a => a.eventId == event.eventId).length == 0)
                                 }
 
-                                img={
-                                    event.img
+                                photos={
+                                    event.photos
                                 }
                                 date={
                                     event.eventDate

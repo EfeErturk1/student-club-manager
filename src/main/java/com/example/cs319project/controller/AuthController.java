@@ -1,6 +1,7 @@
 package com.example.cs319project.controller;
 
 import com.example.cs319project.model.*;
+import com.example.cs319project.model.clubstrategy.ClubRole;
 import com.example.cs319project.model.request.*;
 import com.example.cs319project.security.JwtUtils;
 import com.example.cs319project.security.MyUserDetails;
@@ -19,7 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 // This is the class for authentication system
@@ -40,6 +44,8 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final AdvisorService advisorService;
     private final ClubService clubService;
+    private final ClubController clubController;
+    private final ClubRoleService clubRoleService;
 
     //for authentication bearer token will be used
     @PostMapping("/login")
@@ -174,6 +180,17 @@ public class AuthController {
             return ResponseEntity.ok(new MessageResponse("Student doesnot exists"));
         }
         Student student = studentService.findById(idHolder.getId());
+        List<ClubRole> clubRoles = clubRoleService.findByStudentId(idHolder.getId());
+        List<Club> clubsOfStudent = new ArrayList<>();
+        for(ClubRole role: clubRoles){
+            clubsOfStudent.add(clubService.findById(role.getClub().getId()));
+        }
+        JoinClubRequest request = new JoinClubRequest();
+        request.setStudentId(student.getId());
+        for(Club club: clubsOfStudent){
+            request.setClubId(club.getId());
+            clubController.leaveClub(request);
+        }
         studentService.deleteStudent(student);
         userService.deleteUser(userService.findById(idHolder.getId()));
         return ResponseEntity.ok(new MessageResponse("Student deleted successfully!"));

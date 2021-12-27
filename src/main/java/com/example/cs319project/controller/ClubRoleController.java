@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class ClubRoleController {
     private final ClubController clubController;
     private final StudentService studentService;
     private final DocumentService documentService;
+    private final NotificationService notificationService;
 
     /*Role hierarchy
     MEMBER -> ACTIVE_MEMBER
@@ -59,6 +61,19 @@ public class ClubRoleController {
             else if (role.getName() == ClubRoleName.ACTIVE_MEMBER)
                 role.setName(ClubRoleName.BOARD_MEMBER);
             clubRoleService.promote(role);
+            String str = "You have been promoted to " + role.getName() + " in the club " + club.getName();
+
+            Set<Student> notifieds = new HashSet<>();
+            notifieds.add(student);
+
+            Notification notification = Notification.builder()
+                    .date(null)
+                    .description(str)
+                    .clubId(club.getId())
+                    .isRequest(false)
+                    .name(club.getName())
+                    .notified_people(notifieds).build();
+            notificationService.createNewNotification(notification);
             return ResponseEntity.ok(new MessageResponse("Role has been updated"));
         }
     }
@@ -88,7 +103,19 @@ public class ClubRoleController {
             role.setName(ClubRoleName.ACTIVE_MEMBER);
         else if (role.getName() == ClubRoleName.PRESIDENT)
             role.setName(ClubRoleName.BOARD_MEMBER);
+
         clubRoleService.demote(role);
+        Set<Student> notifieds = new HashSet<>();
+        notifieds.add(student);
+        String str = "You have been demoted to " + role.getName() + " in the club " + club.getName();
+        Notification notification = Notification.builder()
+                .date(null)
+                .description(str)
+                .clubId(club.getId())
+                .isRequest(false)
+                .name(club.getName())
+                .notified_people(notifieds).build();
+        notificationService.createNewNotification(notification);
         return ResponseEntity.ok(new MessageResponse("Role has been updated"));
     }
 

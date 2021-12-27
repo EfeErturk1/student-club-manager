@@ -102,7 +102,7 @@ const SignUp = () => {
                                     history.push("/")
                                 }
                         }>
-                            Already have account yet? Click here to login
+                            Already have an account? Click here to login
                         </p>
                     </div>
                 </div>

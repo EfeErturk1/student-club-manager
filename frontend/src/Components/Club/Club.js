@@ -116,14 +116,16 @@ const Club = (props) => {
             const clubRoles = r[0].roles;
             const role = clubRoles.filter(x => x.studentId == localStorage.id)
             const roleSt = (role[0]["name"])
+                console.log(role);
+
             return roleSt
         }).catch((e) => {
             console.log( e);
         }).then((role) => {
             // is not a member or regular member
-            if (JSON.stringify(props.isMember) == "[]" || role.toString() == "MEMBER") { 
+            if (JSON.stringify(props.isMember) == "[]" || role.toString() == "MEMBER") {
                 localStorage.setItem("clubId", clubId)
-                props.setNav2(2)
+                // props.setNav2(2)
                 history.push("/view-club");
                 // active member or higher member
             } else { 
@@ -167,7 +169,6 @@ const Club = (props) => {
                             <div className="col-md-2 club-body-right">
                                 {
                                 props.isAdmin ? <div>
-                                    <button className="btn btn-primary btn-block">Change Advisor</button>
                                     <button onClick={deleteClub}
                                         className="mt-2 btn btn-primary btn-block">Delete Club</button>
                                 </div> : <div> {

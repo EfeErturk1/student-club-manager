@@ -30,6 +30,8 @@ const Event = (props) => {
         
         }).then((r) => r.json()).then((r) => {
             setPicLink(r.photos);
+            console.log("ege")
+            console.log(r.photos)
             setPicture(`http://localhost:8080/files/${
                 r.photos
             }`);
@@ -41,7 +43,7 @@ const Event = (props) => {
 
 
     useEffect(() => {
-        fetch("http://localhost:8080/files/" + picLink, {
+        fetch("http://localhost:8080/files/" + props.photos, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

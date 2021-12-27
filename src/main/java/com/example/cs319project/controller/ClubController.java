@@ -313,6 +313,19 @@ public class ClubController {
             if(role.getClub().getId() == idHolder.getClubId()){
                 role.setName(ClubRoleName.PRESIDENT);
                 clubRoleService.promote(role);
+                String str = "You have been promoted to " + role.getName() + " in the club " + club.getName();
+
+                Set<Student> notifieds = new HashSet<>();
+                notifieds.add(student);
+
+                Notification notification = Notification.builder()
+                        .date(null)
+                        .description(str)
+                        .clubId(club.getId())
+                        .isRequest(false)
+                        .name(club.getName())
+                        .notified_people(notifieds).build();
+                notificationService.createNewNotification(notification);
                 return ResponseEntity.ok(new MessageResponse("Member has become a president"));
             }
         }

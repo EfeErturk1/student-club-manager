@@ -34,7 +34,7 @@ public class Club {
     private Set<ClubRole> roles;
 
     @JsonManagedReference
-    @ManyToMany(mappedBy = "notified_clubs")
+    @ManyToMany(mappedBy = "notified_clubs", cascade = CascadeType.ALL)
     Set<Notification> notifications;
 
     @JsonManagedReference

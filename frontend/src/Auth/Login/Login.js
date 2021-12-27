@@ -72,7 +72,7 @@ const Login = () => {
                 <p className="text-center form-check"
                     onClick={
                         () => history.push("/signup")
-                }>Already have an account? Click here to register</p>
+                }>Not have an account yet? Click here to register</p>
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import {StNav, Assignment} from "../../../Components"
 
 
 const StAssignments = () => {
-
+    localStorage.setItem("clubId", 0)
     const [assignments, setAssignments] = useState([]);
 
     useEffect(() => {
@@ -36,34 +36,37 @@ const StAssignments = () => {
 
 
     }, []);
+    console.log(assignments);
 
     return (
         <div>
 
             <div className="st-assignment">
-                {
-                assignments.map((assignment) => (
-                    <Assignment club={
-                            assignment.clubName
-                        }
-                        name
-                        ={assignment.name}
-                        date={
-                            assignment.due_date.substring(0, assignment.due_date.indexOf("T"))
-                        }
+                <div className="d-flex flex-column-reverse">
+                    {
+                    assignments.map((assignment) => (
+                        <Assignment club={
+                                assignment.clubName
+                            }
+                            name
+                            ={assignment.name}
+                            date={
+                                assignment.due_date.substring(0, assignment.due_date.indexOf("T"))
+                            }
 
-                        description={
-                            assignment.description
-                        }
-                        id={
-                            assignment.assignmentId
-                        }
-                        pp={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxciyGtNprXskRvTxL6sLgglWj5MXb5YQGcw&usqp=CAU"}
-                        file={
-                            assignment.file
-                        }/>
-                ))
-            } </div>
+                            description={
+                                assignment.description
+                            }
+                            id={
+                                assignment.assignmentId
+                            }
+                            pp={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxciyGtNprXskRvTxL6sLgglWj5MXb5YQGcw&usqp=CAU"}
+                            file={
+                                assignment.file
+                            }/>
+                    ))
+                } </div>
+                </div>
 
 
         </div>

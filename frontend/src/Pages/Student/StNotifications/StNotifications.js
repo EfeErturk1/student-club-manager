@@ -28,6 +28,7 @@ const StNotifications = () => {
             console.log(e.message);
         });
     }, [])
+    console.log(nots);
 
     return (
         <div>

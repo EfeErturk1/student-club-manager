@@ -128,7 +128,9 @@ const AdvClubProfile = () => {
                                 description={
                                     event.description
                                 }
-                                img={"https://i.pinimg.com/736x/b2/8a/ee/b28aee3a7e645b68bcebc83f780af2a5.jpg"}
+                                photos={
+                                    event.photos
+                                }
                                 startClock={
                                     event.startClock
                                 }

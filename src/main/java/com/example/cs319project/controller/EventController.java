@@ -36,26 +36,6 @@ public class EventController {
     public ResponseEntity<Event> addEvent(@Valid @RequestBody EventDto addEventRequest) {
         Event event = Event.builder().status("NOT_DECIDED").name(addEventRequest.getName()).description(addEventRequest.getDescription()).clubId(addEventRequest.getClubId()).quota(addEventRequest.getQuota()).remainingQuota(addEventRequest.getQuota()).eventDate(addEventRequest.getEventDate()).eventFinish(addEventRequest.getFinishDate()).photos(addEventRequest.getPhotos()).ge250(addEventRequest.getGe250()).build();
         eventService.addEvent(event);
-
-        List<ClubRole> clubRoles = clubRoleService.findByClubId(addEventRequest.getClubId());
-        Set<Student> notifieds = new HashSet<>();
-
-        for(ClubRole role: clubRoles){
-            Student student = studentService.findById(role.getStudent().getId());
-            notifieds.add(student);
-        }
-
-        String str = "There is a new Event with name " + event.getName();
-
-        Notification notification = Notification.builder()
-                .date(addEventRequest.getEventDate())
-                .description(str)
-                .clubId(addEventRequest.getClubId())
-                .isRequest(false)
-                .name(clubService.findById(addEventRequest.getClubId()).getName())
-                .notified_people(notifieds).build();
-        notificationService.createNewNotification(notification);
-
         return ResponseEntity.ok(event);
     }
 
@@ -218,10 +198,15 @@ public class EventController {
 
     @PostMapping(value = "/editEvent", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> editEvent(@Valid @RequestBody EventDto dto) {
-        System.out.println(dto.getId());
-        eventService.updateEvent(dto);
         Event event = eventService.findByEventId(dto.getId());
+        String pht = event.getPhotos();
+        int clb_id = event.getClubId();
+        int r_quota = dto.getQuota()  - event.getQuota() + event.getRemainingQuota();
+        eventService.updateEvent(dto);
         event.setStatus("NOT_DECIDED");
+        event.setClubId(clb_id);
+        event.setPhotos(pht);
+        event.setRemainingQuota(r_quota);
         eventService.saveorUpdate(event);
         return ResponseEntity.ok(new MessageResponse("Event has been updated"));
     }

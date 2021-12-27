@@ -40,7 +40,7 @@ public class Student {
 
 
     @JsonManagedReference
-    @ManyToMany(mappedBy = "notified_people")
+    @ManyToMany(mappedBy = "notified_people", cascade = CascadeType.ALL)
     Set<Notification> notifications;
 
 

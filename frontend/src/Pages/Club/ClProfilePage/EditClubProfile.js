@@ -80,7 +80,7 @@ const EditClubProfile = (props) => {
                 <form className="d-flex flex-column"
                     onSubmit={handleSubmit}
                     enctype="multipart/form-data">
-                    <label forName='description'>Event Description</label>
+                    <label forName='description'>Club Description</label>
                     <input type="mt-3 text" name='description' className="form-control"
                         placeholder={description}
                         onChange={

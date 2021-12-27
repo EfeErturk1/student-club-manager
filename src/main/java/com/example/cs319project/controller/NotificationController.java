@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //This is the controller to manage the notification process
 
@@ -67,13 +64,17 @@ public class NotificationController {
     @GetMapping(value = "/getStudentNotification")
     public @ResponseBody ResponseEntity<?> getStudentNotification(@RequestParam(name = "id") int idHolder) {
         Set<Notification> myNotification = studentService.findById(idHolder).getNotifications();
-        return ResponseEntity.ok(myNotification);
+        List<Notification> sortedList = new ArrayList<>(myNotification);
+        Collections.sort(sortedList);
+        return ResponseEntity.ok(sortedList);
     }
 
     @GetMapping(value = "/getClubNotification")
     public @ResponseBody ResponseEntity<?> getClubNotification(@RequestParam(name = "id") int idHolder) {
         Set<Notification> clubNotification = clubService.findById(idHolder).getNotifications();
-        return ResponseEntity.ok(clubNotification);
+        List<Notification> sortedList = new ArrayList<>(clubNotification);
+        Collections.sort(sortedList);
+        return ResponseEntity.ok(sortedList);
     }
 }
 
