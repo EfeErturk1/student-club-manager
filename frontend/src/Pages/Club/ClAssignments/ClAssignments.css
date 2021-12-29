@@ -1,7 +1,7 @@
 .cl-assignment{
     display: grid;
     align-items: center;
-    height: 72vh;
+    height: 85vh;
     overflow-y: scroll;
     justify-content: center;
 }

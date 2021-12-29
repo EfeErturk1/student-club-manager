@@ -64,6 +64,7 @@ const StudentPreview = (props) => {
                 window.location.reload()
                 return r;
             }
+
             if (r.status === 401 || r.status === 403 || r.status === 500) {
                 return Promise.reject(new Error("Bir hata oluştu " + r.status));
             }

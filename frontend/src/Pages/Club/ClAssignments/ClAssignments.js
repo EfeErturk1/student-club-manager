@@ -43,7 +43,7 @@ const ClAssignments = (props) => {
             <button
                 onClick={()=>{props.setNav(2); history.push("create-assignment")}}
 
-                className="m-4 btn btn-primary btn-block">Create New Assignment</button>
+                className="m-4 btn btn-primary btn-block center">Create New Assignment</button>
 
             <div className="cl-assignment">
 

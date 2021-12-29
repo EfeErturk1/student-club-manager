@@ -59,7 +59,13 @@ const CreateEvent = () => {
         if (name == "" || description == "") {
             window.alert("None of the fields can be left empty!")
 
-        } else {
+        }
+
+        if (startClock > endClock) {
+            window.alert("End clock cannot be before start clock ")
+        }
+
+        else {
             console.log("No bad credentials");
             formData.append('file', picture);
 
@@ -166,7 +172,8 @@ const CreateEvent = () => {
                                 <h6>
                                     Select Date
                                 </h6>
-                                <DatePicker dateFormat="MM/dd/yyyy" selected ={startDate}
+                                <DatePicker dateFormat="MM/dd/yyyy" selected ={startDate} minDate={new Date()}
+
                                     onChange={
                                         (date) => {
                                             setStartDate(date);

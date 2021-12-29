@@ -131,7 +131,7 @@ const ClCreateAssignment = () => {
                             <h6>
                                 Select Due Date
                             </h6>
-                            <DatePicker dateFormat="dd/MM/yyyy" selected ={dueDate}
+                            <DatePicker dateFormat="dd/MM/yyyy" selected ={dueDate} minDate={new Date()}
                                 onChange={
                                     (date) => {
                                         setDueDate(date);
